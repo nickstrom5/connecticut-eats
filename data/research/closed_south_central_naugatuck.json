@@ -1,0 +1,67 @@
+[
+  {
+    "name": "91 Diner",
+    "address": "420 Middletown Ave",
+    "town": "New Haven",
+    "closed_reason": "Closed for good on April 6, 2025 after 38 years; the property was sold to a gas station developer.",
+    "sources": [
+      "https://www.newhavenindependent.org/2025/04/10/goodbye_91_diner/",
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/",
+      "https://www.dinerville.info/ct/county/new-haven"
+    ]
+  },
+  {
+    "name": "Green Olive Diner",
+    "address": "477 South Broad St",
+    "town": "Meriden",
+    "closed_reason": "Closed at the end of November 2025 after 16 years; the owners cited a large rent increase.",
+    "sources": [
+      "https://www.wtnh.com/news/connecticut/hartford/green-olive-diner-closes-after-16-years-in-meriden/",
+      "https://patch.com/connecticut/meriden/popular-restaurant-close-good-meriden-owners-announce",
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  },
+  {
+    "name": "Bridgeport Flyer Diner",
+    "address": "249 Bridgeport Ave",
+    "town": "Milford",
+    "closed_reason": "Closed February 23, 2025 when the owner retired; the family diner business dated to 1940 and the Milford (Devon) diner to 1973.",
+    "sources": [
+      "https://www.wtnh.com/news/connecticut/new-haven/bridgeport-flyer-diner-in-milford-closing-its-doors-after-85-years/",
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/",
+      "https://www.dinerville.info/ct/county/new-haven/page/2"
+    ]
+  },
+  {
+    "name": "Jimmies of Savin Rock",
+    "address": null,
+    "town": "West Haven",
+    "closed_reason": "Seaside restaurant opened in 1925 closed December 7, 2025 as the owners retired; the building stood empty behind fencing in March 2026.",
+    "sources": [
+      "https://www.wtnh.com/news/connecticut/new-haven/jimmies-of-savin-rock-set-to-close-after-100-years-in-west-haven/",
+      "https://www.wtnh.com/news/connecticut/new-haven/new-restaurant-coming-to-west-havens-savin-rock-after-famed-seafood-spot-closed/",
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  },
+  {
+    "name": "Charcoal Chef",
+    "address": null,
+    "town": "Woodbury",
+    "closed_reason": "Roadside burger and comfort-food spot opened in 1956 served its last meal November 3, 2025 after 69 years.",
+    "sources": [
+      "https://i95rock.com/woodbury-restaurant-legacy-lost/",
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  },
+  {
+    "name": "Nardelli's Grinder Shoppe (Wallingford)",
+    "address": "North Colony Rd",
+    "town": "Wallingford",
+    "closed_reason": "CT News Junkie (Dec 2025, citing CT Insider) reports the Wallingford store closed in April 2025 for health reasons; note the chain's own site still lists a North Colony Road, Wallingford store.",
+    "sources": [
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/",
+      "https://www.ctinsider.com/recordjournal/article/nardellis-wallingford-closed-location-20262751.php",
+      "https://nardellis.com/"
+    ]
+  }
+]

@@ -1,0 +1,1097 @@
+[
+  {
+    "name": "Super Duper Weenie",
+    "address": "306 Black Rock Turnpike",
+    "town": "Fairfield",
+    "village": null,
+    "zip": "06825",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "New Englander",
+      "New Yorker",
+      "Chicagoan",
+      "Californian",
+      "fresh-cut fries"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Owner bought the Super Duper Weenie truck in 1992 and ran it around Fairfield; the permanent Black Rock Turnpike stand followed a plan made in summer 1999 (exact opening year not stated).",
+    "branch_of": null,
+    "note": "Hot dog stand that grew out of a restored hot dog truck; dogs are split and grilled and topped with relishes and condiments made in-house.",
+    "website": "https://www.superduperweenie.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.ctpost.com/food/article/hot-dog-restaurants-connecticut-magazine-2026-22206792.php",
+      "https://www.superduperweenie.com/our-menu/",
+      "https://www.superduperweenie.com/about-us/our-history/"
+    ]
+  },
+  {
+    "name": "Rawley's Drive-In",
+    "address": "1886 Post Road",
+    "town": "Fairfield",
+    "village": null,
+    "zip": "06824",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "deep-fried then grilled hot dog",
+      "The Works (mustard, relish, kraut, bacon)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1947,
+    "founded_note": "In business since 1947 (its site and CTvisit).",
+    "branch_of": null,
+    "note": "Tiny Post Road hot dog stand where the dogs are deep-fried and then finished on the grill.",
+    "website": "https://www.rawleysdrivein.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.ctpost.com/food/article/hot-dog-restaurants-connecticut-magazine-2026-22206792.php",
+      "https://www.rawleysdrivein.com/",
+      "https://www.yahoo.com/news/top-connecticut-hot-dog-joints-124625460.html"
+    ]
+  },
+  {
+    "name": "Cricket Car Hop",
+    "address": "900 Access Road",
+    "town": "Stratford",
+    "village": null,
+    "zip": "06615",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "Cricket Long Dog",
+      "hot sauce and red relish",
+      "chili"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Opened in 1949 by Larry and Dorothy Wilkison; closed in 2004; reopened with a ribbon cutting on June 28, 2017 (site does not say whether at the original address).",
+    "branch_of": null,
+    "note": "Revived 1949 car hop known for its long dog on a toasted New England–style roll with its hot sauce and red relish; has a pickup lane.",
+    "website": "https://cricketcarhop.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.ctpost.com/food/article/hot-dog-restaurants-connecticut-magazine-2026-22206792.php",
+      "https://cricketcarhop.com/",
+      "https://cricketcarhop.com/history/"
+    ]
+  },
+  {
+    "name": "Dogtown",
+    "address": "4 Library Place",
+    "town": "Bethel",
+    "village": null,
+    "zip": "06801",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "hot dogs with house-made toppings",
+      "burgers",
+      "tots"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "The original Milford shop opened in December 2017; Bethel opening year not stated.",
+    "branch_of": "Dogtown, Milford",
+    "note": "Bethel branch of the Milford hot dog shop, with California-inspired dogs, burgers and tots.",
+    "website": "https://www.dogtownct.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.ctpost.com/food/article/hot-dog-restaurants-connecticut-magazine-2026-22206792.php",
+      "https://www.dogtownct.com/"
+    ]
+  },
+  {
+    "name": "Colony Grill",
+    "address": "172 Myrtle Avenue",
+    "town": "Stamford",
+    "village": null,
+    "zip": "06902",
+    "kinds": [],
+    "dishes": [
+      "hot oil bar pie",
+      "bar pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1935,
+    "founded_note": "Opened in 1935 at 172 Myrtle Avenue as a post-Prohibition Irish tavern; marked 90 years in 2025.",
+    "branch_of": null,
+    "note": "Former Irish tavern credited as the originator of the thin, small 'bar pie' with spicy hot oil; the Stamford original of a growing chain. Not New Haven–style apizza.",
+    "website": "https://www.colonygrill.com/",
+    "open": true,
+    "evidence_date": "2025-09",
+    "sources": [
+      "https://www.heystamford.com/colony-grill-turns-90-the-irish-tavern-that-invented-stamfor/",
+      "https://www.prnewswire.com/news-releases/colony-grill-confirms-hartford-county-expansion-with-plans-for-glastonbury-302669580.html"
+    ]
+  },
+  {
+    "name": "Westfair Fish & Chips",
+    "address": "1781 Post Road East",
+    "town": "Westport",
+    "village": null,
+    "zip": "06880",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "fried whole clams",
+      "fish and chips",
+      "clam strips",
+      "lobster roll",
+      "clambakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Counter-style seafood spot on the Post Road for fried whole clams, fish and chips and lobster rolls; also caters New England clambakes.",
+    "website": "https://www.westfairfishandchips.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.westfairfishandchips.com/",
+      "https://www.westfairfishandchips.com/menu"
+    ]
+  },
+  {
+    "name": "Captain's Cove Seaport",
+    "address": "1 Bostwick Avenue",
+    "town": "Bridgeport",
+    "village": null,
+    "zip": "06605",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "fish and chips",
+      "hot and cold lobster rolls",
+      "fried seafood"
+    ],
+    "seasonal": true,
+    "season": "Summer season; opened May 9 for 2025",
+    "founded": null,
+    "founded_note": "Founder Kaye Williams began turning a vacant lot into the Cove in 1982; restaurant opening year not stated.",
+    "branch_of": null,
+    "note": "Family-run marina, boardwalk and big waterfront seafood restaurant on Black Rock Harbor; restaurant and bar open for the summer season.",
+    "website": "https://www.captainscoveseaport.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctpost.com/living/food/article/summer-spring-restaurants-open-lobster-roll-2025-20231913.php",
+      "https://www.captainscoveseaport.com/about"
+    ]
+  },
+  {
+    "name": "Heibeck's Stand",
+    "address": "951 Danbury Road",
+    "town": "Wilton",
+    "village": "Georgetown",
+    "zip": "06897",
+    "kinds": [
+      "dairy bar",
+      "lobster roll",
+      "burger icon"
+    ],
+    "dishes": [
+      "ice cream",
+      "burgers",
+      "hot dogs",
+      "hot buttered lobster roll"
+    ],
+    "seasonal": true,
+    "season": "Spring through fall",
+    "founded": 1931,
+    "founded_note": "The stand started in 1931; it was later moved about 40 feet and attached to the original log cabin on the same property.",
+    "branch_of": null,
+    "note": "Georgetown roadside stand run by the founding family, serving ice cream, burgers, hot dogs and a warm butter lobster roll.",
+    "website": "https://www.heibecksstand.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.heibecksstand.com/about"
+    ]
+  },
+  {
+    "name": "Rowayton Seafood",
+    "address": "89 Rowayton Avenue",
+    "town": "Norwalk",
+    "village": "Rowayton",
+    "zip": "06853",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "Rowayton lobster roll (warm, butter-poached)",
+      "Maine lobster roll (cold)",
+      "lobster bakes",
+      "raw bar"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1978,
+    "founded_note": "Began as a seafood market in an old lobster co-op in 1978.",
+    "branch_of": null,
+    "note": "Seafood market and restaurant on the Five Mile River in a former lobster co-op; serves a warm butter-poached and a cold lobster roll.",
+    "website": "https://www.rowaytonseafood.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n",
+      "https://www.rowaytonseafood.com/"
+    ]
+  },
+  {
+    "name": "The Lobster Bin",
+    "address": "204 Field Point Road",
+    "town": "Greenwich",
+    "village": null,
+    "zip": "06830",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "cold lobster roll (light mayo, celery)",
+      "hot lobster roll (no mayo)",
+      "sushi"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Site says it opened in 1975 (does not say at this address).",
+    "branch_of": null,
+    "note": "Long-running Greenwich fish market near Greenwich Avenue that cooks its own lobsters daily for hot and cold rolls; also makes sushi.",
+    "website": "https://thelobsterbin.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://thelobsterbin.com/"
+    ]
+  },
+  {
+    "name": "Fjord Fish Market",
+    "address": "160 East Putnam Avenue",
+    "town": "Greenwich",
+    "village": "Cos Cob",
+    "zip": "06807",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll",
+      "cold lobster roll"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Fish market with prepared foods; its hot and cold lobster rolls use hand-picked lobster meat. Other Fairfield County markets in Darien, New Canaan and Westport.",
+    "website": "https://fjordfishmarket.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://fjordfishmarket.com/pages/about"
+    ]
+  },
+  {
+    "name": "The Lobster Shack at Rizzuto's",
+    "address": "540 Riverside Avenue",
+    "town": "Westport",
+    "village": null,
+    "zip": "06880",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "Warm CT Style lobster roll",
+      "hot buttered",
+      "Maine-chilled lobster roll",
+      "The Compo",
+      "steamed lobster"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2016,
+    "founded_note": "Opened in summer 2016.",
+    "branch_of": null,
+    "note": "Lobster shack next to Rizzuto's with several lobster roll styles on butter-toasted brioche; open year-round.",
+    "website": "https://www.ctlobstershack.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctlobstershack.com/",
+      "https://www.ctlobstershack.com/menu"
+    ]
+  },
+  {
+    "name": "Knot Norm's",
+    "address": "10 First Street",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06855",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll",
+      "hot buttered",
+      "clam chowder",
+      "oysters"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Fast-casual New England seafood spot in East Norwalk; its hot lobster roll is poached in house-made lobster butter.",
+    "website": "https://www.knotnorms.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.stamfordadvocate.com/food/article/ct-top-lobster-roll-restaurants-22222260.php",
+      "https://www.knotnorms.com/menu"
+    ]
+  },
+  {
+    "name": "Match Burger Lobster",
+    "address": "580 Riverside Avenue",
+    "town": "Westport",
+    "village": null,
+    "zip": "06880",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll",
+      "cold lobster roll",
+      "burgers",
+      "fish and chips"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Casual road-shack-style spot from the owners of Norwalk's Match, built around burgers and hot or cold lobster rolls.",
+    "website": "https://matchburgerlobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.stamfordadvocate.com/food/article/ct-top-lobster-roll-restaurants-22222260.php",
+      "https://www.ctpost.com/connecticutmagazine/article/connecticut-magazine-top-burgers-2026-22210389.php"
+    ]
+  },
+  {
+    "name": "SoNo Seaport Seafood",
+    "address": "100 Water Street",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06854",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "steamed lobsters",
+      "fried seafood",
+      "hot and cold lobster rolls",
+      "raw bar"
+    ],
+    "seasonal": true,
+    "season": "April to early October",
+    "founded": 1983,
+    "founded_note": "First opened as a fish market in 1983; the restaurant followed about a year later.",
+    "branch_of": null,
+    "note": "Seasonal waterside seafood restaurant, raw bar and deck on Norwalk Harbor that grew from a fish market.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctpost.com/food/article/sono-seaport-seafood-norwalk-ct-reopen-season-20281295.php",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n"
+    ]
+  },
+  {
+    "name": "Overton's Seafood",
+    "address": "38 Seaview Avenue",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06855",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster rolls",
+      "clam bellies",
+      "clam strips",
+      "burgers"
+    ],
+    "seasonal": true,
+    "season": "March to November",
+    "founded": null,
+    "founded_note": "CT Bites (2026) says since 1948; CTPost (2025) says its East Norwalk history goes back over 60 years.",
+    "branch_of": null,
+    "note": "Seasonal outdoor waterfront seafood stand in East Norwalk with a dock for boaters.",
+    "website": "https://www.facebook.com/overtonsseafood/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctpost.com/living/food/article/summer-spring-restaurants-open-lobster-roll-2025-20231913.php",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n",
+      "https://patch.com/connecticut/norwalk/overtons-reopen-2024-season-norwalk-week",
+      "https://onthewaterrestaurants.com/restaurants/overton-s-seafood-norwalk"
+    ]
+  },
+  {
+    "name": "Copps Island Oyster Shack",
+    "address": "50a Calf Pasture Beach Road",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06855",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "oysters",
+      "hot lobster roll (butter, salt, chives)",
+      "hot buttered",
+      "cold lobster roll (yuzu mayo)"
+    ],
+    "seasonal": true,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Seasonal seaside shack at Cove Marina run by a fourth-generation family shellfish farm; one of two Copps shacks.",
+    "website": "https://www.coppsislandoystershack.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n",
+      "https://www.coppsislandoystershack.com/"
+    ]
+  },
+  {
+    "name": "Copps Island Oyster Shack",
+    "address": "638 Selby's Pond Road",
+    "town": "Stratford",
+    "village": null,
+    "zip": "06615",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "oysters",
+      "hot lobster roll (butter, salt, chives)",
+      "hot buttered",
+      "cold lobster roll (yuzu mayo)"
+    ],
+    "seasonal": true,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Stratford location of the Copps Island family shellfish farm's seasonal seaside shack.",
+    "website": "https://www.coppsislandoystershack.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n",
+      "https://www.coppsislandoystershack.com/"
+    ]
+  },
+  {
+    "name": "Lordship Lobster",
+    "address": "40 Beach Drive",
+    "town": "Stratford",
+    "village": null,
+    "zip": "06615",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered CT lobster roll",
+      "hot buttered",
+      "cold Maine lobster roll",
+      "fried clams",
+      "deep-fried frankfurters",
+      "clambakes"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Beachfront lobster shack across from the Stratford seawall with picnic tables, lobster rolls and fried clams; holds outdoor clambakes.",
+    "website": "https://lordshiplobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/9/92mv942l7t5llnx5cxp0wnvkp7ny5n",
+      "https://lordshiplobster.com/"
+    ]
+  },
+  {
+    "name": "Nordic Fish",
+    "address": "1499 Post Road",
+    "town": "Fairfield",
+    "village": null,
+    "zip": "06824",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "butter-poached lobster roll",
+      "cold lobster roll"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Fish market and sushi counter that cooks and shucks lobster in-house for butter-poached or cold lobster rolls.",
+    "website": "https://www.nordicfishfairfield.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.nordicfishfairfield.com/"
+    ]
+  },
+  {
+    "name": "Community Shellfish",
+    "address": "23 Francis J Clarke Circle",
+    "town": "Bethel",
+    "village": null,
+    "zip": "06801",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered (Connecticut-style) lobster roll",
+      "hot buttered",
+      "cold Maine-style lobster roll",
+      "lobster grilled cheese"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Lobster company and seafood shop serving Connecticut-style hot buttered and Maine-style cold rolls.",
+    "website": "https://www.communityshellfishct.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.communityshellfishct.com/"
+    ]
+  },
+  {
+    "name": "Monroe Social",
+    "address": "494 Main Street",
+    "town": "Monroe",
+    "village": null,
+    "zip": "06468",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2016,
+    "founded_note": "Serving Monroe since 2016 (CT Bites).",
+    "branch_of": null,
+    "note": "Neighborhood gastropub with a lobster roll featured in CT Bites' 2026 lobster roll guide.",
+    "website": "https://themonroesocial.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://themonroesocial.com/"
+    ]
+  },
+  {
+    "name": "Blue Colony Diner",
+    "address": "66 Church Hill Road",
+    "town": "Newtown",
+    "village": null,
+    "zip": "06470",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [
+      "challah French toast"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Owners say the family has served the area since 1973.",
+    "branch_of": null,
+    "note": "24-hour diner off I-84 Exit 10 with a silver Art Deco exterior; also serves beer, wine and cocktails.",
+    "website": "https://bluecolonydiner.com/",
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.greenwichtime.com/food/restaurants/article/ct-diners-open-late-24-hours-blue-colony-elmers-20300279.php",
+      "https://bluecolonydiner.com/"
+    ]
+  },
+  {
+    "name": "Elmer's Diner",
+    "address": "22 Padanaram Road",
+    "town": "Danbury",
+    "village": null,
+    "zip": "06811",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [
+      "omelettes",
+      "Belgian waffles",
+      "baklava"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "24-hour Danbury diner with a very large menu and baking done on site.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.greenwichtime.com/food/restaurants/article/ct-diners-open-late-24-hours-blue-colony-elmers-20300279.php"
+    ]
+  },
+  {
+    "name": "Andros Diner",
+    "address": "651 Villa Avenue",
+    "town": "Fairfield",
+    "village": null,
+    "zip": "06825",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [
+      "chicken and waffles",
+      "Nutella banana French toast"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "24-hour Fairfield diner with Greek and Italian dinners and pies and cakes baked daily.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.greenwichtime.com/food/restaurants/article/ct-diners-open-late-24-hours-blue-colony-elmers-20300279.php"
+    ]
+  },
+  {
+    "name": "Stony Hill Diner",
+    "address": "14 Stony Hill Road",
+    "town": "Bethel",
+    "village": null,
+    "zip": "06801",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Diner off I-84 Exit 8 in Bethel serving comfort food with daily specials.",
+    "website": "https://www.stonyhilldiner.com/",
+    "open": true,
+    "evidence_date": "2026-02",
+    "sources": [
+      "https://www.ctpost.com/food/article/connecticut-magazine-top-diners-restaurants-21333597.php",
+      "https://www.stonyhilldiner.com/"
+    ]
+  },
+  {
+    "name": "Orem's Diner",
+    "address": "67 Danbury Road",
+    "town": "Wilton",
+    "village": null,
+    "zip": "06897",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Diner on Danbury Road (Route 7) in Wilton.",
+    "website": "https://oremsdiner.com/",
+    "open": true,
+    "evidence_date": "2026-02",
+    "sources": [
+      "https://www.ctpost.com/food/article/connecticut-magazine-top-diners-restaurants-21333597.php"
+    ]
+  },
+  {
+    "name": "Ferris Acres Creamery",
+    "address": "144 Sugar Street",
+    "town": "Newtown",
+    "village": null,
+    "zip": "06470",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Bada Bing",
+      "Campfire",
+      "The MJ Rell"
+    ],
+    "seasonal": true,
+    "season": "Early May to late October (reopened May 5, 2026)",
+    "founded": 2003,
+    "founded_note": "Creamery since 2003; the family farm has operated since 1864.",
+    "branch_of": null,
+    "note": "Seasonal ice cream stand on a family farm, run by three generations, with daily rotating flavors.",
+    "website": "https://www.ferrisacrescreamery.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://patch.com/connecticut/newtown/ct-s-top-ranked-ice-cream-shop-reopening-soon",
+      "https://www.ctpost.com/food/article/ferris-acres-creamery-opening-2025-20282710.php",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.ferrisacrescreamery.com/"
+    ]
+  },
+  {
+    "name": "Dr. Mike's Ice Cream",
+    "address": "158 Greenwood Avenue",
+    "town": "Bethel",
+    "village": null,
+    "zip": "06801",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Chocolate Lace",
+      "high-butterfat ice cream",
+      "homemade whipped cream"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1975,
+    "founded_note": "Opened in 1975; marked its 50th anniversary in 2025.",
+    "branch_of": null,
+    "note": "Downtown Bethel scoop shop with a tiny ice cream factory in the back of the old Knights of Columbus lodge; named for the dentist father of a co-founder.",
+    "website": "https://www.drmikesic.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.newstimes.com/news/article/bethel-stamford-dr-mikes-ice-cream-shop-20364684.php",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.drmikesic.com/our-story"
+    ]
+  },
+  {
+    "name": "Holy Cow Ice Cream",
+    "address": "51 Church Hill Road",
+    "town": "Newtown",
+    "village": null,
+    "zip": "06470",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "soft serve",
+      "hand-made hard ice cream",
+      "Scooper's Dozen Challenge"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1969,
+    "founded_note": "First scoops in 1969 as The Ice Cream Shop; renamed Holy Cow after a 2009 sale.",
+    "branch_of": null,
+    "note": "Vintage-style Newtown ice cream shop using Connecticut dairy; formerly called The Ice Cream Shop.",
+    "website": "https://holycowct.squarespace.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://holycowct.squarespace.com/"
+    ]
+  },
+  {
+    "name": "Sweet Ashley's Ice Cream",
+    "address": "248 East Avenue",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06855",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Lavender Chip",
+      "Chocolate Bacon",
+      "small-batch ice cream"
+    ],
+    "seasonal": true,
+    "season": "Spring through fall",
+    "founded": 1992,
+    "founded_note": "Opened by Stephen Tyminski in 1992, named for his daughter.",
+    "branch_of": null,
+    "note": "Seasonal small-batch ice cream shop on East Avenue.",
+    "website": "https://sweetashleysicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://sweetashleysicecream.com/about/",
+      "https://www.ctpost.com/food/article/ferris-acres-creamery-opening-2025-20282710.php"
+    ]
+  },
+  {
+    "name": "Mr. Frosty's Ice Cream Shop",
+    "address": "6 First Street",
+    "town": "Norwalk",
+    "village": null,
+    "zip": "06855",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "ice cream",
+      "vegan ice cream",
+      "shakes",
+      "ice cream cakes"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "East Norwalk ice cream shop with an outdoor patio.",
+    "website": "https://www.mrfrostysicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.mrfrostysicecream.com/"
+    ]
+  },
+  {
+    "name": "Plasko's Farm",
+    "address": "670 Daniels Farm Road",
+    "town": "Trumbull",
+    "village": null,
+    "zip": "06611",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "Italian ice"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Farm on Daniels Farm Road since 1952 (family farming since 1925); country store added in 1997; creamery year not stated.",
+    "branch_of": null,
+    "note": "Trumbull's last commercial working farm, with a creamery making ice cream and Italian ice on premises plus a cafe and bakery.",
+    "website": "https://www.plaskofarm.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.plaskofarm.com/",
+      "https://www.plaskofarm.com/about-us"
+    ]
+  },
+  {
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "238 Commerce Drive",
+    "town": "Fairfield",
+    "village": null,
+    "zip": "06825",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2006,
+    "founded_note": "Opened in Fairfield in March 2006.",
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Pepe's first location outside New Haven, with a coal-fired brick oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-fairfield",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-fairfield",
+      "https://pepespizzeria.com/locations/directory/connecticut",
+      "https://pepespizzeria.com/menu",
+      "https://pepespizzeria.com/store/frank-pepes-fairfield"
+    ]
+  },
+  {
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "59 Federal Road",
+    "town": "Danbury",
+    "village": null,
+    "zip": "06810",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2011,
+    "founded_note": "Danbury location opened in January 2011.",
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Danbury branch of Pepe's with a coal-fired oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-danbury",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-danbury",
+      "https://pepespizzeria.com/locations/directory/connecticut",
+      "https://pepespizzeria.com/menu"
+    ]
+  },
+  {
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "64 High Ridge Road",
+    "town": "Stamford",
+    "village": null,
+    "zip": "06905",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2024,
+    "founded_note": "Stamford location opened in June 2024.",
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Stamford branch of Pepe's with a coal-fired oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-stamford",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-stamford",
+      "https://pepespizzeria.com/locations/directory/connecticut",
+      "https://pepespizzeria.com/menu"
+    ]
+  },
+  {
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "361 Post Road West",
+    "town": "Westport",
+    "village": null,
+    "zip": "06880",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Opening year not stated on its page.",
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Westport branch of Pepe's with a coal-fired brick oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-westport",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-westport",
+      "https://pepespizzeria.com/locations/directory/connecticut",
+      "https://pepespizzeria.com/menu"
+    ]
+  },
+  {
+    "name": "Sally's Apizza",
+    "address": "66 Summer Street",
+    "town": "Stamford",
+    "village": null,
+    "zip": "06901",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "potato and rosemary pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": "Sally's Apizza, New Haven",
+    "note": "Stamford branch of New Haven's Sally's Apizza, with a bar and weekend brunch.",
+    "website": "https://sallysapizza.com/locations/stamford/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://sallysapizza.com/locations/stamford/",
+      "http://sallysapizza.com/app/uploads/2026/06/Stamford-Brunch-Menu.pdf",
+      "https://sallysapizza.com/menu/"
+    ]
+  }
+]

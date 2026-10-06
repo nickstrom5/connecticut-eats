@@ -1,0 +1,966 @@
+[
+  {
+    "lhd": "Bethel Health Department",
+    "towns": [
+      "Bethel"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health page and Food Services page (bethel-ct.gov/index.asp?SEC=B6C10D79-...) cover licensing only; CitySquared portal is for permit applications. No inspection results posted.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Bridgeport Health and Social Services",
+    "towns": [
+      "Bridgeport"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "bridgeportct.gov/health and Environmental Health 'Food Establishments' page cover licensing/classes only. No inspection results online.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Brookfield Health Department",
+    "towns": [
+      "Brookfield"
+    ],
+    "format": "unknown",
+    "url": "https://www.brookfieldct.gov/264/Food-Establishment-Inspections",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Site returned 403 to automated fetch on two pages (blocked, not bypassed). A web search shows a page titled 'Food Establishment Inspections' at the URL given; its content (results or just process info) could not be seen.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Bristol-Burlington Health District",
+    "towns": [
+      "Bristol",
+      "Burlington"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "bbhd.org/food-protection has applications and a blank FDA Food Code inspection form (2023) only. The cotthosting 'E-Search' covers septic/well records, not food inspections.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Cromwell Health Department",
+    "towns": [
+      "Cromwell"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Site moved to cromwellct.gov. /248/Food-Establishments lists forms (plan review, application, 2022 Food Code info) only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Danbury Health and Human Services",
+    "towns": [
+      "Danbury"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/218/Food-Protection-Program explains the switch from numeric scores to Priority / Priority Foundation / Core violations; ViewPoint Cloud portal is for license applications. No published results (Danbury posted inspections online around 2018 per local press; nothing visible now).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Darien Health Department",
+    "towns": [
+      "Darien"
+    ],
+    "format": "searchable portal",
+    "url": "https://ct.healthinspections.us/darien/",
+    "latest_seen": "2025-12",
+    "bulk": false,
+    "form": "FDA Food Code",
+    "status": "stale",
+    "notes": "Linked from darienct.gov/246/Food-Protection-Program. Browse-by-letter page 'D' (10 records) showed dates Oct-Dec 2025, newest 2025-12-29; index page has no dates. No export. Also covers cosmetology. Portal says numeric scoring was replaced by FDA risk categories. Earlier sessions saw 503 on repeat requests; two polite fetches worked today.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "East Hartford Health and Social Services",
+    "towns": [
+      "East Hartford"
+    ],
+    "format": "unknown",
+    "url": "https://www.easthartfordct.gov/environmental-health/pages/food-service-facility-information",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Site returned 403 to automated fetch (blocked, not bypassed). A web search shows a 'Food Service Facility Information' page and an 'Adoption of the FDA Food Code' news item; no sign of posted results in the snippets.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Essex Health Department",
+    "towns": [
+      "Essex"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "lhd.csv URL (essexct.gov/health-department) is 404; current page is essexct.gov/269/Health-Department. /315/Food-Protection mentions the 2022 FDA Food Code (effective 2023-02-17) but posts no results.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Fairfield Health Department",
+    "towns": [
+      "Fairfield"
+    ],
+    "format": "PDF reports",
+    "url": "https://fairfieldct.gov/service/health_department/food_service_inspection_reports.php",
+    "latest_seen": "2026-09",
+    "bulk": false,
+    "form": "FDA Food Code",
+    "status": "current",
+    "notes": "Monthly PDF bundles of inspection reports; June, July, August, September 2026 listed. Page says they are 'transitioning to a new database' that will let the public search reports by establishment. Form inferred (all 2026 CT reports use the FDA form); PDFs not opened. No CSV.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Glastonbury Health Department",
+    "towns": [
+      "Glastonbury"
+    ],
+    "format": "unknown",
+    "url": "https://www.glastonburyct.gov/departments/department-directory-a-h/health/inspected-facilities",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Site returned 403 to automated fetch (blocked, not bypassed). A web search shows an 'Inspected Facilities' section (170+ food establishments, inspected 1-4x/year); no sign of posted results in the snippets.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Greenwich Health Department",
+    "towns": [
+      "Greenwich"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "'Environmental Online Access' page (/1810) offers no portal; the Division answers requests by email (ehealth@greenwichct.org). /645 Food Establishments = plan review/licensing.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Guilford Health Department",
+    "towns": [
+      "Guilford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health and Environmental Health pages describe inspections but post no results; links only to CT DPH and CDC.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Hartford Health & Human Services",
+    "towns": [
+      "Hartford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "HHS and Environmental Health & Licensing pages: no results; Accela Citizen Access is used for license applications. City open data (ArcGIS 'Food Establishments Licenses Current', HartfordData) is a license list, not inspections.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Madison Health Department",
+    "towns": [
+      "Madison"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/732/Food-Service-Establishments and /293 cover requirements and applications; ViewPoint portal is for permits.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Manchester Health Department",
+    "towns": [
+      "Manchester"
+    ],
+    "format": "PDF reports",
+    "url": "https://www.manchesterct.gov/Government/Departments/Health-Department/Recent-Inspections",
+    "latest_seen": "2026-08",
+    "bulk": false,
+    "form": "FDA Food Code",
+    "status": "current",
+    "notes": "Rolling window of monthly scanned PDFs: only July 2026 (37 MB) and August 2026 (28 MB) posted; older months are removed. Form inferred (2026 reports use the FDA form); PDFs not opened. No CSV.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Mashantucket Pequot Tribal Health Services",
+    "towns": [
+      "Mashantucket Pequot Tribal Nation"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "No website listed in lhd.csv. A web search found no published food inspection results (covers Foxwoods).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Meriden Department of Health and Human Services",
+    "towns": [
+      "Meriden"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "meridenhealth.com redirects to meridenct.gov. Environmental Health page: no results; contact the EH administrator. Has an 'FDA Food Code Adoption' page.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Middletown Health Department",
+    "towns": [
+      "Middletown"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/1108/Food-Protection: licensing and inspection described, no results; questions to foodcodequestions@middletownct.gov.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Milford Health Department",
+    "towns": [
+      "Milford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/833/Food-Protection still describes the old point-deduction grading (outdated text); no results online.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Mohegan Tribal Health Department",
+    "towns": [
+      "Mohegan Tribe"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "No website listed in lhd.csv. A web search found no published food inspection results (covers Mohegan Sun).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Monroe Health Department",
+    "towns": [
+      "Monroe"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health and Environmental Health Services pages describe restaurant inspections; no results online.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "New Britain Health Department",
+    "towns": [
+      "New Britain"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Environmental and Housing page describes sanitarian inspections; no results online (call 860-612-1600).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "New Canaan Health Department",
+    "towns": [
+      "New Canaan"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food Protection page: licensing only. Documents On Demand and OpenGov links are for applications/renewals.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "New Fairfield Health Department",
+    "towns": [
+      "New Fairfield"
+    ],
+    "format": "unknown",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Health page returned 403 to automated fetch (blocked, not bypassed). A domain-limited web search found no inspection-results page.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "New Haven Health Department",
+    "towns": [
+      "New Haven"
+    ],
+    "format": "unknown",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Health page returned 403 to automated fetch (blocked, not bypassed). A web search found only a 'Food Establishment Licenses' page and no results page; past NBC Connecticut reporting said records had to be viewed in person.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "East Shore District Health Department",
+    "towns": [
+      "Branford",
+      "East Haven",
+      "North Branford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "esdhd.org/food-safety: applications and FDA guidance only. Square9 guest 'Property Search' is land/property records.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Norwalk Health Department",
+    "towns": [
+      "Norwalk"
+    ],
+    "format": "ratings page",
+    "url": "https://nwlk.norwalkct.org/restaurantratings/",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "100-point",
+    "status": "stale",
+    "notes": "'Lighthouse' ratings search (name / address / rating). The legend still uses the retired 100-point score (3 lighthouses = 90-100 points). Dates appear only after submitting the search form, which we did not do, so freshness is unconfirmed. Treated as stale because the scoring scale was retired in Feb 2023 and the current health pages (/health, /680) do not link to it.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Connecticut River Area Health District",
+    "towns": [
+      "Chester",
+      "Clinton",
+      "Deep River",
+      "Durham",
+      "Haddam",
+      "Killingworth",
+      "Old Saybrook"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "crahd.info/general-1 (Food Protection): education and temp-event info only; no results.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Orange Health Department",
+    "towns": [
+      "Orange"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/843 Food Service Establishments: plan review and OpenGov permits; says to sign up for a Viewpoint account to see other food permits (no account created). No results posted.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Chatham Health District",
+    "towns": [
+      "Colchester",
+      "East Haddam",
+      "East Hampton",
+      "Hebron",
+      "Marlborough",
+      "Portland"
+    ],
+    "format": "searchable portal",
+    "url": "https://inspections.myhealthdepartment.com/chd",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "chathamhealth.org links a 'Browse Inspection Reports' portal (restaurants, pools, salons) on MyHealthDepartment. The portal returns 403 to automated fetch (blocked, not bypassed). Search engines have indexed individual CHD inspection and permit pages, so results are probably online. A search snippet says the site is under construction. No export seen.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Redding Health Department",
+    "towns": [
+      "Redding"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health and food-safety pages: guidance and forms only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Ridgefield Health Department",
+    "towns": [
+      "Ridgefield"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food Protection page: licensing; the page states that the FDA Food Code is in use; reports are not posted (call 203-431-2745).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Newtown Health District",
+    "towns": [
+      "Bridgewater",
+      "Newtown",
+      "Roxbury"
+    ],
+    "format": "list or table page",
+    "url": "https://www.newtown-ct.gov/newtown-health-district/pages/restaurant-inspection-list",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "newtown-ct.gov returned 403 to automated fetch (blocked, not bypassed). A web search shows a 'Restaurant Inspection List' page (establishment, class, inspection date); a search snippet said it was updated 2026-09-14, which we could not confirm. Probably current, but whether it shows results or only dates is unknown.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Naugatuck Valley Health District",
+    "towns": [
+      "Ansonia",
+      "Beacon Falls",
+      "Derby",
+      "Naugatuck",
+      "Seymour",
+      "Shelton"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "nvhd.org/foodinspections ('Food Service Establishment Inspection Reports') shows 'UNDER CONSTRUCTION, please call'. Its search-by-name and ratings-by-town links (e.g. ?city=Ansonia, ?city=Shelton) return 404.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Sherman Health Department",
+    "towns": [
+      "Sherman"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Part-time department; 'information available upon request'. No food content.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Farmington Valley Health District",
+    "towns": [
+      "Avon",
+      "Barkhamsted",
+      "Canton",
+      "Colebrook",
+      "East Granby",
+      "Farmington",
+      "Granby",
+      "Hartland",
+      "New Hartford",
+      "Simsbury"
+    ],
+    "format": "ratings page",
+    "url": "https://fvhd.org/environmental-health/food/food-ratings/",
+    "latest_seen": "2026-09",
+    "bulk": false,
+    "form": "FDA Food Code",
+    "status": "current",
+    "notes": "Per-town HTML tables (10 town pages, e.g. fvhd.org/canton/) listing establishment, letter rating and inspection date. FVHD adopted its own A (Excellent) / B (Good) / C (Fair) / U (Unsatisfactory) rating in 2025, 'added on a rolling basis'. The Canton page's newest date is 2026-09-30. No individual reports and no CSV, but the HTML tables are easy to parse. The first fetch got a 503 (Retry-After 600); a retry later worked.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Somers Health Department",
+    "towns": [
+      "Somers"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health page: applications and the DPH classification doc only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "South Windsor Health Department",
+    "towns": [
+      "South Windsor"
+    ],
+    "format": "unknown",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Site returned 403 to automated fetch (blocked, not bypassed). A domain-limited web search found only an FAQ page and no results page.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "South Central Health District",
+    "towns": [
+      "Middlefield",
+      "Plainville",
+      "Southington"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "No food results. The 'Property Search' (Square9, guest access) holds scanned property files for Southington, Plainville and Middlefield; food inspections are not confirmed to be included.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Stamford Department of Health and Human Services",
+    "towns": [
+      "Stamford"
+    ],
+    "format": "unknown",
+    "url": "https://www.stamfordct.gov/government/public-safety-health-welfare/health-human-services/programs-services/environmental-health-inspections/food-inspection",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "stamfordct.gov returned 403 to automated fetch (blocked, not bypassed). Stamford Advocate reporting says the old inspection database has been offline since April 2021; a partial ViewPoint-fed 'Establishment Search' (few reports) was added in Dec 2025, the city is moving to a new platform (OPAL), and FOI requests are still needed. A Tableau Public 'Health Inspection Database' was not found (domain-limited search).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Stratford Health Department",
+    "towns": [
+      "Stratford"
+    ],
+    "format": "unknown",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "townofstratford.com redirects to stratfordct.gov, which serves a JavaScript 'Client Challenge' bot check (not bypassed). A domain-limited web search found no inspection-results page.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Trumbull Health Department",
+    "towns": [
+      "Trumbull"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/184/Food-Establishments: forms and a blank inspection report PDF only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Uncas Health District",
+    "towns": [
+      "Bozrah",
+      "Franklin",
+      "Griswold",
+      "Lebanon",
+      "Lisbon",
+      "Montville",
+      "Norwich",
+      "Preston",
+      "Salem",
+      "Sprague",
+      "Voluntown"
+    ],
+    "format": "searchable portal",
+    "url": "https://inspections.myhealthdepartment.com/uhd",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "uncashd.org/food-service posts no results and does not link a portal. However, search engines have indexed Uncas Health District permit and inspection pages on MyHealthDepartment (a salon inspection dated Dec 2024 was seen; food inspections not confirmed). That host returns 403 to automated fetch (blocked, not bypassed).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Wallingford Health Department",
+    "towns": [
+      "Wallingford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health page: food permit/plan review forms and ordinance only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Waterbury Health Department",
+    "towns": [
+      "Waterbury"
+    ],
+    "format": "PDF reports",
+    "url": "https://waterburyct.org/services/health/restaurant-inspections",
+    "latest_seen": null,
+    "bulk": false,
+    "form": "100-point",
+    "status": "stale",
+    "notes": "Year selector offers 2020, 2019, 2018, 2017, 2014, 2012 and 2009; newest year is 2020 (month not visible without using the selector). These are pre-Food-Code reports. The current food-service page does not mention them.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Ledge Light Health District",
+    "towns": [
+      "East Lyme",
+      "Groton",
+      "Ledyard",
+      "Lyme",
+      "New London",
+      "North Stonington",
+      "Old Lyme",
+      "Stonington",
+      "Waterford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "llhd.org/inspections/food-service-establishments: 'For information about a particular food establishment ... please call 860-448-4882.' A web-search summary suggested LLHD also appears on MyHealthDepartment, but no LLHD URL came up (unverified).",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "West Hartford-Bloomfield Health District",
+    "towns": [
+      "Bloomfield",
+      "West Hartford"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Health district page lists restaurant inspection as a service; no results. Environmental-health subpage 404.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "West Haven Health Department",
+    "towns": [
+      "West Haven"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/1399/Food-Service: renewal forms, DPH Food Code letters and a blank inspection form only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Westbrook Health Department",
+    "towns": [
+      "Westbrook"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Public Health page: links to CDC/FDA/DPH only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Aspetuck Health District",
+    "towns": [
+      "Easton",
+      "Weston",
+      "Westport"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Environmental health page: permits and forms. Property records are scanned and sent on email request. No results posted.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Central Connecticut Health District",
+    "towns": [
+      "Berlin",
+      "Newington",
+      "Rocky Hill",
+      "Wethersfield"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "ccthd.org/food-establishments: applications, forms and codes only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Eastern Highlands Health District",
+    "towns": [
+      "Andover",
+      "Ashford",
+      "Bolton",
+      "Chaplin",
+      "Columbia",
+      "Coventry",
+      "Mansfield",
+      "Scotland",
+      "Tolland",
+      "Willington"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "ehhd.org/food-service: licensing only; OpenGov portal is for permits.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Wilton Health Department",
+    "towns": [
+      "Wilton"
+    ],
+    "format": "unknown",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "blocked",
+    "notes": "Site returned 403 to automated fetch (blocked, not bypassed). A domain-limited web search found only a plan-review application and no results page.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Torrington Area Health District",
+    "towns": [
+      "Bethlehem",
+      "Canaan",
+      "Cornwall",
+      "Goshen",
+      "Harwinton",
+      "Kent",
+      "Litchfield",
+      "Middlebury",
+      "Morris",
+      "Norfolk",
+      "North Canaan",
+      "Plymouth",
+      "Salisbury",
+      "Thomaston",
+      "Torrington",
+      "Warren",
+      "Watertown",
+      "Winchester"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food protection page: establishments must tell customers the most recent report is 'available upon request'. Nothing posted online.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Windsor Health Department",
+    "towns": [
+      "Windsor"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "/306/Food-Protection: applications and posters only.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "North Central District Health Department",
+    "towns": [
+      "East Windsor",
+      "Ellington",
+      "Enfield",
+      "Stafford",
+      "Suffield",
+      "Vernon",
+      "Windham",
+      "Windsor Locks"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food Protection and Inspection Services pages post no results. The nav's 'Search Database' link is a dead '#'. A 2013 FileMaker inspection database (ncdhd.org/filemaker/FEInspections/recordlist.php) now redirects to the homepage.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Chesprocott Health District",
+    "towns": [
+      "Cheshire",
+      "Prospect",
+      "Wolcott"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food Protection page: 'most recent inspection report is available upon request'. The Property Search tool is for property records.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Quinnipiack Valley Health District",
+    "towns": [
+      "Bethany",
+      "Hamden",
+      "North Haven",
+      "Woodbridge"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "qvhd.org/food-service: licensing of 500+ establishments; no results.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Housatonic Valley Health District",
+    "towns": [
+      "New Milford",
+      "Oxford",
+      "Sharon",
+      "Southbury",
+      "Washington",
+      "Woodbury"
+    ],
+    "format": "none found",
+    "url": null,
+    "latest_seen": null,
+    "bulk": false,
+    "form": "unknown",
+    "status": "none found",
+    "notes": "Food Protection Program page: annual inspections; food inquiries go to eht@hvhd.us. No results.",
+    "checked": "2026-10-05"
+  },
+  {
+    "lhd": "Northeast District Department of Health",
+    "towns": [
+      "Brooklyn",
+      "Canterbury",
+      "Eastford",
+      "Hampton",
+      "Killingly",
+      "Plainfield",
+      "Pomfret",
+      "Putnam",
+      "Sterling",
+      "Thompson",
+      "Union",
+      "Woodstock"
+    ],
+    "format": "PDF reports",
+    "url": "https://nddh.org/resources/property-and-inspection-records/",
+    "latest_seen": "2026-08",
+    "bulk": false,
+    "form": "FDA Food Code",
+    "status": "current",
+    "notes": "nddh.org/services/food: 'Inspection results are uploaded to our public records database.' A LogicalDOC document system (dms.nddh.org, anonymous guest login, JavaScript app) holds scanned PDF reports filed under Inspections > Food Service > town > year (2022-2026). Putnam/2026 has 27 documents; the newest upload seen was 2026-08-03 (upload date, viewed in a browser). No bulk export. Form inferred from the 2023+ era. NDDH may also appear on MyHealthDepartment (unverified).",
+    "checked": "2026-10-05"
+  }
+]

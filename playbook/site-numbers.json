@@ -1,0 +1,219 @@
+{
+ "generated": "2026-10-05",
+ "data_generated": "2026-10-05",
+ "domain": "https://nickstrom5.github.io/connecticut-eats",
+ "restaurants": 9615,
+ "towns": 166,
+ "apizza": 24,
+ "lobster_rolls_and_clam_shacks": 58,
+ "lobster_roll": 56,
+ "clam_shack": 28,
+ "lobster_seasonal": 19,
+ "burgers_and_hot_dogs": 21,
+ "steamed_cheeseburger": 3,
+ "hot_dog": 14,
+ "diners": 11,
+ "dairy_bars": 34,
+ "dairy_seasonal": 10,
+ "little_poland": 4,
+ "hand_checked": 163,
+ "oldest_known_year": 52,
+ "named_diner_not_checked": 115,
+ "named_apizza_not_checked": 26,
+ "casino_restaurants": 58,
+ "fvhd_rated": 217,
+ "fvhd_towns": [
+  "Avon",
+  "Barkhamsted",
+  "Canton",
+  "Colebrook",
+  "East Granby",
+  "Farmington",
+  "Granby",
+  "Hartland",
+  "New Hartford",
+  "Simsbury"
+ ],
+ "towns_pages": {
+  "New Haven": {
+   "restaurants": 447,
+   "apizza_near": 14,
+   "lobster_near": 13,
+   "burgers_near": 2,
+   "diners_near": 4,
+   "hand_checked_in_town": 12,
+   "fvhd_rated": 0
+  },
+  "Hartford": {
+   "restaurants": 429,
+   "apizza_near": 3,
+   "lobster_near": 2,
+   "burgers_near": 3,
+   "diners_near": 2,
+   "hand_checked_in_town": 0,
+   "fvhd_rated": 0
+  },
+  "Stamford": {
+   "restaurants": 391,
+   "apizza_near": 3,
+   "lobster_near": 11,
+   "burgers_near": 3,
+   "diners_near": 2,
+   "hand_checked_in_town": 3,
+   "fvhd_rated": 0
+  },
+  "Bridgeport": {
+   "restaurants": 373,
+   "apizza_near": 1,
+   "lobster_near": 16,
+   "burgers_near": 3,
+   "diners_near": 4,
+   "hand_checked_in_town": 1,
+   "fvhd_rated": 0
+  },
+  "Norwalk": {
+   "restaurants": 348,
+   "apizza_near": 3,
+   "lobster_near": 13,
+   "burgers_near": 1,
+   "diners_near": 3,
+   "hand_checked_in_town": 7,
+   "fvhd_rated": 0
+  },
+  "Waterbury": {
+   "restaurants": 272,
+   "apizza_near": 1,
+   "lobster_near": 2,
+   "burgers_near": 2,
+   "diners_near": 4,
+   "hand_checked_in_town": 1,
+   "fvhd_rated": 0
+  },
+  "Danbury": {
+   "restaurants": 259,
+   "apizza_near": 1,
+   "lobster_near": 3,
+   "burgers_near": 2,
+   "diners_near": 7,
+   "hand_checked_in_town": 2,
+   "fvhd_rated": 0
+  },
+  "New Britain": {
+   "restaurants": 122,
+   "apizza_near": 1,
+   "lobster_near": 1,
+   "burgers_near": 5,
+   "diners_near": 2,
+   "hand_checked_in_town": 4,
+   "fvhd_rated": 0
+  },
+  "Groton": {
+   "restaurants": 131,
+   "apizza_near": 1,
+   "lobster_near": 15,
+   "burgers_near": 1,
+   "diners_near": 7,
+   "hand_checked_in_town": 9,
+   "fvhd_rated": 0
+  },
+  "Stonington": {
+   "restaurants": 92,
+   "apizza_near": 1,
+   "lobster_near": 15,
+   "burgers_near": 1,
+   "diners_near": 5,
+   "hand_checked_in_town": 7,
+   "fvhd_rated": 0
+  },
+  "Middletown": {
+   "restaurants": 142,
+   "apizza_near": 1,
+   "lobster_near": 1,
+   "burgers_near": 3,
+   "diners_near": 2,
+   "hand_checked_in_town": 0,
+   "fvhd_rated": 0
+  },
+  "West Hartford": {
+   "restaurants": 180,
+   "apizza_near": 3,
+   "lobster_near": 3,
+   "burgers_near": 3,
+   "diners_near": 3,
+   "hand_checked_in_town": 2,
+   "fvhd_rated": 0
+  },
+  "Fairfield": {
+   "restaurants": 201,
+   "apizza_near": 2,
+   "lobster_near": 16,
+   "burgers_near": 3,
+   "diners_near": 6,
+   "hand_checked_in_town": 5,
+   "fvhd_rated": 0
+  },
+  "Milford": {
+   "restaurants": 178,
+   "apizza_near": 12,
+   "lobster_near": 14,
+   "burgers_near": 2,
+   "diners_near": 4,
+   "hand_checked_in_town": 3,
+   "fvhd_rated": 0
+  },
+  "Greenwich": {
+   "restaurants": 171,
+   "apizza_near": 2,
+   "lobster_near": 9,
+   "burgers_near": 3,
+   "diners_near": 3,
+   "hand_checked_in_town": 2,
+   "fvhd_rated": 0
+  },
+  "Manchester": {
+   "restaurants": 161,
+   "apizza_near": 2,
+   "lobster_near": 1,
+   "burgers_near": 2,
+   "diners_near": 2,
+   "hand_checked_in_town": 1,
+   "fvhd_rated": 0
+  },
+  "Meriden": {
+   "restaurants": 118,
+   "apizza_near": 2,
+   "lobster_near": 3,
+   "burgers_near": 5,
+   "diners_near": 4,
+   "hand_checked_in_town": 3,
+   "fvhd_rated": 0
+  },
+  "New London": {
+   "restaurants": 104,
+   "apizza_near": 1,
+   "lobster_near": 18,
+   "burgers_near": 1,
+   "diners_near": 7,
+   "hand_checked_in_town": 3,
+   "fvhd_rated": 0
+  },
+  "Farmington": {
+   "restaurants": 66,
+   "apizza_near": 3,
+   "lobster_near": 3,
+   "burgers_near": 2,
+   "diners_near": 3,
+   "hand_checked_in_town": 0,
+   "fvhd_rated": 45
+  },
+  "Simsbury": {
+   "restaurants": 62,
+   "apizza_near": 2,
+   "lobster_near": 1,
+   "burgers_near": 3,
+   "diners_near": 2,
+   "hand_checked_in_town": 1,
+   "fvhd_rated": 53
+  }
+ }
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Sycamore Drive-In",
+    "address": "282 Greenwood Avenue",
+    "town": "Bethel",
+    "closed_reason": "Closed for good on Christmas Eve 2025 after 78 years; the owning family retired.",
+    "sources": [
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/",
+      "https://ctvisit.com/listings/sycamore-drive-restaurant"
+    ]
+  },
+  {
+    "name": "Penny's Diner and Restaurant III",
+    "address": null,
+    "town": "Norwalk",
+    "closed_reason": "Closed in November 2025 after 57 years in business (its earlier Black Rock Turnpike, Fairfield location had closed after 40 years).",
+    "sources": [
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  },
+  {
+    "name": "Bloodroot",
+    "address": null,
+    "town": "Bridgeport",
+    "closed_reason": "Vegetarian restaurant closed December 20, 2025 after 48 years.",
+    "sources": [
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  },
+  {
+    "name": "Mexicali Rose",
+    "address": null,
+    "town": "Newtown",
+    "closed_reason": "Closed in September 2025 after more than 30 years, citing health issues.",
+    "sources": [
+      "https://ctnewsjunkie.com/2025/12/08/connecticut-restaurants-cafes-that-closed-in-2025/"
+    ]
+  }
+]

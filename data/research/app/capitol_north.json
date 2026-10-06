@@ -1,0 +1,574 @@
+[
+  {
+    "name": "Shady Glen",
+    "address": "840 Middle Turnpike East",
+    "town": "Manchester",
+    "village": null,
+    "zip": "06040",
+    "kinds": [
+      "burger icon",
+      "dairy bar"
+    ],
+    "dishes": [
+      "cheeseburger with fried cheese crown",
+      "house-made ice cream",
+      "milkshakes",
+      "peppermint stick ice cream (winter)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1948,
+    "founded_note": "Started in 1948 by dairy farmers John and Bernice Rieg at this spot near the Manchester-Bolton line; a second store at the Manchester Parkade (1965) closed in 2020",
+    "branch_of": null,
+    "note": "Old-fashioned dairy restaurant and soda fountain whose cheeseburger comes with cheese fried on the grill until its corners crisp and stick out from under the bun, plus its own ice cream; cash only.",
+    "website": "https://shadyglenct.com/",
+    "open": true,
+    "evidence_date": "2025-06",
+    "sources": [
+      "https://shadyglenct.com/",
+      "https://www.theconnecticutscoop.com/all-local-gems/step-back-in-time-at-shady-glen-in-manchester",
+      "https://en.wikipedia.org/wiki/Shady_Glen",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "Olympia Diner",
+    "address": "3413 Berlin Turnpike",
+    "town": "Newington",
+    "village": null,
+    "zip": "06111",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": 1954,
+    "founded_note": "The stainless steel diner was brought to Newington in 1954 (Patch)",
+    "branch_of": null,
+    "note": "Stainless steel roadside diner on the Berlin Turnpike; the family that has owned it since 1974 put the site up for sale and was weighing offers in September 2025 while running the diner as usual.",
+    "website": "http://www.olympiadiner.net/",
+    "open": true,
+    "evidence_date": "2025-09",
+    "sources": [
+      "https://patch.com/connecticut/newington/iconic-olympia-diner-owners-weigh-offers-sale-site-redevelopment",
+      "https://patch.com/connecticut/newington/olympia-diner-newington-be-sold-demolished-documents-reveal",
+      "http://www.olympiadiner.net/info"
+    ]
+  },
+  {
+    "name": "Capitol Lunch",
+    "address": "510 Main Street",
+    "town": "New Britain",
+    "village": null,
+    "zip": "06051",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "hot dog with meat sauce",
+      "meat sauce by the pint"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "The shop says it has served hot dogs since 1929; the site does not say whether it has always been at this address",
+    "branch_of": null,
+    "note": "Family-run downtown New Britain hot dog counter serving Martin Rosol's franks under a meat sauce recipe handed down since 1929.",
+    "website": "https://www.capitollunch.com/",
+    "open": true,
+    "evidence_date": "2025-08",
+    "sources": [
+      "https://www.capitollunch.com/",
+      "https://www.wfsb.com/2025/07/10/search-is-cts-best-hot-dog-spot/"
+    ]
+  },
+  {
+    "name": "Augie and Ray's Drive-in",
+    "address": "314 Main Street",
+    "town": "East Hartford",
+    "village": null,
+    "zip": "06118",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "footlong hot dog with chili sauce",
+      "Powerhouse burger",
+      "fried clams",
+      "milkshakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Its site says two East Hartford police officers, Ray Hutt and Augie Bria, founded it in 1946 and that it is marking its 80th anniversary; the site does not say it has always been at this address",
+    "branch_of": null,
+    "note": "Early-opening East Hartford drive-in, still run by the founding Hutt family, known for footlong hot dogs topped with its own chili sauce.",
+    "website": "https://www.augieandrays.com/",
+    "open": true,
+    "evidence_date": "2025-08",
+    "sources": [
+      "https://www.augieandrays.com/",
+      "https://www.wfsb.com/2025/07/10/search-is-cts-best-hot-dog-spot/"
+    ]
+  },
+  {
+    "name": "Doogie's",
+    "address": "2525 Berlin Turnpike",
+    "town": "Newington",
+    "village": null,
+    "zip": "06111",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "two-foot hot dog"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Berlin Turnpike hot dog stand known for its two-foot hot dog.",
+    "website": "https://www.doogieshotdogs.com/",
+    "open": true,
+    "evidence_date": "2025-08",
+    "sources": [
+      "https://www.wfsb.com/2025/07/10/search-is-cts-best-hot-dog-spot/",
+      "https://everafterinthewoods.com/must-try-spots-for-connecticut-s-legendary-hot-dogs/",
+      "https://www.doogieshotdogs.com/"
+    ]
+  },
+  {
+    "name": "Belvedere Restaurant & Cafe",
+    "address": "82 Broad Street",
+    "town": "New Britain",
+    "village": null,
+    "zip": "06053",
+    "kinds": [
+      "polish"
+    ],
+    "dishes": [
+      "handmade pierogi",
+      "stuffed cabbage",
+      "potato pancakes with smoked salmon",
+      "zapiekanka"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Family-owned Polish and European restaurant in Little Poland, cooking pierogi, soups and desserts from scratch.",
+    "website": "https://www.belvederenewbritain.com/",
+    "open": true,
+    "evidence_date": "2025",
+    "sources": [
+      "https://www.belvederenewbritain.com/",
+      "https://visitnbct.com/little-poland/"
+    ]
+  },
+  {
+    "name": "Euro Plate",
+    "address": "100 Broad Street",
+    "town": "New Britain",
+    "village": null,
+    "zip": "06053",
+    "kinds": [
+      "polish"
+    ],
+    "dishes": [
+      "hand-made pierogi",
+      "golabki (stuffed cabbage)",
+      "meatball cutlets",
+      "soups"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Little Poland restaurant serving hand-made pierogi, stuffed cabbage and slow-cooked stews.",
+    "website": "https://www.europlaterestaurant.com/",
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.europlaterestaurant.com/",
+      "https://visitnbct.com/little-poland/"
+    ]
+  },
+  {
+    "name": "Roly Poly Bakery",
+    "address": "587 Main Street",
+    "town": "New Britain",
+    "village": null,
+    "zip": null,
+    "kinds": [
+      "polish"
+    ],
+    "dishes": [
+      "paczki",
+      "pavlova",
+      "breads"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Polish bakery in Little Poland; on Fat Tuesday 2026 customers lined up from 6 a.m. for paczki.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-02",
+    "sources": [
+      "https://www.wfsb.com/2026/02/17/local-bakeries-serve-traditional-mardi-gras-treats-lent-begins/",
+      "https://visitnbct.com/little-poland/"
+    ]
+  },
+  {
+    "name": "UConn Dairy Bar",
+    "address": "17 Manter Road",
+    "town": "Mansfield",
+    "village": "Storrs",
+    "zip": "06269",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "UConn Creamery ice cream",
+      "ice cream cookie sandwiches",
+      "pumpkin ice cream (seasonal)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "UConn says the Dairy Bar has sold UConn Creamery products since 1953; it does not say it has always been at this address",
+    "branch_of": null,
+    "note": "The University of Connecticut's campus ice cream shop, scooping ice cream made by the university creamery to its original recipe.",
+    "website": "https://dining.uconn.edu/uconn-dairy-bar/",
+    "open": true,
+    "evidence_date": "2025-09",
+    "sources": [
+      "https://dining.uconn.edu/uconn-dairy-bar/"
+    ]
+  },
+  {
+    "name": "We-Li-Kit Ice Cream",
+    "address": "728 Hampton Road",
+    "town": "Pomfret",
+    "village": "Pomfret Center",
+    "zip": "06259",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "16% premium ice cream in seasonal flavors",
+      "sundaes",
+      "frappes",
+      "banana splits",
+      "fresh waffle cones"
+    ],
+    "seasonal": true,
+    "season": null,
+    "founded": null,
+    "founded_note": "The farm's site says it is open for its 35th season (site dated 2026)",
+    "branch_of": null,
+    "note": "Farm ice cream stand in Pomfret Center making premium ice cream in flavors that change with the seasons; the farm also taps its own maple syrup and raises its own beef and pork.",
+    "website": "https://we-li-kit.com/",
+    "open": true,
+    "evidence_date": "2026",
+    "sources": [
+      "https://we-li-kit.com/"
+    ]
+  },
+  {
+    "name": "Tulmeadow Farm Store",
+    "address": "255 Farms Village Road",
+    "town": "Simsbury",
+    "village": "West Simsbury",
+    "zip": "06092",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "test-batch flavors",
+      "ice cream sandwiches",
+      "coconut-milk vegan ice cream"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "The farm traces its family ownership to the 1700s; the year the ice cream windows opened is not given",
+    "branch_of": null,
+    "note": "Farm store in West Simsbury with ice cream windows serving its own ice cream, including small test batches.",
+    "website": "https://www.tulmeadowfarmstore.com/",
+    "open": true,
+    "evidence_date": "2025",
+    "sources": [
+      "https://www.tulmeadowfarmstore.com/"
+    ]
+  },
+  {
+    "name": "Arethusa Farm Dairy",
+    "address": "822 Bantam Road",
+    "town": "Litchfield",
+    "village": "Bantam",
+    "zip": "06750",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "farm-made ice cream",
+      "milk",
+      "cheese",
+      "yogurt"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Retail store for Arethusa Farm's dairy in Bantam, scooping the farm's own ice cream and selling its milk, butter and cheese; the farm also runs a cafe and the restaurant Arethusa al tavolo on the same road.",
+    "website": "https://www.arethusafarm.com/",
+    "open": true,
+    "evidence_date": "2025-06",
+    "sources": [
+      "https://www.arethusafarm.com/",
+      "https://www.arethusafarm.com/contact",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "A.C. Petersen Farms",
+    "address": "240 Park Road",
+    "town": "West Hartford",
+    "village": null,
+    "zip": "06119",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "ice cream sundaes with hand-whipped cream",
+      "milkshakes",
+      "all-day breakfast"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "West Hartford restaurant and ice cream parlor serving breakfast all day alongside ice cream desserts.",
+    "website": "https://www.acpetersenfarms.com/",
+    "open": true,
+    "evidence_date": "2026",
+    "sources": [
+      "https://www.acpetersenfarms.com/",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "Gooseboro Drive-In",
+    "address": "1293 Bantam Road",
+    "town": "Litchfield",
+    "village": null,
+    "zip": null,
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "burgers",
+      "hot dogs",
+      "onion rings",
+      "ice cream"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1961,
+    "founded_note": "Visit Litchfield says it has been a roadside stop since 1961",
+    "branch_of": null,
+    "note": "Roadside drive-in on Bantam Road serving burgers, hot dogs, fries and ice cream with outdoor seating.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2025-02",
+    "sources": [
+      "https://visitlitchfieldct.com/restaurants/"
+    ]
+  },
+  {
+    "name": "Patty's Restaurant",
+    "address": "499 Bantam Road",
+    "town": "Litchfield",
+    "village": null,
+    "zip": null,
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": 1996,
+    "founded_note": "Visit Litchfield says it has served diner-style breakfast and lunch since 1996",
+    "branch_of": null,
+    "note": "Diner-style breakfast and lunch restaurant on Bantam Road.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2025-02",
+    "sources": [
+      "https://visitlitchfieldct.com/restaurants/"
+    ]
+  },
+  {
+    "name": "Hopkins Inn",
+    "address": "22 Hopkins Road",
+    "town": "Warren",
+    "village": null,
+    "zip": "06777",
+    "kinds": [
+      "oldest"
+    ],
+    "dishes": [],
+    "seasonal": true,
+    "season": "late March to January 1 (2026 season: March 24 to January 1)",
+    "founded": 1847,
+    "founded_note": "The inn says it has welcomed travelers since 1847",
+    "branch_of": null,
+    "note": "Country inn above the north shore of Lake Waramaug, taking travelers since 1847, with a restaurant serving breakfast, lunch and dinner in season.",
+    "website": "https://www.thehopkinsinn.com/",
+    "open": true,
+    "evidence_date": "2026",
+    "sources": [
+      "https://www.thehopkinsinn.com/"
+    ]
+  },
+  {
+    "name": "The Old Riverton Inn",
+    "address": "436 East River Road",
+    "town": "Barkhamsted",
+    "village": "Riverton",
+    "zip": "06065",
+    "kinds": [
+      "oldest"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "The inn says the building dates to 1796 and began as the Ives Tavern, a stagecoach stop on the Hartford-Albany post road, and has operated for over two centuries",
+    "branch_of": null,
+    "note": "Former stagecoach tavern on the Farmington River's west branch, listed on the National Register, still serving meals in its Royal Coachman Tavern and renting rooms.",
+    "website": "https://www.rivertoninn.com/",
+    "open": true,
+    "evidence_date": "2026",
+    "sources": [
+      "https://www.rivertoninn.com/",
+      "https://www.rivertonct.com/merchants/old-riverton-inn"
+    ]
+  },
+  {
+    "name": "Hank's Dairy Bar",
+    "address": "1006 Norwich Road",
+    "town": "Plainfield",
+    "village": null,
+    "zip": "06354",
+    "kinds": [
+      "dairy bar",
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll",
+      "freshly breaded seafood",
+      "signature burgers",
+      "ice cream"
+    ],
+    "seasonal": true,
+    "season": "mid-March into the fall (opened March 19 in 2026)",
+    "founded": null,
+    "founded_note": "Hank's gives 1957 as its start year",
+    "branch_of": null,
+    "note": "Seasonal roadside dairy bar with window service for ice cream, burgers, fried seafood and lobster rolls, plus picnic areas and monthly car cruises.",
+    "website": "https://www.hanksdairybar.com/",
+    "open": true,
+    "evidence_date": "2026-03",
+    "sources": [
+      "https://www.hanksdairybar.com/",
+      "https://nectchamber.com/tourism/"
+    ]
+  },
+  {
+    "name": "Henry's Diner & Variety",
+    "address": "248 Providence Street",
+    "town": "Putnam",
+    "village": null,
+    "zip": "06260",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Classic diner on Providence Street in Putnam, listed by the town's tourism site.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026",
+    "sources": [
+      "https://www.discoverputnam.com/dining"
+    ]
+  },
+  {
+    "name": "Nikki's Dog House",
+    "address": "5 Canal Street",
+    "town": "Putnam",
+    "village": null,
+    "zip": "06260",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "Coney dog",
+      "milkshakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Nikki's says it was founded in 1980; it does not say which of its two shops came first",
+    "branch_of": null,
+    "note": "Hot dog shop known for Coney dogs and milkshakes, now run by new owners who took over from the founding Johnson family; a second shop is in Storrs.",
+    "website": "https://www.nikkisdoghouse.com/",
+    "open": true,
+    "evidence_date": "2025-07",
+    "sources": [
+      "https://www.nikkisdoghouse.com/",
+      "https://www.discoverputnam.com/dining"
+    ]
+  },
+  {
+    "name": "Nikki's Dog House",
+    "address": "1244 Storrs Road",
+    "town": "Mansfield",
+    "village": "Storrs",
+    "zip": "06268",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "Coney dog",
+      "milkshakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Nikki's says it was founded in 1980; it does not say which of its two shops came first",
+    "branch_of": null,
+    "note": "Storrs shop of the Putnam-area Coney dog business; online ordering here began in July 2025.",
+    "website": "https://www.nikkisdoghouse.com/",
+    "open": true,
+    "evidence_date": "2025-07",
+    "sources": [
+      "https://www.nikkisdoghouse.com/"
+    ]
+  }
+]

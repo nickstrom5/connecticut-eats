@@ -1,0 +1,1451 @@
+[
+  {
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "157 Wooster St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1936,
+    "founded_note": "Frank Pepe opened in 1925 next door at 163 Wooster St (now The Spot) and moved the pizzeria to 157 Wooster St in 1936.",
+    "branch_of": null,
+    "note": "The Wooster Street original of New Haven apizza: coal-fired brick-oven pies, home of the white clam pie.",
+    "website": "https://pepespizzeria.com/",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://www.nhpr.org/2026-09-28/new-haven-pizza-lovers-want-to-keep-interest-through-exhibit",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://ctvisit.com/listings/frank-pepe-pizzeria-napoletana-new-haven",
+      "https://en.wikipedia.org/wiki/Frank_Pepe_Pizzeria_Napoletana",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct"
+    ]
+  },
+  {
+    "name": "The Spot (Frank Pepe Pizzeria Napoletana)",
+    "address": "163 Wooster St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1981,
+    "founded_note": "Pepe's first home (1925); the Pepe family bought the building back in 1977 and reopened it as The Spot in 1981.",
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Pepe's smaller second dining room in the building where Frank Pepe started in 1925, with the original oven; same menu as next door.",
+    "website": "https://pepespizzeria.com/",
+    "open": true,
+    "evidence_date": "2026-03",
+    "sources": [
+      "https://ctvisit.com/articles/new-haven-pizza-pilgrimage-guide-best-slices-and-sights",
+      "https://en.wikipedia.org/wiki/Frank_Pepe_Pizzeria_Napoletana"
+    ]
+  },
+  {
+    "name": "Sally's Apizza",
+    "address": "237 Wooster St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "tomato pie",
+      "white clam pie",
+      "potato and rosemary pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1938,
+    "founded_note": "Established on Wooster Street in April 1938.",
+    "branch_of": null,
+    "note": "Wooster Street coal-oven apizza institution since 1938, known for its tomato pie and charred crust.",
+    "website": "https://sallysapizza.com/",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://www.nhpr.org/2026-09-28/new-haven-pizza-lovers-want-to-keep-interest-through-exhibit",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://www.sallysapizza.com/locations",
+      "https://www.sallysapizza.com/",
+      "https://ctvisit.com/listings/sallys-apizza",
+      "https://en.wikipedia.org/wiki/Sally%27s_Apizza"
+    ]
+  },
+  {
+    "name": "Modern Apizza",
+    "address": "874 State St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1934,
+    "founded_note": "Opened in 1934 as State Street Apizza and has stayed at the same location.",
+    "branch_of": null,
+    "note": "State Street apizza landmark baking thin, charred pies in an oil-fired brick oven since 1934.",
+    "website": "https://www.modernapizza.com/",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://www.nhpr.org/2026-09-28/new-haven-pizza-lovers-want-to-keep-interest-through-exhibit",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://www.ctbites.com/blog/2025/7/18/modern-apizza",
+      "https://ctvisit.com/listings/modern-apizza",
+      "https://www.modernapizza.com/",
+      "https://en.wikipedia.org/wiki/Modern_Apizza",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct"
+    ]
+  },
+  {
+    "name": "Zuppardi's Apizza",
+    "address": "179 Union Ave",
+    "town": "West Haven",
+    "village": null,
+    "zip": "06516",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "fresh clam pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1934,
+    "founded_note": "Began as a New Haven bakery in 1932 and moved to Union Avenue in West Haven in 1934.",
+    "branch_of": null,
+    "note": "Family-run West Haven apizza institution on Union Avenue since 1934, known for its fresh clam pie.",
+    "website": "https://zuppardisapizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://www.ctbites.com/blog/2026/5/6/food-trucks",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://zuppardisapizza.com/west-haven/",
+      "https://zuppardisapizza.com/our-story/"
+    ]
+  },
+  {
+    "name": "Zuppardi's Slice Shop",
+    "address": "58 Beaver St",
+    "town": "Ansonia",
+    "village": null,
+    "zip": "06401",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "apizza by the slice"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": "Zuppardi's Apizza, West Haven",
+    "note": "Zuppardi's small Ansonia slice shop serving the West Haven pizzeria's pies by the slice.",
+    "website": "https://zuppardisapizza.com/ansonia/",
+    "open": true,
+    "evidence_date": "2025-02",
+    "sources": [
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://zuppardisapizza.com/ansonia/"
+    ]
+  },
+  {
+    "name": "BAR",
+    "address": "254 Crown St",
+    "town": "New Haven",
+    "village": null,
+    "zip": null,
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "mashed potato and bacon pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1991,
+    "founded_note": "Opened in 1991 as a bar and dance club; pizza was added in 1996.",
+    "branch_of": null,
+    "note": "Downtown brewpub and nightclub turning out ultra-thin brick-oven pies; birthplace of the mashed potato and bacon pie.",
+    "website": "https://www.barnightclub.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.ctbites.com/blog/2025/8/18/bars-take-on-new-haven-pizza",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://ctvisit.com/articles/new-haven-pizza-pilgrimage-guide-best-slices-and-sights",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://www.wfsb.com/2025/10/09/new-haven-museum-celebrates-citys-pizza-legacy-with-new-exhibit/"
+    ]
+  },
+  {
+    "name": "Ernie's Pizzeria",
+    "address": "1279 Whalley Ave",
+    "town": "New Haven",
+    "village": null,
+    "zip": null,
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "Ernie's Special (sausage and mushroom)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1971,
+    "founded_note": "Opened in 1971, per CT Bites (2025).",
+    "branch_of": null,
+    "note": "Westville neighborhood apizza shop run by the same family since 1971.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://ctvisit.com/articles/new-haven-pizza-pilgrimage-guide-best-slices-and-sights",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/listings/ernies-pizzeria"
+    ]
+  },
+  {
+    "name": "Est Est Est Pizza",
+    "address": "1176 Chapel St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "brick-oven pizza",
+      "big slices"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1973,
+    "founded_note": "Its site says it has been at the same New Haven location since 1973.",
+    "branch_of": null,
+    "note": "Brick-oven pizzeria at Chapel and Park since 1973, a late-night slice stop near Yale.",
+    "website": "https://estpizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://estpizza.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Grand Apizza",
+    "address": "734 Boston Post Rd",
+    "town": "Madison",
+    "village": null,
+    "zip": "06443",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "seafood pie (clam, crab, shrimp)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Grand Apizza began in New Haven's Fair Haven neighborhood in 1955; this branch's opening year isn't stated.",
+    "branch_of": "Grand Apizza, New Haven (Fair Haven, 1955)",
+    "note": "Shoreline outpost of the Nuzzo family's Grand Apizza, baking New Haven-style pies from a 1955 family recipe.",
+    "website": "https://www.grandapizza.com/madison-ct",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.grandapizza.com/madison-ct",
+      "https://www.grandapizza.com/",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct"
+    ]
+  },
+  {
+    "name": "Grand Apizza",
+    "address": "381 Boston Post Rd",
+    "town": "Guilford",
+    "village": null,
+    "zip": "06437",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "seafood pie (clam, crab, shrimp)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Grand Apizza began in New Haven's Fair Haven neighborhood in 1955; this branch's opening year isn't stated.",
+    "branch_of": "Grand Apizza, New Haven (Fair Haven, 1955)",
+    "note": "Guilford location of the Nuzzo family's Grand Apizza, with brick-oven New Haven-style pies.",
+    "website": "https://www.grandapizza.com/guilford-ct-1",
+    "open": true,
+    "evidence_date": "2025-02",
+    "sources": [
+      "https://www.grandapizza.com/guilford-ct-1",
+      "https://www.grandapizza.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct"
+    ]
+  },
+  {
+    "name": "The Little Rendezvous",
+    "address": "256 Pratt St",
+    "town": "Meriden",
+    "village": null,
+    "zip": "06450",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "thin-crust coal-oven pizza",
+      "house special (sausage, peppers, onion)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Pizza-making on Pratt Street began in 1938; the business was sold and became The Little Rendezvous in 1946 (CT Bites).",
+    "branch_of": null,
+    "note": "Meriden pizzeria baking thin pies in a coal-fired brick oven said to be about 120 years old.",
+    "website": "https://thelittlevous.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://thelittlevous.com/"
+    ]
+  },
+  {
+    "name": "Fuoco Coal Fired Apizza",
+    "address": "461 West Main St",
+    "town": "Cheshire",
+    "village": null,
+    "zip": "06410",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "coal-fired thin-crust pie",
+      "Money Hots pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Small Cheshire counter-and-banquette spot baking New Haven-style pies in a coal-fired oven.",
+    "website": "https://fuocoapizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Mike's Apizza & Restaurant",
+    "address": "111 Campbell Ave",
+    "town": "West Haven",
+    "village": null,
+    "zip": "06516",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "shrimp casino pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "In operation at its current location for over 30 years, per CT Bites (2025).",
+    "branch_of": null,
+    "note": "Old-school West Haven family pizzeria with crunchy thin-crust pies; the family's pizza roots in town go back to the 1940s.",
+    "website": "https://www.mikesapizzarestaurant.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.mikesapizzarestaurant.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Olde World Apizza",
+    "address": "1957 Whitney Ave",
+    "town": "North Haven",
+    "village": null,
+    "zip": "06473",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "brick-oven apizza",
+      "Italian combo pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Its site says New Haven-style brick-oven apizza since 1995.",
+    "branch_of": null,
+    "note": "Mostly take-out North Haven brick-oven apizza shop, established 1995.",
+    "website": "https://www.oldeworldapizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.oldeworldapizza.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Bobby's Apizza",
+    "address": "1181 Foxon Rd",
+    "town": "North Branford",
+    "village": null,
+    "zip": "06471",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "mac and cheese pie",
+      "specialty pies"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Its site says Est. 1969; its menu was updated in July 2025.",
+    "branch_of": null,
+    "note": "Family-run North Branford pizzeria established in 1969, known for creative specialty pies.",
+    "website": "https://www.bobbysapizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.bobbysapizza.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Roseland Apizza",
+    "address": "350 Hawthorne Ave",
+    "town": "Derby",
+    "village": null,
+    "zip": "06418",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "Roseland Special",
+      "white seafood pies",
+      "house-made sausage"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "The family business began as a bakery in Ansonia in 1935 and moved to Derby in 1938 (CT Bites).",
+    "branch_of": null,
+    "note": "Derby apizza landmark in a white house with a neon sign, baking in decades-old coal-fired ovens; family-run for five generations.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://www.ctbites.com/blog/2025/11/11/roseland-apizza-preserving-connecticuts-pizza-legacy-since-1935",
+      "https://ctvisit.com/articles/connecticut-pizza-trail",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct"
+    ]
+  },
+  {
+    "name": "Ozzy's Apizza",
+    "address": "285 Nicoll St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "New Haven-style apizza"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "East Rock apizza counter inside East Rock Market, started as a Los Angeles pop-up by a Connecticut native.",
+    "website": "https://ozzysapizza.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ozzysapizza.com/",
+      "https://www.ctbites.com/blog/2025/1/29/120-of-the-best-pizza-joints-in-ct",
+      "https://ctvisit.com/articles/connecticut-pizza-trail"
+    ]
+  },
+  {
+    "name": "Blackie's Hot Dog Stand",
+    "address": "2200 Waterbury Rd",
+    "town": "Cheshire",
+    "village": null,
+    "zip": "06410",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "hot dogs",
+      "homemade hot pepper relish"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1928,
+    "founded_note": "CTvisit: has been around since 1928.",
+    "branch_of": null,
+    "note": "Roadside Cheshire hot dog stand around since 1928, known for its homemade hot pepper relish.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://ctvisit.com/articles/classic-summer-drive-ins",
+      "https://ctvisit.com/listings/blackies-hot-dogs"
+    ]
+  },
+  {
+    "name": "Glenwood Drive-In",
+    "address": "2538 Whitney Ave",
+    "town": "Hamden",
+    "village": null,
+    "zip": "06518",
+    "kinds": [
+      "hot dog icon",
+      "lobster roll"
+    ],
+    "dishes": [
+      "charbroiled hot dogs",
+      "hot relish",
+      "lobster roll",
+      "onion rings"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "CTvisit (2026): serving Route 10 for more than 70 years.",
+    "branch_of": null,
+    "note": "Route 10 drive-in serving charbroiled hot dogs and burgers for more than 70 years, plus summer lobster rolls.",
+    "website": "https://www.glenwooddrivein.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://ctvisit.com/articles/classic-summer-drive-ins",
+      "https://www.glenwooddrivein.com/",
+      "https://ctvisit.com/listings/glenwood-drive"
+    ]
+  },
+  {
+    "name": "Frankie's",
+    "address": "700 Watertown Ave",
+    "town": "Waterbury",
+    "village": null,
+    "zip": "06708",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "foot-long hot dog"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Frankie's began in Waterbury in 1933; this location's opening year isn't stated.",
+    "branch_of": null,
+    "note": "Waterbury location of Frankie's, the family hot dog business founded in the city in 1933 and known for its foot-long dog.",
+    "website": "https://frankieshotdogs.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://frankieshotdogs.com/our-locations/our-locations/frankies-of-watertown-ave/",
+      "https://frankieshotdogs.com/history/"
+    ]
+  },
+  {
+    "name": "Denmo's",
+    "address": "340 Main Street South",
+    "town": "Southbury",
+    "village": null,
+    "zip": "06487",
+    "kinds": [
+      "hot dog icon"
+    ],
+    "dishes": [
+      "split-charred long dogs"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1978,
+    "founded_note": "Serving Southbury since 1978.",
+    "branch_of": null,
+    "note": "Southbury roadside stand since 1978, known for split, charred long dogs.",
+    "website": "https://www.denmosdrivein.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.denmosdrivein.com/",
+      "https://ctvisit.com/listings/denmos-dairy-snack-bar"
+    ]
+  },
+  {
+    "name": "Louis' Lunch",
+    "address": "261 Crown St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06511",
+    "kinds": [
+      "burger icon"
+    ],
+    "dishes": [
+      "hamburger on white toast (cheese, tomato, onion only)"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1975,
+    "founded_note": "Started as a lunch wagon in 1895; the restaurant's building was moved to 261 Crown St in 1975. Louis' Lunch claims it served the first hamburger in 1900.",
+    "branch_of": null,
+    "note": "Tiny brick lunch spot that claims to have served America's first hamburger in 1900; burgers still cook in 1898 cast-iron vertical broilers.",
+    "website": "https://louislunch.com/",
+    "open": true,
+    "evidence_date": "2026-08",
+    "sources": [
+      "https://ctvisit.com/articles/bite-these-connecticut-burgers",
+      "https://louislunch.com/",
+      "https://ctvisit.com/listings/louis-lunch",
+      "https://en.wikipedia.org/wiki/Louis%27_Lunch"
+    ]
+  },
+  {
+    "name": "Ted's Restaurant",
+    "address": "1046 Broad St",
+    "town": "Meriden",
+    "village": null,
+    "zip": "06450",
+    "kinds": [
+      "burger icon",
+      "steamed cheeseburger"
+    ],
+    "dishes": [
+      "steamed cheeseburger"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1959,
+    "founded_note": "Opened in 1959.",
+    "branch_of": null,
+    "note": "Meriden counter spot steaming cheeseburgers since 1959, the oldest of the area's steamed cheeseburger joints.",
+    "website": "https://www.tedsrestaurant.com/",
+    "open": true,
+    "evidence_date": "2026-08",
+    "sources": [
+      "https://ctvisit.com/articles/bite-these-connecticut-burgers",
+      "https://www.tedsrestaurant.com/",
+      "https://en.wikipedia.org/wiki/Ted%27s_Restaurant"
+    ]
+  },
+  {
+    "name": "K. LaMay's Steamed Cheeseburgers",
+    "address": "690 East Main St",
+    "town": "Meriden",
+    "village": null,
+    "zip": "06450",
+    "kinds": [
+      "burger icon",
+      "steamed cheeseburger"
+    ],
+    "dishes": [
+      "steamed cheeseburger"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Meriden steamed cheeseburger shop run by a Ted's alum.",
+    "website": "https://klamayssteamedcheeseburgers.com/",
+    "open": true,
+    "evidence_date": "2026-08",
+    "sources": [
+      "https://ctvisit.com/articles/bite-these-connecticut-burgers",
+      "https://klamayssteamedcheeseburgers.com/locations/",
+      "https://ctvisit.com/listings/k-lamays-steamed-cheeseburgers"
+    ]
+  },
+  {
+    "name": "American Steamed Cheeseburgers",
+    "address": "92 Quinnipiac St",
+    "town": "Wallingford",
+    "village": null,
+    "zip": "06492",
+    "kinds": [
+      "steamed cheeseburger"
+    ],
+    "dishes": [
+      "steamed cheeseburger"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2013,
+    "founded_note": "CTvisit listing: opened in 2013.",
+    "branch_of": null,
+    "note": "Wallingford shop behind the train station carrying on the steamed cheeseburger tradition since 2013.",
+    "website": "https://www.americansteamedcheeseburgers.com/",
+    "open": true,
+    "evidence_date": "2026-08",
+    "sources": [
+      "https://ctvisit.com/articles/bite-these-connecticut-burgers",
+      "https://ctvisit.com/listings/american-steamed-cheeseburgers"
+    ]
+  },
+  {
+    "name": "Guilford Lobster Pound",
+    "address": "505A Whitfield St",
+    "town": "Guilford",
+    "village": null,
+    "zip": "06437",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "lobster grilled cheese",
+      "chowder"
+    ],
+    "seasonal": true,
+    "season": "seasonal; weather dependent",
+    "founded": 1991,
+    "founded_note": "Opened as a dockside lobster shop in 1991; expanded into a seasonal restaurant in 2007.",
+    "branch_of": null,
+    "note": "Dockside lobster pound on Guilford Harbor whose owner still hauls the traps; hot buttered rolls, no mayo, cash only and BYOB.",
+    "website": "https://www.guilfordlobsterpound.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.guilfordlobsterpound.com/"
+    ]
+  },
+  {
+    "name": "Donahue's Clam Castle",
+    "address": "1324 Boston Post Rd",
+    "town": "Madison",
+    "village": null,
+    "zip": "06443",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "whole belly fried clams",
+      "hot buttered",
+      "lobster roll",
+      "Lobzilla giant lobster rolls",
+      "chowder"
+    ],
+    "seasonal": true,
+    "season": "spring to the end of summer",
+    "founded": null,
+    "founded_note": "Its site says established in the 1960s.",
+    "branch_of": null,
+    "note": "Roadside clam shack near Hammonasset for six decades, known for whole-belly clams and its giant multi-foot lobster rolls.",
+    "website": "https://clamcastlect.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://clamcastlect.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://ctvisit.com/listings/clam-castle"
+    ]
+  },
+  {
+    "name": "Stowe's Seafood",
+    "address": "347 Beach St",
+    "town": "West Haven",
+    "village": null,
+    "zip": "06516",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll (sautéed, salad or fried)",
+      "fried seafood",
+      "chowder"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Cash-only seafood shack and fish market across from West Haven's beach, open year-round.",
+    "website": "https://www.stowesseafoodct.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/articles/classic-summer-drive-ins",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://ctvisit.com/listings/stowes-seafood"
+    ]
+  },
+  {
+    "name": "Lobster Shack",
+    "address": "3 Cosey Beach Ave",
+    "town": "East Haven",
+    "village": null,
+    "zip": "06512",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "grilled clams",
+      "chowder"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Waterfront lobster spot that moved from Branford to East Haven, serving buttered hot rolls and chilled rolls.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://visitnewhaven.com/places/lobster-shack/"
+    ]
+  },
+  {
+    "name": "Lenny's Indian Head Inn",
+    "address": "205 South Montowese St",
+    "town": "Branford",
+    "village": null,
+    "zip": "06405",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "steamers",
+      "chowder"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1968,
+    "founded_note": "Its site says Est. 1968.",
+    "branch_of": null,
+    "note": "Indian Neck shoreline seafood house since 1968 with hot buttered and cold lobster rolls.",
+    "website": "https://www.lennysnow.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.lennysnow.com/",
+      "https://ctvisit.com/listings/lennys-indian-head"
+    ]
+  },
+  {
+    "name": "Lenny & Joe's Fish Tale",
+    "address": "1301 Boston Post Rd",
+    "town": "Madison",
+    "village": null,
+    "zip": "06443",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "cold lobster roll"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "The Fish Tale business dates to 1979; this location's opening year isn't stated.",
+    "branch_of": null,
+    "note": "Shoreline seafood restaurant that grew from a 1979 roadside clam stand; the Madison spot has a charity carousel and ice cream shack.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://ctvisit.com/listings/lenny-joes-fish-tale-restaurant-madison"
+    ]
+  },
+  {
+    "name": "The Place",
+    "address": "901 Boston Post Rd",
+    "town": "Guilford",
+    "village": null,
+    "zip": "06437",
+    "kinds": [
+      "clam shack"
+    ],
+    "dishes": [
+      "roasted clams",
+      "lobster",
+      "corn"
+    ],
+    "seasonal": true,
+    "season": "by May 1 through late October",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Open-air roadside clambake: clams, lobster and corn cooked over a big wood fire, tree-stump seats, BYOB, cash or check.",
+    "website": "https://theplaceguilford.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://theplaceguilford.com/"
+    ]
+  },
+  {
+    "name": "M&J Beach Grille & Seafood",
+    "address": "87 Surf Club Rd",
+    "town": "Madison",
+    "village": null,
+    "zip": "06443",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll"
+    ],
+    "seasonal": true,
+    "season": "Memorial Day to Labor Day",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Family-run seasonal beach grill at Madison's Surf Club serving hot lobster rolls.",
+    "website": "https://sites.google.com/view/mjbeachgrille/home",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://sites.google.com/view/mjbeachgrille/home",
+      "https://ctvisit.com/listings/mj-beach-grille-seafood"
+    ]
+  },
+  {
+    "name": "Supreme Seafood Restaurant",
+    "address": "999 Foxon Rd",
+    "town": "North Branford",
+    "village": null,
+    "zip": "06471",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "whole belly clams"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1989,
+    "founded_note": "Serving North Branford since 1989.",
+    "branch_of": null,
+    "note": "Route 80 eat-in or take-out seafood spot since 1989, with hot or cold lobster rolls in its signature butter sauce.",
+    "website": "https://www.connecticutseafood.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.connecticutseafood.com/",
+      "https://ctvisit.com/listings/supreme-seafood-restaurant"
+    ]
+  },
+  {
+    "name": "Seven Seas Restaurant & Pub",
+    "address": "16 New Haven Ave",
+    "town": "Milford",
+    "village": null,
+    "zip": "06460",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "fish and chips"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1965,
+    "founded_note": "Established in 1965 and now run by the founding family's third generation.",
+    "branch_of": null,
+    "note": "Milford seafood pub established in 1965, known locally for its hot buttered lobster roll.",
+    "website": "https://www.7seasmilford.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.7seasmilford.com/",
+      "https://ctvisit.com/listings/seven-seas-restaurant-pub"
+    ]
+  },
+  {
+    "name": "Sandpiper Restaurant",
+    "address": "161 Cosey Beach Ave",
+    "town": "East Haven",
+    "village": null,
+    "zip": "06512",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll",
+      "steamers",
+      "fried seafood"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "East Haven shoreline restaurant with hot lobster rolls and a patio over the Sound.",
+    "website": "https://sandpiper-easthaven.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/listings/sandpiper-restaurant"
+    ]
+  },
+  {
+    "name": "The Lazy Lobster",
+    "address": "6 Broadway",
+    "town": "Milford",
+    "village": null,
+    "zip": "06460",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "Lazy Lobster Roll (buttered lobster on a baguette)",
+      "steamers"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Seafood restaurant steps from Walnut Beach, serving its buttered Lazy Lobster Roll on a house-baked baguette.",
+    "website": "https://www.thelazylobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/listings/lazy-lobster-restaurant"
+    ]
+  },
+  {
+    "name": "Shell & Bones Oyster Bar and Grill",
+    "address": "100 South Water St",
+    "town": "New Haven",
+    "village": null,
+    "zip": "06519",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "oysters"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "City Point waterfront oyster bar with hot lobster rolls in house-made lobster butter or chilled with spicy mayo.",
+    "website": "https://www.shellandbones.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/listings/shell-bones-oyster-bar-and-grill"
+    ]
+  },
+  {
+    "name": "Westbrook Lobster Restaurant & Bar",
+    "address": "300 Church St",
+    "town": "Wallingford",
+    "village": null,
+    "zip": "06492",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "mega lobster roll"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "One of two Westbrook Lobster locations (the other is in Clinton); opening year not stated.",
+    "branch_of": null,
+    "note": "Inland location of Westbrook Lobster, a seafood market turned restaurant, serving warm buttered Connecticut-style rolls.",
+    "website": "https://www.westbrooklobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/listings/westbrook-lobster-restaurant-bar-0"
+    ]
+  },
+  {
+    "name": "Rich Farm Ice Cream",
+    "address": "691 Oxford Rd",
+    "town": "Oxford",
+    "village": null,
+    "zip": "06478",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "farm-made ice cream",
+      "waffle cones"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1994,
+    "founded_note": "Opened July 3, 1994 on the family's Oxford dairy farm.",
+    "branch_of": null,
+    "note": "Ice cream stand on a working family dairy farm; ice cream is made daily on the farm.",
+    "website": "https://richfarmicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://richfarmicecream.com/",
+      "https://richfarmicecream.com/about-us/",
+      "https://ctvisit.com/listings/rich-farm-ice-cream"
+    ]
+  },
+  {
+    "name": "Rich Farm Ice Cream",
+    "address": "409 Hill St",
+    "town": "Bristol",
+    "village": null,
+    "zip": "06010",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "farm-made ice cream"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": "Rich Farm Ice Cream, Oxford",
+    "note": "Bristol scoop shop of Oxford's Rich Farm, serving the farm's ice cream.",
+    "website": "https://richfarmicecream.com/location-bristol-ct/",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://richfarmicecream.com/location-bristol-ct/",
+      "https://richfarmicecream.com/"
+    ]
+  },
+  {
+    "name": "Wentworth Homemade Ice Cream",
+    "address": "3697 Whitney Ave",
+    "town": "Hamden",
+    "village": null,
+    "zip": "06518",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "sundaes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Homemade ice cream in a small house near Sleeping Giant State Park and Quinnipiac University.",
+    "website": "https://www.wentworthhomemadeicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.wentworthhomemadeicecream.com/",
+      "https://ctvisit.com/listings/wentworth-homemade-ice-cream-company"
+    ]
+  },
+  {
+    "name": "Kelly's Cone Connection",
+    "address": "2538 Whitney Ave",
+    "town": "Hamden",
+    "village": null,
+    "zip": "06518",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "small-batch ice cream",
+      "ice cream cakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Small-batch ice cream stand next door to Glenwood Drive-In.",
+    "website": "https://www.kellysconeconnection.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://ctvisit.com/articles/connecticut-hot-dog-tour",
+      "https://www.kellysconeconnection.com/"
+    ]
+  },
+  {
+    "name": "Sweet Claude's",
+    "address": "493 West Main St",
+    "town": "Cheshire",
+    "village": null,
+    "zip": "06410",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "non-dairy flavors"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Began in 1988 on South Main Street in Cheshire and later moved to West Main Street.",
+    "branch_of": null,
+    "note": "Cheshire homemade ice cream parlor since 1988, now on West Main Street.",
+    "website": "https://www.sweetclaudesicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.sweetclaudesicecream.com/"
+    ]
+  },
+  {
+    "name": "Big Dipper Ice Cream",
+    "address": "91 Waterbury Rd",
+    "town": "Prospect",
+    "village": null,
+    "zip": "06712",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "50+ rotating flavors",
+      "ice cream cakes"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1986,
+    "founded_note": "Its site says it has churned ice cream in this building since 1986.",
+    "branch_of": null,
+    "note": "Prospect parlor churning ice cream in the same building since 1986, with flavors that rotate daily.",
+    "website": "https://bigdipper.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://bigdipper.com/"
+    ]
+  },
+  {
+    "name": "Wells Hollow Creamery",
+    "address": "2 Beard Sawmill Rd",
+    "town": "Shelton",
+    "village": null,
+    "zip": "06484",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Sweet 16 (16% butterfat) flavors",
+      "60+ flavors"
+    ],
+    "seasonal": true,
+    "season": "open until the snow flies",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Fifth-generation Shelton farm creamery scooping dozens of homemade flavors.",
+    "website": "https://www.wellshollowcreamery.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.wellshollowcreamery.com/"
+    ]
+  },
+  {
+    "name": "Rose Orchards Farm",
+    "address": "33 Branford Rd",
+    "town": "North Branford",
+    "village": null,
+    "zip": "06472",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "custard (chocolate, vanilla, twist)",
+      "frozen yogurt"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Family farm stand known for pies and fruit that also serves custard and frozen yogurt.",
+    "website": "https://www.roseorchardsfarm.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://ctvisit.com/listings/rose-orchards-farm"
+    ]
+  },
+  {
+    "name": "Walnut Beach Creamery",
+    "address": "17 Broadway",
+    "town": "Milford",
+    "village": null,
+    "zip": "06460",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "seasonal flavors"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Small-batch homemade ice cream shop by Milford's Walnut Beach.",
+    "website": "https://www.walnutbeachcreamery.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.walnutbeachcreamery.com/",
+      "https://ctvisit.com/listings/walnut-beach-creamery"
+    ]
+  },
+  {
+    "name": "Twin Pines Diner",
+    "address": "34 Main St",
+    "town": "East Haven",
+    "village": null,
+    "zip": "06512",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "East Haven diner open 24 hours, serving the town for more than 40 years.",
+    "website": "http://www.twinpinesdiner.net/",
+    "open": true,
+    "evidence_date": "2026-04",
+    "sources": [
+      "https://www.wtnh.com/news/connecticut/new-haven/east-haven-diner-gives-over-200-meals-to-those-in-need-during-easter-lunch-rush/",
+      "http://www.twinpinesdiner.net/",
+      "https://ctvisit.com/listings/twin-pines-diner-restaurant"
+    ]
+  },
+  {
+    "name": "1754 House",
+    "address": "506 Main St South",
+    "town": "Woodbury",
+    "village": null,
+    "zip": "06798",
+    "kinds": [
+      "oldest"
+    ],
+    "dishes": [
+      "American comfort food"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1754,
+    "founded_note": "The building dates to 1736; it has operated as an inn since about 1754 and was relaunched as the 1754 House in 2020.",
+    "branch_of": null,
+    "note": "Colonial inn long known as the Curtiss (Curtis) House, billed as Connecticut's oldest inn and restaurant, with a dining room and a blues tavern.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-03",
+    "sources": [
+      "https://www.providencejournal.com/story/news/history/2026/03/01/what-are-the-oldest-restaurants-in-new-england-how-to-eat-at-them/88896380007/",
+      "https://www.yahoo.com/lifestyle/articles/oldest-restaurants-england-300-years-100213341.html",
+      "https://www.historichotels.org/us/hotels-resorts/1754-house/history.php"
+    ]
+  }
+]

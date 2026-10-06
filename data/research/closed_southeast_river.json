@@ -1,0 +1,42 @@
+[
+  {
+    "name": "O'Rourke's Diner",
+    "address": "728 Main St",
+    "town": "Middletown",
+    "closed_reason": "Closed in June 2023 and listed for sale as of October 2024 (Wikipedia, read Oct 2026); the 1946 diner car has not reopened.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/O%27Rourke%27s_Diner"
+    ]
+  },
+  {
+    "name": "Buford's Family Restaurant",
+    "address": "126 Poquonock Rd",
+    "town": "Groton",
+    "closed_reason": "Longtime (60+ years, several owners) diner-style family restaurant; announced closing on August 30, 2026.",
+    "sources": [
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/groton-scoop-bufords-family-restaurant-to-close-on-0830"
+    ]
+  },
+  {
+    "name": "Skippers Seafood (Old Saybrook)",
+    "address": "688 Boston Post Rd",
+    "town": "Old Saybrook",
+    "closed_reason": "Closed November 9, 2025; owners converting the space to EOS Greek Bowls & Pitas. The Niantic Skippers stays open.",
+    "sources": [
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/old-saybrook-scoop-skippers-closing-in-old-saybrook-to-reopen-as-greek-eatery",
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/old-saybrook-scoop-eos-greek-bowls-pita-coming-to-skippers-space"
+    ]
+  },
+  {
+    "name": "Ford's Lobster",
+    "address": "15 Riverview Ave",
+    "town": "Groton",
+    "closed_reason": "Left its Noank (Groton) location after its lease ended; the address is now Haring's Noank (open 2026). Ford's own site, still up in 2026, says it will reopen at a new location in 'Spring 2024', and no 2025–26 source shows it reopened. Sister restaurant Ford's Black & Blue (65 Marsh Rd, Noank) is separate.",
+    "sources": [
+      "https://www.fordslobster.com/",
+      "https://www.haringsnoank.com/",
+      "https://www.yahoo.com/news/fords-lobster-lease-ends-noank-013100223.html",
+      "https://fordsblackandblue.com/"
+    ]
+  }
+]

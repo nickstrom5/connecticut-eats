@@ -1,0 +1,60 @@
+[
+  {
+    "name": "Triple A Diner",
+    "address": "1209 Main Street",
+    "town": "East Hartford",
+    "closed_reason": "Patch (July 30, 2026) reports the diner, which traced its roots to 1956 and had been at this address since 1967, has permanently closed; the property is listed for sale.",
+    "sources": [
+      "https://patch.com/connecticut/hartford/after-70-years-prominent-east-hartford-diner-closes-property-sale"
+    ]
+  },
+  {
+    "name": "The Wethersfield Diner",
+    "address": "718 Silas Deane Highway",
+    "town": "Wethersfield",
+    "closed_reason": "Patch (January 10, 2025): the 1952 diner served its last meals by January 22, 2025, after the property owner won approval to demolish it for a mixed-use building.",
+    "sources": [
+      "https://patch.com/connecticut/wethersfield/wethersfield-diner-owners-announce-closing-date-auction"
+    ]
+  },
+  {
+    "name": "Collins Diner",
+    "address": "53 Main Street",
+    "town": "North Canaan",
+    "closed_reason": "Rural Intelligence (June 11, 2025) says the 1942 O'Mahony dining car in the village of Canaan is currently closed and its future is unknown. Not confirmed permanent; move back to the guide if a dated reopening source appears.",
+    "sources": [
+      "https://www.ruralintelligence.com/chrome-counters-coffee-historic-metal-diners-to-visit-now/"
+    ]
+  },
+  {
+    "name": "Shady Glen (Manchester Parkade store)",
+    "address": "Manchester Parkade shopping center",
+    "town": "Manchester",
+    "closed_reason": "The second Shady Glen store, opened at the Manchester Parkade in 1965, closed in 2020 during the pandemic (Connecticut Scoop, April 7, 2025). The original store on Middle Turnpike East remains open.",
+    "sources": [
+      "https://www.theconnecticutscoop.com/all-local-gems/step-back-in-time-at-shady-glen-in-manchester",
+      "https://en.wikipedia.org/wiki/Shady_Glen"
+    ]
+  },
+  {
+    "name": "Staropolska Restaurant",
+    "address": "252 Broad Street",
+    "town": "New Britain",
+    "closed_reason": "Closed permanently: shut after a September 2023 basement fire and announced in June 2024 that it would not reopen. Sources are from 2024 (no 2025-26 source found), but the city's tourism site still lists it, so it is recorded here to keep it out of the guide.",
+    "sources": [
+      "https://hartfordbusiness.com/article/following-basement-fire-new-britains-staropolska-restaurant-to-close-permanently/",
+      "https://www.wfsb.com/2024/06/25/popular-polish-restaurant-new-britain-close-after-decades/",
+      "https://www.newbritainherald.com/news/staropolska-closing-little-poland-staple-ending-its-run/article_0114d97e-33ff-11ef-a1d1-334dbfc22176.html"
+    ]
+  },
+  {
+    "name": "Polish National Home (restaurant)",
+    "address": "60 Charter Oak Avenue",
+    "town": "Hartford",
+    "closed_reason": "The Polish National Home's Art Deco building was sold (CTMQ notes a December 2022 sale to a church), and the organization's site announces the building sale; its Polish restaurant no longer operates there. No 2025-26 news source found.",
+    "sources": [
+      "https://www.ctmq.org/polish-food-at-polish-national-home/",
+      "https://polishhomect.org/"
+    ]
+  }
+]

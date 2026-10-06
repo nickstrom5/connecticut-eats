@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Allium Eatery",
+    "address": "54 Railroad Place",
+    "town": "Westport",
+    "james_beard": ["Best Chef: Northeast semifinalist 2025 (Michelle Greenfield)"],
+    "chef": "Michelle Greenfield",
+    "closed_reason": "The honored 20-seat restaurant across from the Saugatuck train station is closed. Its own site (copyright 2026, checked 2026-10-05) says 'OUR LOCATION IS CURRENTLY CLOSED' and that it has outgrown the space and is building a new home; no new address had been announced. Re-check for the reopening before adding it back.",
+    "checked": "2026-10-05",
+    "sources": [
+      "https://www.alliumeatery.com/",
+      "https://cdn.sanity.io/files/2t27tguw/production/154d365183c084c6e22f40a1b832f1a31c2853b8.pdf",
+      "https://westportjournal.com/business/westport-restaurants-in-spotlight-at-crazies-event/"
+    ]
+  }
+]

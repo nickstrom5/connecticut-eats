@@ -1,0 +1,1395 @@
+[
+  {
+    "name": "Abbott's Lobster in the Rough",
+    "address": "117 Pearl St",
+    "town": "Groton",
+    "village": "Noank",
+    "zip": "06340",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll",
+      "steamers",
+      "clam chowder",
+      "stuffed clams"
+    ],
+    "seasonal": true,
+    "season": "Seasonal; its site says it is open daily 11–8 for the 2026 season",
+    "founded": 1947,
+    "founded_note": "Serving seafood in Noank since 1947 (its own site)",
+    "branch_of": null,
+    "note": "BYOB waterside lobster shack on the Mystic River in Noank; no reservations, first come first served; its biggest hot roll carries a pound of buttered lobster.",
+    "website": "https://www.abbottslobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.abbottslobster.com/",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Costello's Clam Shack",
+    "address": "145 Pearl St",
+    "town": "Groton",
+    "village": "Noank",
+    "zip": "06340",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll",
+      "fried clams",
+      "clam fritters",
+      "scallops",
+      "fish tacos"
+    ],
+    "seasonal": true,
+    "season": "Closed for the season; its site says it reopens May 21, 2027",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Dockside clam shack inside Noank Shipyard on the Mystic River, with fried seafood and hot buttered lobster rolls in several sizes.",
+    "website": "https://www.costellosclamshack.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.costellosclamshack.com/",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Haring's Noank",
+    "address": "15 Riverview Ave",
+    "town": "Groton",
+    "village": "Noank",
+    "zip": "06340",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "cold lobster roll",
+      "lobster bisque",
+      "lobster and sweet corn fritters",
+      "oysters",
+      "smash burger"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "The Haring family's marine business began on this waterfront in 1931; the property has held a restaurant since 2011 (Ford's Lobster used the same address). Now run by the 85th Day Food Community.",
+    "branch_of": null,
+    "note": "Waterfront seafood restaurant in Noank modeled on a classic New England shack, reachable by land or by boat; hot rolls come with melted lemon butter.",
+    "website": "https://www.haringsnoank.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.haringsnoank.com/",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks",
+      "https://www.85thdaygroup.com/upcoming-events",
+      "https://www.fordslobster.com/"
+    ]
+  },
+  {
+    "name": "Captain Scott's Lobster Dock",
+    "address": "80 Hamilton St",
+    "town": "New London",
+    "village": null,
+    "zip": "06320",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll",
+      "lobster salad roll",
+      "fish and chips"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1996,
+    "founded_note": "\"A New London tradition since 1996\" (its own site)",
+    "branch_of": null,
+    "note": "Dockside lobster shack on Shaw's Cove with outdoor seating, an ice cream window and a fish market.",
+    "website": "https://www.captscotts.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.captscotts.com/",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Fred's Shanty",
+    "address": "262 & 272 Pequot Ave",
+    "town": "New London",
+    "village": null,
+    "zip": "06320",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "whole belly clams",
+      "clam strips",
+      "hot lobster roll",
+      "cold lobster roll",
+      "clam fritters",
+      "Hershey's hand-dipped ice cream"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1972,
+    "founded_note": "Waterfront take-out \"since 1972\" (its own site)",
+    "branch_of": null,
+    "note": "Waterfront take-out on Pequot Avenue for fried seafood, pizza, subs, hot dogs and hand-dipped ice cream.",
+    "website": "https://www.fredsshanty.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.fredsshanty.com/",
+      "https://www.fredsshanty.com/menu.php",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Johnny Ad's",
+    "address": "910 Boston Post Rd",
+    "town": "Old Saybrook",
+    "village": null,
+    "zip": "06475",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll",
+      "whole fried clams",
+      "clam strips",
+      "clam chowder",
+      "lobster bisque"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1957,
+    "founded_note": "Established in 1957 by John Adinolfo as a seafood shack (its own site)",
+    "branch_of": null,
+    "note": "Route 1 seafood landmark; its hot lobster roll is all lobster meat with butter on a toasted roll, and Coastal Classic Ice Cream scoops inside.",
+    "website": "https://www.johnnyads.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.johnnyads.com/",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Liv's Shack",
+    "address": "26 Bridge St",
+    "town": "Old Saybrook",
+    "village": null,
+    "zip": "06475",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "Connecticut-style lobster roll (no mayo)",
+      "New England clam chowder"
+    ],
+    "seasonal": true,
+    "season": "May to September, Wednesday–Sunday (its own site)",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Seasonal shack at Harbor One Marina whose 'No Mayo' slogan sums up its warm, butter-only lobster rolls on grilled buns.",
+    "website": "https://www.livsshack.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.livsshack.com/",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Lenny & Joe's Fish Tale",
+    "address": "86 Boston Post Rd",
+    "town": "Westbrook",
+    "village": null,
+    "zip": "06498",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "fried clams",
+      "broiled seafood",
+      "clam chowder"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Began as a roadside stand in 1979 (CT Bites, CTvisit, Food GPS); not clear the stand was at this address. A second location is in Madison.",
+    "branch_of": null,
+    "note": "Shoreline seafood restaurant with fried and broiled seafood; hot buttered lobster rolls are among its best-sellers.",
+    "website": "https://www.ljfishtale.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://foodgps.com/lenny-joes-fish-tale-westbrook/"
+    ]
+  },
+  {
+    "name": "Bill's Seafood",
+    "address": "548 Boston Post Rd",
+    "town": "Westbrook",
+    "village": null,
+    "zip": "06498",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "fried clams",
+      "lobster roll",
+      "lobster salad BLT",
+      "steamers",
+      "fish and chips"
+    ],
+    "seasonal": false,
+    "season": "Open year-round",
+    "founded": 1978,
+    "founded_note": "Family owned since 1978 (its own site)",
+    "branch_of": null,
+    "note": "Cash-only seafood spot on the Patchogue River with dockside picnic tables, a bar, live music and an ice cream window (Bill's Etc.).",
+    "website": "https://www.billsseafood.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.billsseafood.com/",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Lobster Landing",
+    "address": "152 Commerce St",
+    "town": "Clinton",
+    "village": null,
+    "zip": "06413",
+    "kinds": [
+      "lobster roll",
+      "clam shack"
+    ],
+    "dishes": [
+      "hot buttered",
+      "lobster roll",
+      "double lobster roll",
+      "lobster bisque"
+    ],
+    "seasonal": true,
+    "season": "Spring through December 31 (CT Bites 2026; CTvisit says it stays open until New Year's)",
+    "founded": null,
+    "founded_note": "A January 2024 storm flooded the shack and knocked it off its pilings; the 2025 replacement copies the early-1940s original, raised four feet (Patch, Jan 2025).",
+    "branch_of": null,
+    "note": "Small dockside lobster shack in Clinton known for hot lobster rolls with butter and a squeeze of lemon on a grilled roll.",
+    "website": "https://www.lobsterlandingct.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.lobsterlandingct.com/",
+      "https://new.patch.com/connecticut/clinton/clinton-lobster-joint-charts-spring-opening-new-building-report",
+      "https://ctvisit.com/articles/guide-summer-seafood-shacks-connecticut",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Westbrook Lobster",
+    "address": "346 East Main St",
+    "town": "Clinton",
+    "village": null,
+    "zip": "06413",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll on brioche"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1995,
+    "founded_note": "Opened in 1963 as a seafood market by the Singing Bridge in Westbrook; moved two miles down Route 1 to Clinton in 1995 to open a restaurant (its own site).",
+    "branch_of": null,
+    "note": "Seafood restaurant and market that grew out of a 1963 lobster market; a second location is in Wallingford.",
+    "website": "https://www.westbrooklobster.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.westbrooklobster.com/our-story",
+      "https://www.westbrooklobster.com/menus-locations",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Flanders Fish Market",
+    "address": "22 Chesterfield Rd",
+    "town": "East Lyme",
+    "village": null,
+    "zip": "06333",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "hot lobster roll with butter, scallion and sherry",
+      "cold lobster roll",
+      "lobster pot pie",
+      "clam chowder"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 1983,
+    "founded_note": "\"Since 1983\" (its own site; CTvisit says established 1983)",
+    "branch_of": null,
+    "note": "Family-owned fish market and restaurant that serves its lobster roll hot or cold.",
+    "website": "https://www.flandersfish.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.flandersfish.com/",
+      "https://ctvisit.com/articles/discover-these-iconic-connecticut-lobster-rolls",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Sea Swirl",
+    "address": "30 Williams Ave",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "clam shack",
+      "lobster roll",
+      "dairy bar"
+    ],
+    "dishes": [
+      "whole belly clams",
+      "hot lobster roll",
+      "soft serve",
+      "ice cream"
+    ],
+    "seasonal": true,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Clam shack and ice cream stand off the Mystic River, known for whole-belly clams and lobster 'cones'.",
+    "website": "https://www.seaswirlofmystic.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.seaswirlofmystic.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Sea View Snack Bar",
+    "address": "145 Greenmanville Ave",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "CT Bites (2026) says it has operated since 1976",
+    "branch_of": null,
+    "note": "Riverfront seafood snack bar in Mystic.",
+    "website": "https://www.seaviewsnackbar.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://ctvisit.com/listings/sea-view-snack-bar",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "The Dock",
+    "address": "9 First St",
+    "town": "Waterford",
+    "village": null,
+    "zip": "06385",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll",
+      "cold lobster roll",
+      "raw clams and oysters",
+      "Cajun shrimp"
+    ],
+    "seasonal": true,
+    "season": "Opened May 1, 2026; Friday–Sunday only from Sept. 11, 2026 (its own site)",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Seasonal picnic-table seafood spot on the Niantic River with a tented bar, raw bar and fish market.",
+    "website": "https://dockct.com/",
+    "open": true,
+    "evidence_date": "2026-09",
+    "sources": [
+      "https://dockct.com/",
+      "https://dockct.com/contact-us-1",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Shanks Waterfront Dining",
+    "address": "131 Grove St",
+    "town": "Clinton",
+    "village": null,
+    "zip": "06413",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll"
+    ],
+    "seasonal": true,
+    "season": "Summer (its site: open for the summer 2026 season)",
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Seasonal BYOB 'food boat' at Harborside Marina on Clinton Harbor: orders go in at a converted 1974 42-foot commercial lobster boat.",
+    "website": "https://shanksclinton.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://shanksclinton.com/",
+      "https://shanksclinton.com/contact",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026"
+    ]
+  },
+  {
+    "name": "Dad's Restaurant of Niantic",
+    "address": "147 Main St",
+    "town": "East Lyme",
+    "village": "Niantic",
+    "zip": "06357",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "fried clams",
+      "lobster roll",
+      "onion rings",
+      "burgers"
+    ],
+    "seasonal": true,
+    "season": null,
+    "founded": null,
+    "founded_note": "Calls itself a local staple since 1963; it started next door as the Harbor Drive Inn (its own site). Reopened in late May 2025 under new owners after a renovation (The Day).",
+    "branch_of": null,
+    "note": "Seasonal seafood spot on Niantic Bay near the Niantic River bridge, known for fried clams and lobster rolls.",
+    "website": "https://www.dadsrestaurant.com/",
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.dadsrestaurant.com/",
+      "https://theday.com/news/748558/niantic-staple-dads-restaurant-reopens-with-new-ownership/",
+      "https://www.wfsb.com/2024/05/03/dads-restaurant-will-closed-this-summer-due-renovations/"
+    ]
+  },
+  {
+    "name": "Skippers Seafood",
+    "address": "167 Main St",
+    "town": "East Lyme",
+    "village": "Niantic",
+    "zip": "06357",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll",
+      "fresh local seafood"
+    ],
+    "seasonal": false,
+    "season": "Open year-round",
+    "founded": null,
+    "founded_note": "Family owned since 2003 (its own site); its Old Saybrook location closed in November 2025.",
+    "branch_of": null,
+    "note": "Year-round family seafood restaurant on Main Street in Niantic.",
+    "website": "https://skippersseafood.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://skippersseafood.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/old-saybrook-scoop-skippers-closing-in-old-saybrook-to-reopen-as-greek-eatery"
+    ]
+  },
+  {
+    "name": "Mystic Fish Camp",
+    "address": "4 E Main St",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "clam shack"
+    ],
+    "dishes": [
+      "fried local fish sandwich",
+      "fish and chips",
+      "monkfish 'poor man's lobster roll'",
+      "smash burger"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Announced in June 2025 for an August 2025 opening by chef David Standridge's group (The Connecticut Scoop)",
+    "branch_of": null,
+    "note": "Counter-service fish shack beside the Mystic River Bascule Bridge from the team behind The Shipwright's Daughter; local wild-caught seafood fried in beef tallow.",
+    "website": "https://www.mysticfishcamp.com/",
+    "open": true,
+    "evidence_date": "2026-08",
+    "sources": [
+      "https://www.mysticfishcamp.com/",
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/mystic-scoop-new-fast-casual-seafood-shop-opening",
+      "https://www.shipwrightsdaughter.com/events"
+    ]
+  },
+  {
+    "name": "Red 36",
+    "address": "2 Washington St",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "cold lobster roll with lemon scallion aioli",
+      "clam chowder",
+      "clam and bacon flatbread"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Waterfront restaurant with Mystic River and harbor views; lobster rolls come cold or hot and buttery.",
+    "website": "https://red36ct.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://red36ct.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Siren Kitchen and Bar",
+    "address": "11 Ferry St",
+    "town": "Essex",
+    "village": null,
+    "zip": "06426",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot lobster roll ('The Local')",
+      "cold lobster roll ('The Tourist')"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "New American restaurant at Essex Island Marina, reached by dock or the marina's free ferry; offers both lobster roll styles.",
+    "website": "https://sirenkitchenandbar.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://sirenkitchenandbar.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Fresh Salt",
+    "address": "2 Bridge St",
+    "town": "Old Saybrook",
+    "village": null,
+    "zip": "06475",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "hot buttered",
+      "Connecticut buttered lobster roll",
+      "chilled lobster roll"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Restaurant at Saybrook Point Resort & Marina focused on regional seafood; its lobster roll can be ordered Connecticut-style with butter.",
+    "website": "https://www.saybrook.com/dine/fresh-salt/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.saybrook.com/dine/fresh-salt/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Aqua",
+    "address": "34 Riverside Dr",
+    "town": "Clinton",
+    "village": null,
+    "zip": "06413",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "lobster roll",
+      "clam chowder",
+      "tacos"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Marina restaurant with views of Long Island Sound serving chowder and lobster rolls.",
+    "website": "https://aquaclinton.com/",
+    "open": true,
+    "evidence_date": "2026-05",
+    "sources": [
+      "https://aquaclinton.com/",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Oyster Club",
+    "address": "13 Water St",
+    "town": "Groton",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "lobster roll"
+    ],
+    "dishes": [
+      "warm lobster roll with rhubarb butter (Treehouse)",
+      "chilled lobster roll (Treehouse)",
+      "oysters"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Farm-and-sea restaurant in downtown Mystic with an outdoor Treehouse that serves lobster rolls; part of the 85th Day Food Community.",
+    "website": "https://www.oysterclubct.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.oysterclubct.com/",
+      "https://www.ctbites.com/blog/2026/7/16/lobster-roll-guide-2026",
+      "https://www.85thdaygroup.com/"
+    ]
+  },
+  {
+    "name": "The Shipwright's Daughter",
+    "address": "20 E Main St",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [],
+    "dishes": [
+      "daily changing local seafood menu"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Tide-to-table restaurant in the Whaler's Inn led by chef David Standridge; the menu changes daily around local fish and farms.",
+    "website": "https://www.shipwrightsdaughter.com/",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://www.shipwrightsdaughter.com/",
+      "https://www.shipwrightsdaughter.com/events",
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/mystic-scoop-new-fast-casual-seafood-shop-opening"
+    ]
+  },
+  {
+    "name": "Engine Room",
+    "address": "14 Holmes St",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "burger icon"
+    ],
+    "dishes": [
+      "burgers",
+      "bourbon",
+      "craft beer"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Burger-focused comfort food, 16 craft taps and a deep bourbon list in the restored Lathrop Marine Engine building on the Mystic River.",
+    "website": "https://www.engineroomct.com/",
+    "open": true,
+    "evidence_date": "2026-05",
+    "sources": [
+      "https://www.engineroomct.com/",
+      "https://www.85thdaygroup.com/upcoming-events",
+      "https://www.85thdaygroup.com/"
+    ]
+  },
+  {
+    "name": "The Port of Call",
+    "address": "15 Water St",
+    "town": "Groton",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [],
+    "dishes": [
+      "French bistro menu (2026)",
+      "cocktails"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Nautical-themed cocktail lounge and bistro with a 'Dive' bar; its 2026 menu is built around Paris.",
+    "website": "https://theportofcallct.com/",
+    "open": true,
+    "evidence_date": "2026-05",
+    "sources": [
+      "https://theportofcallct.com/",
+      "https://theportofcallct.com/hours-address-contact",
+      "https://www.85thdaygroup.com/upcoming-events"
+    ]
+  },
+  {
+    "name": "Mystic Pizza",
+    "address": "56 W Main St",
+    "town": "Groton",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [],
+    "dishes": [
+      "house special pizza"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1973,
+    "founded_note": "Opened in 1973 (The Daily Meal, July 2025)",
+    "branch_of": null,
+    "note": "Downtown pizzeria that inspired the 1988 film 'Mystic Pizza'; a second location, Mystic Pizza II, is in North Stonington.",
+    "website": "https://www.mysticpizzaoriginal.com/",
+    "open": true,
+    "evidence_date": "2025-07",
+    "sources": [
+      "https://www.mysticpizzaoriginal.com/",
+      "https://ctvisit.com/listings/mystic-pizza",
+      "https://www.thedailymeal.com/1901903/mystic-pizza-julia-roberts-film-restaurant-connecticut-local/",
+      "http://www.mysticpizza.com/"
+    ]
+  },
+  {
+    "name": "Captain Daniel Packer Inne",
+    "address": "32 Water St",
+    "town": "Groton",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "oldest"
+    ],
+    "dishes": [],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "'1756' is the building: Captain Daniel Packer bought the land in 1754 and finished the house in 1756, and in the late 1700s it hosted Boston–New York travelers he ferried across the river. Richard and Lulu Kiley began a four-year restoration in 1979; the family still runs it (its own site).",
+    "branch_of": null,
+    "note": "Colonial-era riverside inn building serving lunch and dinner, with a pub that has live music nightly.",
+    "website": "https://danielpacker.com/",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://danielpacker.com/",
+      "https://danielpacker.com/our-history/",
+      "https://danielpacker.com/music/",
+      "https://danielpacker.com/menus/"
+    ]
+  },
+  {
+    "name": "The Griswold Inn",
+    "address": "36 Main St",
+    "town": "Essex",
+    "village": null,
+    "zip": "06426",
+    "kinds": [
+      "oldest"
+    ],
+    "dishes": [
+      "Sunday Hunt Breakfast"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 1801,
+    "founded_note": "Founded in 1776; WFSB (Apr 2026) reports it began as a tavern down the street and was moved to its current site in 1801, along with the Tap Room, a 1738 schoolhouse. It marked its 250th anniversary June 5–7, 2026.",
+    "branch_of": null,
+    "note": "One of the oldest continuously operated inns in the U.S., with a Tap Room known for sea chanty nights and a wine bar.",
+    "website": "https://griswoldinn.com/",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://essexct.gov/832/The-Griswold-Inn-Celebrates-250th-Birthd",
+      "https://essexct.gov/753/The-Historic-Griswold-Inn",
+      "https://www.wfsb.com/2026/04/28/griswold-inn-celebrates-250-years-one-americas-oldest-continuously-operated-inns/",
+      "https://en.wikipedia.org/wiki/The_Griswold_Inn"
+    ]
+  },
+  {
+    "name": "Kitchen Little",
+    "address": "36 Quarry Rd",
+    "town": "Stonington",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [
+      "scrambled eggs with fresh crab",
+      "lobster Benedict",
+      "pancakes",
+      "omelets"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Breakfast-and-lunch spot at Mystic River Marina with a patio deck overlooking the Mystic River; diners arriving by boat can dock for up to 3 hours. Closed Tuesdays.",
+    "website": "https://www.kitchenlittle.org/",
+    "open": true,
+    "evidence_date": "2026-05",
+    "sources": [
+      "https://www.kitchenlittle.org/",
+      "https://www.ctbites.com/blog/2026/5/28/dock-amp-dine-in-ct-boat-up-to-30-waterfront-restaurants-bars-amp-seafood-shacks"
+    ]
+  },
+  {
+    "name": "Norm's Diner",
+    "address": "171 Bridge St",
+    "town": "Groton",
+    "village": null,
+    "zip": "06340",
+    "kinds": [
+      "diner"
+    ],
+    "dishes": [
+      "pancakes",
+      "omelets",
+      "breakfast sandwiches",
+      "maple waffle fries"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": "Opened in the 1950s as the Silk City Diner (The Connecticut Scoop, Jan 2026)",
+    "branch_of": null,
+    "note": "Long-running Groton diner serving breakfast and lunch from early morning; closed Tuesdays.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-01",
+    "sources": [
+      "https://www.theconnecticutscoop.com/all-local-gems/local-gem-norms-diner-in-groton"
+    ]
+  },
+  {
+    "name": "Harry's Place",
+    "address": "104 Broadway",
+    "town": "Colchester",
+    "village": null,
+    "zip": "06415",
+    "kinds": [
+      "burger icon",
+      "hot dog icon"
+    ],
+    "dishes": [
+      "burgers",
+      "hot dogs",
+      "fries"
+    ],
+    "seasonal": true,
+    "season": "Mid-March to October (CTvisit); its site says March–October",
+    "founded": null,
+    "founded_note": "Opened in 1920 by Harry Schmuckler near the Colchester green; moved in the late 1920s and again in the early 1940s to its present spot (its own site). CTvisit says it is on the state and national historic registers.",
+    "branch_of": null,
+    "note": "Seasonal open-air burger and hot dog stand in Colchester; its opening day each year is treated locally as a sign of spring.",
+    "website": "https://www.harrysplaceburgers.com/",
+    "open": true,
+    "evidence_date": "2025-02",
+    "sources": [
+      "https://www.harrysplaceburgers.com/",
+      "https://www.harrysplaceburgers.com/about-us",
+      "https://ctvisit.com/listings/harrys-place",
+      "https://www.wfsb.com/2025/02/28/sign-that-spring-isnt-too-far-off-harrys-place-opens-today/"
+    ]
+  },
+  {
+    "name": "Little Polska",
+    "address": "1271 Boston Post Rd",
+    "town": "Old Saybrook",
+    "village": null,
+    "zip": "06475",
+    "kinds": [
+      "polish"
+    ],
+    "dishes": [
+      "Polish deli meats",
+      "warm Polish food"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": 2025,
+    "founded_note": "Opened in May 2025 (The Connecticut Scoop)",
+    "branch_of": null,
+    "note": "Family-run Polish market and deli (Polski sklep) on Route 1 with Polish groceries, meats and hot food.",
+    "website": "https://www.littlepolskact.com/",
+    "open": true,
+    "evidence_date": "2025-05",
+    "sources": [
+      "https://www.littlepolskact.com/",
+      "https://www.littlepolskact.com/about",
+      "https://www.theconnecticutscoop.com/all-shoreline-posts/old-saybrook-scoop-little-polska-polish-market-opens"
+    ]
+  },
+  {
+    "name": "Buttonwood Farm Ice Cream",
+    "address": "473 Shetucket Tpke",
+    "town": "Griswold",
+    "village": null,
+    "zip": "06351",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "50+ farm-fresh flavors",
+      "homemade waffle cones",
+      "homemade whipped cream"
+    ],
+    "seasonal": true,
+    "season": "March 1 to October 31",
+    "founded": null,
+    "founded_note": "The farm has been family owned since 1975 (its own site)",
+    "branch_of": null,
+    "note": "Farm ice cream stand on a beef and sunflower farm, known for its summer 'Sunflowers for Wishes' fundraiser.",
+    "website": "https://www.buttonwoodfarmicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.buttonwoodfarmicecream.com/",
+      "https://ctvisit.com/articles/chill-out-summer-eastern-connecticuts-coolest-ice-cream-shops",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Salem Valley Farms Ice Cream",
+    "address": "20 Darling Rd",
+    "town": "Salem",
+    "village": null,
+    "zip": "06420",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "80+ flavors",
+      "vegan flavors",
+      "pup cups"
+    ],
+    "seasonal": true,
+    "season": "End of March to end of October",
+    "founded": null,
+    "founded_note": "Its site gives both 1984 and 1988; CT Bites (2026) says 1988",
+    "branch_of": null,
+    "note": "Farm ice cream stand with more than 80 handmade flavors; cash and checks only.",
+    "website": "https://www.salemvalleyfarmsicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.salemvalleyfarmsicecream.com/",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "Mystic Drawbridge Ice Cream",
+    "address": "2 W Main St",
+    "town": "Groton",
+    "village": "Mystic",
+    "zip": "06355",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Mystic Mud",
+      "Seaport Salty Swirl",
+      "Kahlua Mocha Fudge"
+    ],
+    "seasonal": false,
+    "season": "Open year-round",
+    "founded": 1991,
+    "founded_note": "Established 1991 on a spot where ice cream has been sold since the 1800s, per its own history",
+    "branch_of": null,
+    "note": "Homemade ice cream shop beside the Mystic River drawbridge; opened a second shop in Old Mystic's former general store in July 2026.",
+    "website": "https://www.mysticdrawbridgeicecream.com/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.mysticdrawbridgeicecream.com/",
+      "https://ctvisit.com/articles/chill-out-summer-eastern-connecticuts-coolest-ice-cream-shops",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://www.theconnecticutscoop.com/all-new-london-county-posts/old-mystic-scoop-mystic-drawbridge-ice-cream-opens-new-location-in-old-mystic"
+    ]
+  },
+  {
+    "name": "Michael's Dairy",
+    "address": "629 Montauk Ave",
+    "town": "New London",
+    "village": null,
+    "zip": "06320",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "32 flavors",
+      "Coconut Almond Bar",
+      "Graham Central Station"
+    ],
+    "seasonal": true,
+    "season": "March to October (Connecticut Buzz, 2025)",
+    "founded": null,
+    "founded_note": "CT Bites (2026) says it has operated for over 80 years",
+    "branch_of": null,
+    "note": "Old-fashioned ice cream parlor on the Mitchell College campus that holds sock hops and concerts in season.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://ctvisit.com/listings/michaels-dairy",
+      "https://ctvisit.com/articles/chill-out-summer-eastern-connecticuts-coolest-ice-cream-shops",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "Cowlick's Creamery",
+    "address": "521 Boston Post Rd",
+    "town": "Waterford",
+    "village": null,
+    "zip": "06385",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "40+ hard ice cream flavors",
+      "soft serve",
+      "frozen yogurt",
+      "Italian ice"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Route 1 ice cream stand with dozens of hard ice cream flavors plus soft serve and Italian ice.",
+    "website": "http://www.cowlickscreamery.net",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "http://www.cowlickscreamery.net",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Gumdrops & Lollipops",
+    "address": "334 Main St",
+    "town": "East Lyme",
+    "village": "Niantic",
+    "zip": "06357",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "homemade ice cream",
+      "soft serve",
+      "fudge"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": 2008,
+    "founded_note": "Candy shop and creamery established in 2008 at 334 Main St (its own site)",
+    "branch_of": null,
+    "note": "Candy shop and creamery in a yellow house on Niantic's Main Street near Hole in the Wall Beach.",
+    "website": "https://www.gumdropsnlollipops.net/",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.gumdropsnlollipops.net/",
+      "https://ctvisit.com/articles/chill-out-summer-eastern-connecticuts-coolest-ice-cream-shops",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Fenwick Ice Cream Co.",
+    "address": "855 Boston Post Rd",
+    "town": "Old Saybrook",
+    "village": null,
+    "zip": "06475",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "Toasted Almond",
+      "soft serve",
+      "Fenwick Flurry",
+      "ice cream pies"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": "Its ice cream has been handmade in Connecticut for over 30 years; new owners took over in July 2026 (The Connecticut Scoop)",
+    "branch_of": null,
+    "note": "Old Saybrook scoop shop with dozens of hard ice cream flavors and soft serve.",
+    "website": "https://fenwickicecreamco.wixsite.com/fenwick-ice-cream-co",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://fenwickicecreamco.wixsite.com/fenwick-ice-cream-co",
+      "https://www.theconnecticutscoop.com/all-middlesex-county-posts/old-saybrook-scoop-fenwick-ice-cream-co-under-new-ownership",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026"
+    ]
+  },
+  {
+    "name": "Durham Dari Serve",
+    "address": "13 Main St",
+    "town": "Durham",
+    "village": null,
+    "zip": "06422",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "soft serve twist",
+      "homemade hard ice cream",
+      "Cannoli",
+      "Maple Derby Bourbon Pecan"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Ice cream stand with homemade hard flavors and soft serve; its owners also run Cromwell Creamery and, since July 2026, Tall Man's in Cromwell.",
+    "website": null,
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.theconnecticutscoop.com/all-middlesex-county-posts/cromwell-scoop-tall-mans-sold-to-durham-dari-serv-cromwell-creamery-owner",
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail"
+    ]
+  },
+  {
+    "name": "Honeycone Craft Ice Cream",
+    "address": "29 Main St",
+    "town": "Chester",
+    "village": null,
+    "zip": "06412",
+    "kinds": [
+      "dairy bar"
+    ],
+    "dishes": [
+      "small-batch craft ice cream",
+      "seasonal local flavors"
+    ],
+    "seasonal": null,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Small-batch ice cream shop in Chester village with locally sourced, seasonal flavors.",
+    "website": "http://www.honeyconecreamco.com",
+    "open": true,
+    "evidence_date": "2026-07",
+    "sources": [
+      "https://www.ctbites.com/blog/2026/6/30/ice-cream-guide-2026",
+      "https://connecticutbuzz.com/blogs/guides/connecticut-ice-cream-trail",
+      "http://www.honeyconecreamco.com"
+    ]
+  },
+  {
+    "name": "Jasper White's Summer Shack (Mohegan Sun)",
+    "address": "1 Mohegan Sun Blvd",
+    "town": "Montville",
+    "village": "Uncasville",
+    "zip": "06382",
+    "kinds": [
+      "clam shack",
+      "lobster roll"
+    ],
+    "dishes": [
+      "pan-roasted lobster",
+      "fried seafood baskets",
+      "lobster rolls",
+      "raw bar"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Clam-shack-style seafood restaurant inside Mohegan Sun casino, on the Mohegan Tribe's reservation land in Montville.",
+    "website": "https://mohegansun.com/poi/dining/jasper-white-s-summer-shack.html",
+    "open": true,
+    "evidence_date": "2026-06",
+    "sources": [
+      "https://mohegansun.com/poi/dining/jasper-white-s-summer-shack.html",
+      "https://ctvisit.com/articles/top-clam-shacks-in-connecticut"
+    ]
+  },
+  {
+    "name": "Frank Pepe Pizzeria Napoletana (Mohegan Sun)",
+    "address": "1 Mohegan Sun Blvd",
+    "town": "Montville",
+    "village": "Uncasville",
+    "zip": "06382",
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pizza"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "note": "Pepe's branch with 110 seats in the eastern part of Fidelia's Market inside Mohegan Sun casino, on Mohegan tribal land.",
+    "website": "https://mohegansun.com/poi/dining/frank-pepe-pizzeria-napoletana.html",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://mohegansun.com/poi/dining/frank-pepe-pizzeria-napoletana.html"
+    ]
+  },
+  {
+    "name": "Gordon Ramsay Hell's Kitchen (Foxwoods)",
+    "address": "350 Trolley Line Blvd",
+    "town": "Ledyard",
+    "village": "Mashantucket",
+    "zip": "06338",
+    "kinds": [],
+    "dishes": [
+      "Beef Wellington",
+      "Sticky Toffee Pudding"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Restaurant themed on the TV show inside Foxwoods Resort Casino, on the Mashantucket Pequot Tribal Nation's reservation in Ledyard.",
+    "website": "https://foxwoods.com/dining/hells-kitchen",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://foxwoods.com/dining/hells-kitchen",
+      "https://foxwoods.com/dining"
+    ]
+  },
+  {
+    "name": "Cedars Steaks & Oysters (Foxwoods)",
+    "address": "350 Trolley Line Blvd",
+    "town": "Ledyard",
+    "village": "Mashantucket",
+    "zip": "06338",
+    "kinds": [],
+    "dishes": [
+      "steaks",
+      "oysters"
+    ],
+    "seasonal": false,
+    "season": null,
+    "founded": null,
+    "founded_note": null,
+    "branch_of": null,
+    "note": "Foxwoods' steakhouse, inside the casino on the Mashantucket Pequot Tribal Nation's reservation in Ledyard.",
+    "website": "https://foxwoods.com/dining/cedars",
+    "open": true,
+    "evidence_date": "2026-10",
+    "sources": [
+      "https://foxwoods.com/dining/cedars",
+      "https://foxwoods.com/dining"
+    ]
+  }
+]
