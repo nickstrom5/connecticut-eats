@@ -25,7 +25,12 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     /// Every place is in Connecticut, so a reader elsewhere (an App Reviewer in California, say) gets told rather than an empty map.
     var isOutsideConnecticut: Bool {
         guard let c = location?.coordinate else { return false }
-        return !(40.95...42.07).contains(c.latitude) || !(-73.75 ... -71.77).contains(c.longitude)
+        return !Self.isInConnecticut(c)
+    }
+
+    /// Connecticut's bounding box (it takes in a little of Westchester and Westerly, where distances still make sense).
+    nonisolated static func isInConnecticut(_ c: CLLocationCoordinate2D) -> Bool {
+        (40.95...42.07).contains(c.latitude) && (-73.75 ... -71.77).contains(c.longitude)
     }
 
     /// Once location is off for the app, iOS won't ask again; the app's page in Settings is the only way back.

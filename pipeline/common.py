@@ -94,7 +94,7 @@ def canon_city(c):
             "eastwindsor": "East Windsor", "westhartford": "West Hartford", "easthartford": "East Hartford", "rockyhill": "Rocky Hill",
             "deepriver": "Deep River", "easthaddam": "East Haddam", "easthampton": "East Hampton", "eastgranby": "East Granby",
             "northstonington": "North Stonington", "northcanaan": "North Canaan", "beaconfalls": "Beacon Falls", "mansfieldcenter": "Mansfield Center",
-            "storrsmansfield": "Storrs", "vernonrockville": "Rockville", "westsimsbury": "West Simsbury", "southglastonbury": "South Glastonbury",
+            "storrsmansfield": "Storrs", "storrscenter": "Storrs", "newprestonmarbledale": "New Preston", "marbledale": "Marble Dale", "vernonrockville": "Rockville", "westsimsbury": "West Simsbury", "southglastonbury": "South Glastonbury",
             "eastberlin": "East Berlin", "fallsvillage": "Falls Village", "gilman": "Gilman", "jewettcity": "Jewett City",
             "pomfretcenter": "Pomfret Center", "quakerhill": "Quaker Hill", "gales ferry": "Gales Ferry", "galesferry": "Gales Ferry",
             "oldgreenwich": "Old Greenwich", "coscob": "Cos Cob", "sandyhook": "Sandy Hook", "southport": "Southport",

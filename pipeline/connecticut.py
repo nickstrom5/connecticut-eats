@@ -12,7 +12,7 @@ restaurants, bars and (in Hartford) full-service food businesses the map data do
 Web leaderboard only: ratings, reviews and price level from Google's Sep 2021 snapshot (UCSD Google Local), and dish signals from
 Google reviews written through Sep 2021. CT_APP=1 drops all of that (the App Store build ships no Google-derived data).
 """
-import os, re, sys, json, math, glob, hashlib, unicodedata, collections
+import os, re, sys, json, math, glob, hashlib, unicodedata, collections, urllib.parse
 import numpy as np, pandas as pd
 from shapely.geometry import shape, Point
 from shapely.prepared import prep
@@ -21,12 +21,14 @@ from common import (norm_name, nice, name_sim, cuisine, FOOD_COST, MARGIN, MARGI
                     canon_city, CUISINE_RULES)
 from brands import brand_of
 import official
-from official import street_key, street_nums, ON_PREMISE
+from official import street_key, street_nums, street_dir, dir_ok, ON_PREMISE
 from listings_util import official_match, _close_words
 
 APP = os.environ.get("CT_APP") == "1"
 SITE = os.environ.get("CT_SITE") or (os.path.join(ROOT, "data", "app") if APP else os.path.join(ROOT, "site"))
-GENERATED = "2026-10-05"
+# "data as of": the day the official lists were downloaded (the newest source), so it moves with every refresh
+GENERATED = __import__("datetime").date.fromtimestamp(os.path.getmtime(f"{RAW}/official/dcp_licenses.csv")).isoformat()
+RESEARCH_CHECKED = "October 2026"   # when the hand-checked guides were last researched (shown in the app and on the site)
 OVERTURE = "2026-09-23.1"
 GOOD_SOURCES = {"meta", "AllThePlaces", "DAC"}
 BASE = {1: 600_000, 2: 1_000_000, 3: 2_200_000, 4: 3_500_000}   # typical yearly sales by price tier (same as Chicago)
@@ -90,18 +92,22 @@ def curated_matcher(frame):
     ks = list(frame.k.fillna(""))
 
     def match(c):
-        keys = {norm_name(m) for m in (c.get("match_names") or [])} | {norm_name(c["name"])}
+        keys = {norm_name(m) for m in (c.get("match_names") or [])} or {norm_name(c["name"])}
         keys.discard("")
         _, sk = street_key(c.get("address") or "")
         cands = set()
         for n in street_nums(c.get("address") or ""):
             cands.update(by_key.get((n, sk), []))
-            if sk:   # a spelling slip in the street ("Poquonock" / "Poquonnock")
-                cands.update(i for sk2, i in by_num.get(n, []) if sk2 != sk and fuzz.ratio(sk, sk2) >= 85)
+            if sk:   # a spelling slip in the street ("Poquonock" / "Poquonnock") or a longer name for it ("Old Whitfield" / "Whitfield")
+                cands.update(i for sk2, i in by_num.get(n, []) if sk2 != sk and (fuzz.ratio(sk, sk2) >= 85
+                             or set(sk.split()) < set(sk2.split()) or set(sk2.split()) < set(sk.split())))
         best, bs = None, 0
         for i in cands:
+            # at the same address a different name is a different business unless a distinctive word is shared: "Guilford Mooring" shares
+            # only its town's name with "Guilford Lobster Pound" next door
+            mine = set().union(*(distinct(m) for m in keys)) if keys else set()
             s_ = max((fuzz.token_set_ratio(m, ks[i]) for m in keys), default=0)
-            if s_ >= 60 and s_ > bs:
+            if (s_ >= 90 or (s_ >= 60 and mine & distinct(ks[i]))) and s_ > bs:
                 best, bs = i, s_
         if best is None and not c.get("chain"):
             # a near-exact name in the same town or village, never at a different street number ("The Spot" at 163 Wooster St is not
@@ -137,9 +143,10 @@ def load_research():
             c = by.get(key)
             if c is None:
                 c = {"name": e["name"], "address": e.get("address"), "city": town, "village": e.get("village"), "zip": e.get("zip"),
-                     "chain": False, "match_names": [e["name"].upper()], "founded": None, "open": True, "tags": [], "dishes": [],
+                     "chain": False, "match_names": [re.sub(r"\s*\([^)]*\)\s*$", "", e["name"]).upper()], "founded": None, "open": True, "tags": [], "dishes": [],
                      "james_beard": [], "other_honors": [], "rsources": [], "research_only": True}
                 by[key] = c; out.append(c)
+            c["match_names"] = list(dict.fromkeys(c["match_names"] + [m.upper() for m in (e.get("match_names") or [])]))
             c["tags"] = list(dict.fromkeys(c["tags"] + [k.lower() for k in (e.get("kinds") or [])]))
             c["dishes"] = list(dict.fromkeys(c["dishes"] + (e.get("dishes") or [])))
             c["james_beard"] = list(dict.fromkeys(c["james_beard"] + (e.get("james_beard") or [])))
@@ -157,19 +164,35 @@ def load_research():
 
 o = pd.read_pickle(f"{CT}/stage1.pkl")
 o["city"] = o.town            # the town is the polygon's; the mailing name survives as `village` when it's a village
+o["village"] = o.village.map(lambda v: canon_city(v) if isinstance(v, str) else v)   # one name per village ("Storrs Center" is Storrs)
 G = pd.read_pickle(f"{CT}/google21.pkl")
 if APP:   # the App Store build ignores every Google 2021 match
     o["in21"] = False; o["closed21"] = False; o["gi"] = np.nan
 calib = json.load(open(f"{CT}/calibration.json"))
 TOWNWORDS = frozenset(w for t in o.town.dropna().unique() for w in norm_name(t).split())
+# words two different businesses at one address share without being the same place: the town, the casino, "ristorante"
+VILLAGEWORDS = frozenset(w for v in o.village.dropna().unique() for w in norm_name(str(v)).split())
+NOT_DISTINCT = TOWNWORDS | VILLAGEWORDS | {"MOHEGAN", "SUN", "FOXWOODS", "CASINO", "RISTORANTE", "RESTAURANTE", "CUCINA", "BISTRO", "CANTINA",
+                                          "TRAVEL", "PLAZA", "MALL", "CENTER", "COMMONS", "VILLAGE", "MILL", "MARKETPLACE"}
+
+
+NOT_DISTINCT = NOT_DISTINCT | {w[:-1] for w in NOT_DISTINCT if len(w) > 3 and w.endswith("S")}   # as _stems spells them ("FOXWOOD")
+
+
+def distinct(k):
+    """A name's words that tell one business from its neighbors: not generic, not a town's or village's name, three letters or more."""
+    return {w for w in _stems(k or "") - GENERIC - NOT_DISTINCT if len(w) >= 3}
 
 # ---------------------------------------------------------------- official records: DCP statewide, Hartford's food licenses
 F = official.load()
 F = F[F.active & F.lat.notna()].reset_index(drop=True)
 for jur, kinds in (("dcp", ON_PREMISE | {"brewery", "bakery", "club", "venue", "caterer"}), ("hfd", {"food"})):
     sel = o.index[o.town.eq("Hartford")] if jur == "hfd" else o.index
-    R = F[(F.jur == jur) & F.kind.isin(kinds)]
-    m = official_match(o.loc[sel].reset_index(drop=True), R.reset_index(drop=True), town_words=TOWNWORDS)
+    # a casino's umbrella permit (LCN "MOHEGAN SUN") licenses the house, not each restaurant in it: it makes no listing "licensed"
+    R = F[(F.jur == jur) & F.kind.isin(kinds) & ~F.lic.str.startswith("LCN.")]
+    # one permit, one place: the best name match takes it, and a listing that loses it (an old tenant's name, a duplicate) falls back to
+    # its own keep rule
+    m = official_match(o.loc[sel].reset_index(drop=True), R.reset_index(drop=True), one_to_one=True, town_words=TOWNWORDS)
     o["off_" + jur] = np.nan
     for i, j in m.items():
         o.at[sel[i], "off_" + jur] = R.index[j]
@@ -292,18 +315,21 @@ A = pd.DataFrame(rows)
 
 def clean_official(n):
     n = re.split(r"\s*;\s*", n or "")[0]
+    the = bool(re.search(r"\(THE\)\s*$", n, flags=re.I))   # DCP files "JOHN K (THE)" for "The John K"
+    n = re.sub(r"\s*\(THE\)\s*$", "", n, flags=re.I)
     m = re.search(r"\bD/?B/?A\b\.?\s+(.+)$", n, flags=re.I)
     if m:
         n = m.group(1)
-    n = re.sub(r"\s*#\s*\d+\w*.*$|\s*\(#?[A-Z]?\d+\)|\s+\d{3,}\s*$", "", n)
+    n = re.sub(r"\s*#\s*\d+\w*.*$|\s*\(#?[A-Z]?\d+\)|\s+(?:STORE|UNIT|NO\.?)\s*\d{3,}\s*$", "", n, flags=re.I)
     n = ENTITY.sub("", n)
     n = re.split(r"\s*/\s*", n)[0] if "/" in n else n
     n = re.sub(r"\s+", " ", n).strip(" -,&/.")
-    return nice(n) if n.isupper() or n.islower() else n
+    n = nice(n) if n.isupper() or n.islower() else n
+    return ("The " + n) if the and n else n
 
 
 A["name"] = A.name.map(clean_official)
-A = A[A.name.str.len() >= 2].reset_index(drop=True)
+A = A[(A.name.str.len() >= 2) & (A.name.map(norm_name) != "")].reset_index(drop=True)   # a broken trade name ("The") isn't a name
 A["k"] = A.name.map(norm_name)
 A["st"] = A.k.map(lambda k: _stems(k) - GENERIC if k else set())
 A["num"] = A.street.map(lambda a: (re.match(r"\s*(\d+)", a or "") or [None, None])[1])
@@ -385,7 +411,7 @@ _m = curated_matcher(o)
 missing = [c for c in CUR if not c.get("chain") and _m(c) is None]
 added, not_placed = [], []
 for c in missing:
-    keys = {norm_name(m) for m in (c.get("match_names") or [])} | {norm_name(c["name"])}
+    keys = {norm_name(m) for m in (c.get("match_names") or [])} or {norm_name(c["name"])}
     spot = None
     near = OV  # any-category Overture listing of the business (an inn, a farm stand, a marina shack) in the same area
     g = official.geocode(c.get("address") or "", c.get("city"), (c.get("zip") or "")[:5] or None)
@@ -457,7 +483,10 @@ def pick_cuisine(tax, k, gcats, raw):
             return c
     if isinstance(tax, str) and tax in TAX_CUISINE:
         return TAX_CUISINE[tax]
-    return cuisine(k, gcats, raw)              # "bar"-type names, then Google's categories
+    c = cuisine(k, gcats, raw)                 # "bar"-type names, then Google's categories
+    if c == "Coffee & Café" and isinstance(tax, str) and tax.endswith("restaurant") and not re.search(r"COFFEE|ESPRESSO|TEA|ROAST", k or ""):
+        return "American & Other"              # "Hard Rock Cafe" and "Cristy's Restaurant" are restaurants, not coffee shops
+    return c
 
 
 o["cuisine"] = [pick_cuisine(t, k, gc, n) for t, k, gc, n in zip(o.tax, o.k, o.gcats, o.name)]
@@ -495,6 +524,16 @@ def core(k):
     return " ".join(w) or k
 
 
+def brand_rest_generic(name, b):
+    """The name is the brand plus only generic words, town names or a store number ("Dunkin' Southington", "Subway #1234")."""
+    nk, bk = norm_name(name), norm_name(b)
+    if not bk or not (nk == bk or nk.startswith(bk + " ")):
+        return False
+    rest = set(nk[len(bk):].split()) - GENERIC - TOWNWORDS - {"RESTAURANT", "RESTAURANTS", "CAFE", "STORE", "SUBS", "BAGELS", "DONUTS",
+                                                               "DRIVE", "THRU", "INSIDE", "AND", "LOCATION", "OUTLET", "MALL"}
+    return not rest
+
+
 def brand_ok(b, dm, cu, tax, obrand, name, src):
     if not isinstance(b, str):
         return None
@@ -510,15 +549,20 @@ def brand_ok(b, dm, cu, tax, obrand, name, src):
         return None
     squashed = re.sub(r"[^a-z]", "", b.lower())
     own_site = dm and (bdom.get(b) == dm or dm.split(".")[0].replace("-", "") in (squashed, squashed + "s"))
+    want = brand_cuisine.get(b)
+    other_food = isinstance(tax, str) and tax in TAX_CUISINE and want and FAMILY.get(cu) and FAMILY.get(want) and FAMILY[cu] != FAMILY[want]
+    if own_site or (label and brand_feed):
+        return b
+    if other_food:   # a pizzeria named "Five Guys Flippin' Pies" isn't the burger chain, whatever its name starts with
+        return None
     exact = fuzz.ratio(core(nk), core(bk)) >= 90 or (label and fuzz.ratio(core(nk), core(ob)) >= 90) \
-        or (len(bk) >= 6 and (nk == bk or nk.startswith(bk + " ")))
-    if exact or own_site or (label and brand_feed):
+        or (len(bk) >= 6 and brand_rest_generic(name, b))
+    if exact:
         return b
     if dm and b in bdom and src != "BrightQuery":
         return None
-    want = brand_cuisine.get(b)
-    if isinstance(tax, str) and tax in TAX_CUISINE and want and FAMILY.get(cu) and FAMILY.get(want) and FAMILY[cu] != FAMILY[want]:
-        return None
+    if src not in ("AllThePlaces", "DAC") and not label and not brand_rest_generic(name, b):
+        return None   # only the name's first words say so, and the rest is its own ("Casey's Irish Pub")
     return b
 
 
@@ -526,7 +570,7 @@ old_brand = o.brand_n.copy()
 o["brand_n"] = [brand_ok(b, dm, cu, t, ob, n, sr) for b, dm, cu, t, ob, n, sr in zip(o.brand_n, o.dom, o.cuisine, o.tax, o.brand, o.name, o.src)]
 rej = o[old_brand.notna() & o.brand_n.isna()]
 print("brand matches rejected:", len(rej), collections.Counter(old_brand[rej.index]).most_common(10))
-o.loc[o.brand_n.notna(), "name_out"] = [b if fuzz.ratio(norm_name(n), norm_name(b)) >= 80 or len(norm_name(n)) <= len(norm_name(b)) + 2 else n
+o.loc[o.brand_n.notna(), "name_out"] = [b if fuzz.ratio(norm_name(n), norm_name(b)) >= 80 or brand_rest_generic(n, b) else n
                                         for n, b in zip(o.loc[o.brand_n.notna(), "name_out"], o.loc[o.brand_n.notna(), "brand_n"])]
 
 
@@ -621,12 +665,17 @@ def tidy(n, brand):
             n = parts[0]
     if isinstance(brand, str):
         n = re.sub(r"\s*#\s*\d+\s*$", "", n)
-    n = re.sub(r"\s+", " ", n).strip(" -–,") or n
+    n = re.sub(r"[`·•○●◦]+", " ", n)
+    n = re.sub(r"\s+", " ", n).strip(" -–,.") or n
     return nice(n) if n.isupper() and len(n) > 4 else n
 
 
 o["name_out"] = [tidy(n, b) for n, b in zip(o.name_out, o.brand_n)]
-o.loc[o.brand_n.notna(), "name_out"] = [b if norm_name(n).startswith(norm_name(b)) and len(norm_name(b)) >= 3 else n
+o["name_out"] = o.name_out.str.replace(r"(?i)\s+(?:at|@)\s+(?:the\s+)?(?:mgm grand|fox tower|grand pequot|great cedar|foxwoods|mohegan sun)\b.*$", "", regex=True)
+entity_name = o.name_out.str.contains(r"(?i)\b(?:enterprises?|holdings?|management|associates|partners|llc|inc|corp)\.?\s*$", regex=True)
+print("legal-entity names dropped:", int(entity_name.sum()), o.name_out[entity_name].tolist()[:10])
+o = o[~entity_name].reset_index(drop=True)
+o.loc[o.brand_n.notna(), "name_out"] = [b if brand_rest_generic(n, b) and len(norm_name(b)) >= 3 else n
                                         for n, b in zip(o.loc[o.brand_n.notna(), "name_out"], o.loc[o.brand_n.notna(), "brand_n"])]
 o["spell"] = o.name_out.map(lambda n: re.sub(r"[^a-z0-9]", "", n.lower()))
 o["name_out"] = o.groupby("spell").name_out.transform(lambda s: s.mode().iat[0] if len(s) > 1 else s.iat[0])
@@ -636,20 +685,22 @@ nm = o.name_out.fillna("")
 junk = (nm.str.match(r"(?i)^\d+\s+(?:[NSEW]\.?\s+)?[\w.' ]+?\b(?:St|Street|Ave|Avenue|Dr|Drive|Rd|Road|Blvd|Ln|Lane|Way|Ct|Pl|Hwy|Pkwy|Trl|Tpke|Turnpike)\b\.?(?:\s*#\s*\w+)?(?:\s*,.*)?$")
         | nm.str.contains(r"(?i)(?:\bclosed|\bretired)\s*\)?\s*$") | (nm.str.lower().str.strip().isin(towns_l) & o.brand_n.isna())
         | nm.str.match(r"(?i)^(?:city|town|borough) of ") | nm.str.strip().str.lower().isin(["kitchen", "bar", "pub", "tavern", "grill", "deli", "pizza", "bakery", "coffee", "diner", "restaurant", "cafe", "café"])
-        | ~nm.str.contains(r"[A-Za-z]"))
+        | ~nm.str.contains(r"[A-Za-z]")
+        | nm.str.contains(r"\(?\d{3}\)?[-. ]\d{3}[-. ]\d{4}") | nm.str.contains(r"_") | nm.str.contains(r"@.*!!|!!!")
+        | nm.str.contains(r"(?i)\w(?:llc|inc)$") | nm.str.contains(r"(?i)\b(?:information|incorporated)\b"))
 print("junk names dropped:", int(junk.sum()), nm[junk].head(12).tolist())
 o = o[~junk].reset_index(drop=True)
 
 # ---------------------------------------------------------------- not restaurants (hidden unless "include non-restaurants" is on)
 STORE = re.compile(r"^(?:CUMBERLAND FARMS|XTRA ?MART|ALLTOWN(?: FRESH)?|MOBIL|SHELL|SUNOCO|GULF|CITGO|VALERO|BP|EXXON|SPEEDWAY|7 ELEVEN|PRIDE|"
-                   r"STOP AND SHOP|STOP SHOP|BIG Y(?: WORLD CLASS MARKET)?|SHOPRITE|SHOP RITE|PRICE CHOPPER|WALMART\b.*|COSTCO\b.*|TARGET|"
+                   r"STOP SHOP|BIG Y(?: WORLD CLASS MARKET)?|SHOPRITE|SHOP RITE|PRICE CHOPPER|WALMART\b.*|COSTCO\b.*|TARGET|"
                    r"BJS WHOLESALE.*|WHOLE FOODS(?: MARKET)?|TRADER JOES|ALDI|STEW LEONARDS|GEISSLERS|HIGHLAND PARK MARKET|CVS|WALGREENS|DOLLAR \w+|"
                    r"DASHMART|GOPUFF)$|\b(?:ZENSHI|SUSHI WITH GUSTO|HISSHO SUSHI|AFC SUSHI|SNOWFOX)\b|\b(?:GAS STATION|TRAVEL (?:CENTER|PLAZA)|TRUCK STOP|SERVICE PLAZA|PACKAGE STORE|LIQUORS? (?:STORE|SHOPPE?|OUTLET)|"
-                   r"WINE (?:MERCHANTS?|SHOP|STORE|OUTLET)|WINE AND SPIRITS|AND SPIRITS$|VENDING|COMMISSARY|FOOD PANTRY|MEAT MARKET|BUTCHER|"
+                   r"WINE (?:MERCHANTS?|SHOP|STORE|OUTLET)|WINE SPIRITS|LIQUORS? SPIRITS|VENDING|COMMISSARY|FOOD PANTRY|MEAT MARKET|BUTCHER|"
                    r"GHOST KITCHEN|VIRTUAL KITCHEN|MRBEAST|MR BEAST|ITS JUST WINGS|WOW BAO|GENTLEM[AE]NS CLUB|TRAMPOLINE|INDOOR PLAYGROUND|"
                    r"LINDT|ROCKY MOUNTAIN CHOCOLATE|JELLY BELLY)\b")
 REALFOOD = re.compile(r"\b(?:RESTAURANT|GRILL|BAR|PUB|TAVERN|PIZZA|APIZZA|CAFE|KITCHEN|STEAK|BISTRO|DINER|BREWING|BREWERY|TAP|SALOON|"
-                      r"TAPROOM|LOUNGE|INN|EATERY|BURGERS?|BBQ|TACOS?|DRIVE IN|DELI|COFFEE|ICE CREAM|CREAMERY|BAKERY|DAIRY|SEAFOOD|LOBSTER|CLAM|DONUTS?)\b")
+                      r"TAPROOM|LOUNGE|INN RESTAURANT|EATERY|BURGERS?|BBQ|TACOS?|DRIVE IN|DELI|COFFEE|ICE CREAM|CREAMERY|BAKERY|DAIRY|SEAFOOD|LOBSTER|CLAM|DONUTS?)\b")
 CANDY = re.compile(r"\b(?:CANDY|CANDIES|FUDGE|POPCORN|CONFECTION\w*|CHOCOLATES?|CHOCOLATIER|TRUFFLES?|SWEETS? SHOPPE?|KETTLE CORN|NUTRITION)\b")
 HARD = re.compile(r"\b(?:AIRPORT|TERMINAL|CONCOURSE|GATE [A-Z]?\d+|BRADLEY INTERNATIONAL|XL CENTER|RENTSCHLER|DUNKIN PARK|TOTAL MORTGAGE ARENA|"
                   r"LEVY|SODEXO|ARAMARK|DELAWARE NORTH|CENTERPLATE|COMPASS GROUP|CHARTWELLS|BON APPETIT|HMSHOST|EUREST|GUCKENHEIMER|SSP AMERICA|"
@@ -657,12 +708,12 @@ HARD = re.compile(r"\b(?:AIRPORT|TERMINAL|CONCOURSE|GATE [A-Z]?\d+|BRADLEY INTER
 SOFT = re.compile(r"\b(?:STADIUM|ARENA|FESTIVAL|CONCESSIONS?|FOOD ?SERVICES?|UNIVERSITY|COLLEGE|SCHOOL|ACADEMY|ELEMENTARY|STUDENT|CAMPUS|"
                   r"HOSPITAL|MEDICAL CENTER|CLINIC|HEALTH CENTER|SENIOR|RETIREMENT|ASSISTED LIVING|NURSING|CARE CENTER|REHAB|CHURCH|PARISH|"
                   r"CONGREGATION|TEMPLE|SYNAGOGUE|MOSQUE|MINISTR(?:Y|IES)|VFW|AMERICAN LEGION|AMVETS|FRATERNAL ORDER|ELKS LODGE|"
-                  r"MOOSE LODGE|KNIGHTS OF COLUMBUS|COUNTRY CLUB|GOLF CLUB|GOLF COURSE|YACHT CLUB|ATHLETIC CLUB|SOCIAL CLUB|BEACH CLUB|"
-                  r"SPORTSMEN'?S CLUB|ROD AND GUN|FISH AND GAME|CATERING|CATERERS?|BANQUETS?|BANQUET HALL|EVENT (?:CENTER|VENUE|SPACE)|"
+                  r"MOOSE LODGE|KNIGHTS COLUMBUS|COUNTRY CLUB|GOLF CLUB|GOLF COURSE|YACHT CLUB|ATHLETIC CLUB|SOCIAL CLUB|BEACH CLUB|"
+                  r"SPORTSMEN'?S CLUB|ROD GUN|FISH GAME|CATERING|CATERERS?|BANQUETS?|BANQUET HALL|EVENT (?:CENTER|VENUE|SPACE)|"
                   r"CONVENTION CENTER|CONFERENCE CENTER|MUSEUM|ZOO|AQUARIUM|THEATER|THEATRE|CINEMAS?|BOWLING|LANES|"
-                  r"HOTEL|MOTEL|INN AND SUITES|SUITES|MARRIOTT|HILTON|HYATT|SHERATON|WESTIN|HOLIDAY INN|HAMPTON INN|FAIRFIELD INN|RESIDENCE INN|"
+                  r"HOTEL|MOTEL|INN SUITES|SUITES|MARRIOTT|HILTON|HYATT|SHERATON|WESTIN|HOLIDAY INN|HAMPTON INN|FAIRFIELD INN|RESIDENCE INN|"
                   r"COURTYARD|SPRINGHILL|RADISSON|BEST WESTERN|COMFORT INN|SUPER 8|RED ROOF|DAYS INN|GREAT WOLF|"
-                  r"CORPORATE|EMPLOYEE|CAFETERIA|MOBILE|FOOD TRUCK|KIOSK|GYM|FITNESS|YMCA|YWCA|BOYS AND GIRLS CLUB|DAYCARE|DAY CARE|CHILD CARE|"
+                  r"CORPORATE|EMPLOYEE|CAFETERIA|MOBILE|FOOD TRUCK|KIOSK|GYM|FITNESS|YMCA|YWCA|BOYS GIRLS CLUB|DAYCARE|DAY CARE|CHILD CARE|"
                   r"CHILDCARE|LEARNING CENTER|JAIL|MILITARY|NATIONAL GUARD|SUBMARINE BASE|COAST GUARD ACADEMY|BUILDING)\b")
 kd = o.name_out.map(norm_name).fillna("")
 k_ = o.k.fillna("")
@@ -676,11 +727,35 @@ store = kd.str.contains(STORE) | brand_store | (o.dom.isin(STORE_DOMS_ALL) & ~pl
     | (kd.str.contains(CANDY) & ~kd.str.contains(REALFOOD) & ~busy)
 venue = kd.str.contains(HARD) | k_.str.contains(HARD) | o.name.fillna("").str.upper().str.contains(r"\(T-?\d|\bGATE [A-Z]?\d", regex=True) \
     | (kd.str.contains(SOFT) & ~(busy | plainly_food))
-LICENSE_ONLY_NONREST = re.compile(r"\b(?:APARTMENTS?|POOLS?|SWIM|AQUATIC|SPORTSM[AE]NS?|GUN CLUB|ASSOCIATION|ATTN|C O|EVENTS?|STUDIOS?|"
+LICENSE_ONLY_NONREST = re.compile(r"\b(?:CINEMAS?|AMC|CINEPOLIS|THEATERS?|THEATRES?|FEATURES|PICTURE SHOW|CABARET|GOLF|GOL$|BOWLING|LANES|BOWLERO|"
+                                  r"AXE|AXES|PICKLEBALL|ARENA|ARCADE|ESCAPOLOGY|ESCAPE ROOMS?|FUN ZONE|CHELSEA PIERS|TENNIS|SPA|PAINTBAR|"
+                                  r"WINEMAKING|RAILROAD(?: CO)?$|RAILWAY$|MARINA$|AUTO STOP|WATERMARK|SENIOR|ASSISTED|WOODS$|TELETHEATER|TECHNOLOGIES|"
+                                  r"PLAY$|XTREME|SUPERCHARGED|TRAMPOLINE|SKATING|RINK|GARDEN CENTER|GIFT|MUSEUM|"
+                                  r"APARTMENTS?|POOLS?|SWIM|AQUATIC|SPORTSM[AE]NS?|GUN CLUB|ASSOCIATION|ATTN|C O|EVENTS?|STUDIOS?|"
                                   r"BOATS|SPORTS CENTER|HOSPITALITY GROUP|KNIGHTS|HEALTH|CONDOMINIUMS?|HOMEOWNERS|NEIGHBORHOOD|COMMUNITY|"
-                                  r"PARKS AND REC|RECREATION|CAMP|BIBLE|FOUNDATION|SOCIETY|COUNCIL|LEAGUE|UNION|INSTITUTE|CENTER$|FARMS?|AMUSEMENT|"
+                                  r"PARKS REC|RECREATION|CAMP|BIBLE|FOUNDATION|SOCIETY|COUNCIL|LEAGUE|UNION|INSTITUTE|CENTER$|FARMS?|AMUSEMENT|"
                                   r"ENTERTAINMENT|CORPORATION|HOLDINGS|MANAGEMENT|VENTURES|FIELD|PERFORMING ARTS|VINEYARDS?|WINERY)\b")
 lic_only = o.src.eq("official")
+# a license-only cafe permit row is filed as a bar, which made it "plainly food": for those, only the name speaks
+ku = o.name_out.fillna("").str.upper().str.replace(r"['’`]", "", regex=True).str.replace(r"[^A-Z0-9 ]", " ", regex=True)   # norm_name drops RESTAURANT and CAFE
+plainly_food = plainly_food & ~(lic_only & ~ku.str.contains(REALFOOD))
+venue = kd.str.contains(HARD) | k_.str.contains(HARD) | o.name.fillna("").str.upper().str.contains(r"\(T-?\d|\bGATE [A-Z]?\d", regex=True) \
+    | (kd.str.contains(SOFT) & ~(busy | plainly_food))
+lic_cred = o.off.map(lambda j: F.cred.iat[int(j)] if j == j else "").fillna("").str.upper()
+# private clubs (a club permit) aren't open to the public. A hotel permit with only the hotel's name is a hotel: a chain hotel, a B&B or
+# an inn without a dining room (qa/data.md); an independent inn with one keeps it (Copper Beech, Gelston House, Lighthouse Inn). A caterer
+# permit is a caterer; a restaurant caterer permit is a restaurant that caters, unless the name is an event hall's.
+DINING = r"\b(?:RESTAURANT|TAVERN|DINING|GRILL|GRILLE|BISTRO|KITCHEN|BAR|PUB|STEAKHOUSE|CAFE|PIZZA|PIZZERIA|TAP ?ROOM)\b"
+HOTEL_ONLY = (r"\b(?:HOTEL|MOTEL|SUITES|MARRIOTT|HILTON|HYATT|SHERATON|WESTIN|WYNDHAM|BAYMONT|DELAMAR|RESIDENCE INN|HAMPTON INN|FAIRFIELD INN|"
+              r"HOLIDAY INN|COMFORT INN|DAYS INN|SUPER 8|RED ROOF|BEST WESTERN|LLOYD|REGENCY INN|TWO TREES INN|WHALERS INN|INN AT MYSTIC|"
+              r"STEAMBOAT INN|CAPTAINS MANSION|STANTON HOUSE|LORD THOMPSON|TAMARACK LODGE|BED (?:AND )?BREAKFAST|B AND B|GUEST ?HOUSE)\b")
+EVENT_HALL = (r"\b(?:BANQUETS?|BALLROOM|EVENTS?|CATERING|CATERERS|LACE FACTORY|BELLA VISTA|VILLA$|CASTLE|FOUR SEASONS|WOODWINDS|WATERVIEW|"
+              r"WHISPERING OAKS|REIGN|ON THE WATER|GOODSPEED STATION|SAINT CLEMENTS|ST CLEMENTS|BARNS|MANOR|ESTATE|COUNTRY CLUB|CONFERENCE)\b")
+venue |= lic_cred.str.contains("CLUB")
+venue |= lic_only & lic_cred.str.contains("HOTEL") & ku.str.contains(HOTEL_ONLY) & ~ku.str.contains(DINING)
+venue |= lic_only & lic_cred.eq("CATERER")
+venue |= lic_only & lic_cred.str.contains("RESTAURANT CATERER") & ku.str.contains(EVENT_HALL) & ~ku.str.contains(DINING)
+venue |= lic_only & lic_cred.str.contains("CAFE") & ku.str.contains(r"\bBOWL$")   # a bowling alley's bar, not "Hungry Bowl"
 club = kd.str.contains(r"\bCLUB\b") & ~kd.str.contains(r"NIGHT ?CLUB|CLUB CAR|CLUB SANDWICH|SUPPER CLUB")
 venue |= lic_only & (kd.str.contains(LICENSE_ONLY_NONREST) | club) & ~busy
 # airports: Bradley (Windsor Locks) and Tweed (New Haven/East Haven) terminals
@@ -689,12 +764,19 @@ for la, lo in ((41.9389, -72.6832), (41.2637, -72.8868)):
 # betting lounges (a sportsbook is gaming first) and private member clubs (lodges, fire companies, legion posts) aren't restaurants
 # open to the public, whatever their category says
 GAMING = re.compile(r"\b(?:SPORTSBOOK|SPORTS BOOK|OFF TRACK|OTB|TELETRACK|BETTING|SLOT|SLOTS|GAMING)\b")
-MEMBERS = re.compile(r"\b(?:ELKS|MOOSE|LODGE NO|HOSE CO(?:MPANY)?|FIRE (?:COMPANY|DEPARTMENT|DEPT)|VOLUNTEER FIRE|VFW|AMERICAN LEGION|"
-                     r"KNIGHTS OF COLUMBUS|SONS OF ITALY|AMVETS|ORDER OF EAGLES|EAGLES AERIE|POLISH FALCONS|ROD AND GUN|FISH AND GAME|"
+MEMBERS = re.compile(r"\b(?:ELKS|MOOSE|LODGE NO|V ?F ?W|POST \d+|HIBERNIANS?|FORESTERS|BENFICA|VASCO DA GAMA|VETS CLUB|VETERANS (?:CLUB|ASSOCIATION|POST|HALL)|"
+                     r"POLISH CLUB|MENS CLUB|WOMENS CLUB|POLYTECHNIC CLUB|UNIVERSITY CLUB|SOCIETA|TURN ?VEREIN|SOKOL|SONS ITALY|POLISH FALCONS|GRANGE (?:HALL|NO)|HOSE CO(?:MPANY)?|FIRE (?:COMPANY|DEPARTMENT|DEPT)|VOLUNTEER FIRE|VFW|AMERICAN LEGION|"
+                     r"KNIGHTS COLUMBUS|SONS ITALY|AMVETS|ORDER EAGLES|EAGLES AERIE|POLISH FALCONS|ROD GUN|FISH GAME|"
                      r"SPORTSM[AE]NS|YACHT CLUB|COUNTRY CLUB|GOLF CLUB|BEACH CLUB|SOCIAL CLUB|ATHLETIC CLUB|SWIM CLUB|TENNIS CLUB)\b")
 gaming, members = kd.str.contains(GAMING), kd.str.contains(MEMBERS)
 print("betting venues hidden:", int(gaming.sum()), o.name_out[gaming].tolist()[:6], "| member clubs hidden:", int(members.sum()))
-o["venue"] = store | venue | gaming | members
+HOME_HOSTS = r"bakesy\.shop|castiron\.me|hotplate\.com|cottagefoods|homecook"
+home = (o.web.fillna("").str.contains(HOME_HOSTS, case=False, regex=True)
+        | o.name_out.fillna("").str.contains(r"(?i)\b(?:sourdough|cakes?|cookies?|treats|bakes|confections) by [A-Z][a-z]+|\bcustom cakes\b|\bhome ?bak", regex=True)
+        | (o.name_out.fillna("").str.contains(r"(?i)\b(?:cakes?|cookies?|treats|bakes)\b", regex=True) & ~o.street.fillna("").str.contains(r"\d+\s+[A-Za-z]"))) & ~o.official
+print("home bakers hidden:", int(home.sum()), o.name_out[home].tolist()[:8])
+home |= o.name_out.fillna("").str.contains(r"(?i)\bdelivery$", regex=True) & ~o.official   # delivery-only brands at a kitchen
+o["venue"] = store | venue | gaming | members | home
 print("non-restaurants flagged:", int(o.venue.sum()), "| stores:", int(store.sum()), "| venues:", int((venue & ~store).sum()))
 # host venues: the two tribal casinos
 st_up = o.street.fillna("").str.upper()
@@ -730,7 +812,7 @@ if APP:   # tags in the app come from names and the hand-checked research only, 
 print("tags:", {t: int(o["t_" + t].sum()) for t in TAGS})
 
 # ---------------------------------------------------------------- the hand-checked research (data/research), honors
-for col in ("jbf", "honors", "icon", "founded", "cur_tags", "dishes", "season", "branch", "rnote", "rsite", "chef", "rsrc"):
+for col in ("jbf", "honors", "icon", "founded", "cur_tags", "dishes", "season", "branch", "rnote", "rsite", "chef", "rsrc", "raddr", "rname"):
     o[col] = None
 o["seasonal"] = False
 match_curated = curated_matcher(o)
@@ -749,7 +831,8 @@ for c in CUR:
             have = [x for x in (o.at[i, col] or "").split("; ") if x]
             o.at[i, col] = "; ".join(have + [v for v in dict.fromkeys(vals) if v not in have])
     for col, v in (("icon", c.get("iconic_reason")), ("founded", c.get("founded")), ("season", c.get("season")), ("branch", c.get("branch_of")),
-                   ("rnote", c.get("note")), ("rsite", c.get("website")), ("chef", c.get("chef")), ("rsrc", (c.get("rsources") or [None])[0])):
+                   ("rnote", c.get("note")), ("rsite", c.get("website")), ("chef", c.get("chef")), ("rsrc", (c.get("rsources") or [None])[0]),
+                   ("raddr", c.get("address")), ("rname", c.get("name"))):
         if v and not o.at[i, col]:
             o.at[i, col] = v
     if c.get("seasonal"):
@@ -763,38 +846,54 @@ for f in sorted(glob.glob(f"{DATA}/research/closed*.json")):
         closed_v += [dict(c, city=c.get("town") or c.get("city")) for c in json.load(open(f))]
     except json.JSONDecodeError as e:
         print("!! closed file doesn't parse, skipped:", f, e)
+# a closure may give the address the permit and listings use too ("alt_addresses")
+closed_v = [dict(c, address=a) for c in closed_v for a in [c.get("address")] + (c.get("alt_addresses") or [])]
 gone = [(c["name"], o.name_out.iat[b]) for c in closed_v for b in [match_curated(c)] if b is not None]
 drop_closed = {o.index[b] for c in closed_v for b in [match_curated(c)] if b is not None}
 o = o.drop(index=list(drop_closed)).reset_index(drop=True)
 print("verified closed, removed:", len(drop_closed), gone)
 # ---------------------------------------------------------------- Farmington Valley Health District's official A/B/C/U ratings (10 towns)
 # Posted at each restaurant and published by FVHD as one page per town (pipeline/fetch_fvhd.py). Shown only with its date.
-o["fv_r"] = None; o["fv_d"] = None
+o["fv_r"] = None; o["fv_d"] = None; o["fv_n"] = None
 FVP = f"{RAW}/official/fvhd_ratings.json"
 FV_FETCHED = None
 if os.path.exists(FVP):
     FV = json.load(open(FVP)); FV_FETCHED = FV.get("fetched")
     by_town = {t: g for t, g in o.assign(kk=o.name_out.map(norm_name)).groupby("city")}
-    taken_fv, n_fv, miss_fv = set(), 0, []
-    for e in FV["ratings"]:
+    # every candidate pair first, then the best pairs one-to-one: a rating goes to one place, a place takes one rating. Even at the same
+    # address the names must share a distinctive word (the Exxon's C isn't the Dunkin' next to it, nor Icy Rolls' A The Verona's)
+    pairs = []
+    for ei, e in enumerate(FV["ratings"]):
         g = by_town.get(e["town"])
         if not e.get("date") or g is None:
             continue
         k = norm_name(e["name"]); nums = street_nums(e.get("address") or ""); sk = street_key(e.get("address") or "")[1]
-        best, bs = None, 0
+        if "MALL" in k.split() or k.startswith("INSIDE "):
+            continue   # "Westfarms Mall" / "Inside Big Y": the district's label for a counter in a mall or store, not a business's name
+        mine = _stems(k) - GENERIC - TOWNWORDS
         for i, kk, st in zip(g.index, g.kk, g.street):
-            if i in taken_fv or not kk:
+            if not kk:
                 continue
             sim = name_sim(k, kk)
-            same_addr = bool(nums & street_nums(st)) and sk and street_key(st)[1] == sk
-            shared = bool((_stems(k) - GENERIC) & (_stems(kk) - GENERIC))
-            sc = sim + (20 if same_addr else 0)
-            if ((same_addr and (sim >= 60 or shared)) or sim >= 90) and sc > bs:
-                best, bs = i, sc
-        if best is None:
-            miss_fv.append(e["name"]); continue
-        taken_fv.add(best); n_fv += 1
-        o.at[best, "fv_r"] = e["rating"]; o.at[best, "fv_d"] = e["date"]
+            # a distinctive word in common, or the same name ("Market Place Kitchen and Bar", "BreakawayBistro" / "Breakaway Bistro")
+            if not (mine & (_stems(kk) - GENERIC - TOWNWORDS)) and sim < 90:
+                continue
+            sk2 = street_key(st)[1]
+            same_addr = bool(nums & street_nums(st)) and sk and sk2 and (sk2 == sk or fuzz.ratio(sk2, sk) >= 85)
+            # by name alone only when the addresses don't disagree: a chain's two branches in one town are two ratings ("616" for "1616"
+            # Hopmeadow St is a slip, not another address)
+            far = nums and street_nums(st) and min(abs(int(a) - int(b)) for a in nums for b in street_nums(st)) > 20 \
+                and not (sim >= 96 and any(a.endswith(b) or b.endswith(a) for a in nums for b in street_nums(st)))
+            if (same_addr and sim >= 70) or (sim >= 90 and not far):
+                pairs.append((sim + (20 if same_addr else 0), ei, i))
+    taken_fv, used_e, n_fv = set(), set(), 0
+    for sc, ei, i in sorted(pairs, key=lambda t: -t[0]):
+        if ei in used_e or i in taken_fv:
+            continue
+        used_e.add(ei); taken_fv.add(i); n_fv += 1
+        e = FV["ratings"][ei]
+        o.at[i, "fv_r"] = e["rating"]; o.at[i, "fv_d"] = e["date"]; o.at[i, "fv_n"] = e["name"]
+    miss_fv = [e["name"] for ei, e in enumerate(FV["ratings"]) if ei not in used_e]
     print("Farmington Valley ratings matched:", n_fv, "of", len(FV["ratings"]), "| unmatched (groceries, schools, places not on our list):", len(miss_fv), miss_fv[:10])
 tags_c = o.cur_tags.fillna("").str.lower()
 for t, kinds in (("apizza", ["apizza"]), ("lobster", ["lobster roll"]), ("clams", ["clam shack"]), ("steamed", ["steamed cheeseburger"]),
@@ -844,8 +943,9 @@ o["food_cost"] = o.cuisine.map(FOOD_COST).fillna(30)
 o["value_raw"] = o.bayes - 0.18 * (o.price - 1)
 # iconic points (hand-checked places only): honors + history (verified year at this address) + how many people know it
 jb = o.jbf.fillna("")
-# the best honor counts: a winner, else a finalist (a "semifinalist" mention doesn't cancel a finalist one), else a semifinalist
-win = jb.str.contains(r"\bwinner\b", case=False); fin = jb.str.contains(r"(?<!semi)finalist", case=False); semi = jb.str.contains("semifinalist", case=False)
+# the best honor counts: a winner, else a nominee (the Foundation's word for a finalist; a "semifinalist" mention doesn't cancel it),
+# else a semifinalist
+win = jb.str.contains(r"\bwinner\b", case=False); fin = jb.str.contains(r"(?<!semi)finalist|\bnominee", case=False); semi = jb.str.contains("semifinalist", case=False)
 acc = (jb.str.contains("America's Classic") * 35 + win * 22 + (fin & ~win) * 12 + (semi & ~fin & ~win) * 5 + o.icon.notna() * 24 + o.honors.notna() * 6).clip(upper=48)
 years = (2026 - pd.to_numeric(o.founded, errors="coerce")).clip(lower=0)
 o["s_icon"] = np.where(o.honored, (acc + years.fillna(0).clip(upper=80) / 80 * 32 + pct(np.log1p(o.reviews)).fillna(0) / 100 * 20).clip(upper=100), np.nan)
@@ -860,7 +960,7 @@ def r(x, n=0):
 def clean_url(u):
     """Website links without tracking parameters (Reserve with Google tokens, utm_*, click ids)."""
     base, _, q = u.partition("?")
-    keep_ = [kv for kv in q.split("&") if kv and not re.match(r"(rwg_token|utm_[a-z]+|fbclid|gclid|y_source|cmpid|ref)=", kv)]
+    keep_ = [kv for kv in q.split("&") if kv and not re.match(r"(rwg_token|utm_[a-z]+|fbclid|gclid|y_source|cmpid|cid|ref)=", kv)]
     return base + ("?" + "&".join(keep_) if keep_ else "")
 
 
@@ -873,14 +973,44 @@ o["lic"] = o.off.map(lambda j: F.lic.iat[int(j)] if j == j else None)
 o["hfd_cls"] = o.off_hfd.map(lambda j: F.cls.iat[int(j)] if j == j else None) if "off_hfd" in o else None
 o["seats"] = o.off_hfd.map(lambda j: F.seats.iat[int(j)] if j == j else None) if "off_hfd" in o else None
 # the address shown: a license address only when it starts with a street number
-o["street"] = o.street.map(lambda a: a if isinstance(a, str) and re.match(r"\s*\d", a) else (a if isinstance(a, str) and not re.search(r"\b[A-Z][a-z]+ [A-Z][a-z]+$", a) else None))
+def clean_street(a):
+    """'Union Savings Bank, 406 Main St S' -> '406 Main St S'; '1902 Post Rd 1902 Post Rd' -> '1902 Post Rd'; '5 Elm St, CT 06511' ->
+    '5 Elm St'. Anything that isn't a street address (a town, "All Over Town!") -> None. "701 Connecticut Ave" stays."""
+    if not isinstance(a, str):
+        return None
+    a = re.sub(r"^[^\d,]{2,60},\s*(?=\d)", "", a.strip())
+    m = re.match(r"^(\d+)\s+(.+?)\s+\1\b", a)   # the address twice, or two addresses run together: the first
+    if m:
+        a = f"{m.group(1)} {m.group(2)}"
+    # a state after a comma or with a zip, or spelled out at the end ("12 MAPLE CT" is a court, "701 Connecticut Ave" an avenue)
+    a = re.sub(r"(?:,\s*(?:CT|Conn\.?|Connecticut)|\s+(?:CT|Connecticut)\s+0\d{4}|\s+Connecticut)\s*$", "", a, flags=re.I)
+    a = re.sub(r"\b(.{3,40}?)\s+\1$", r"\1", a, flags=re.I)   # "Earth Concourse Earth Concourse"
+    a = a.strip(" ,")
+    return a if re.match(r"\s*\d+[A-Za-z]?(?:\s*-\s*(?:\d+[A-Za-z]?|[A-Za-z]))?,?\s+\S", a) else None
 
+
+o["street"] = o.street.map(clean_street)
+# the town's own name after the street type ("200 Church Street Wallingford")
+TYPEW = r"(?:St|Street|Rd|Road|Ave|Avenue|Blvd|Dr|Drive|Ln|Lane|Tpke|Turnpike|Hwy|Highway|Pl|Place|Way|Ct|Court|Pkwy|Sq|Plz|Plaza)\.?"
+o["street"] = [re.sub(r"(" + TYPEW + r"),?\s+" + re.escape(c) + r"(?:,?\s+CT)?$", r"\1", a, flags=re.I)
+               if isinstance(a, str) and isinstance(c, str) else a for a, c in zip(o.street, o.city)]
+
+# a village label that belongs to another town ("West Simsbury" on a Hartford Dunkin'): a village is kept in a town only where at
+# least two places put it, or where most of the village's places are
+vt = collections.Counter(zip(o.village, o.city))
+vmain = {v: g.city.mode().iat[0] for v, g in o[o.village.notna()].groupby("village")}
+odd = [isinstance(v, str) and vt[(v, c)] < 2 and vmain.get(v) != c for v, c in zip(o.village, o.city)]
+print("village labels dropped (another town's):", sum(odd), list(zip(o.village[odd], o.city[odd]))[:8])
+o.loc[odd, "village"] = None
 if APP:
     # the same place twice: same name at the same street address, or (not a chain) same name in the same town within 400 m.
     # The licensed record wins, then a confirmed listing, then the one with more facts; the kept copy inherits what the dropped one knew.
-    rank = o.tier.map({"official": 2, "both": 1, "listing": 0}).fillna(0) * 10 + o.hc.astype(int) * 5 + o.web.notna().astype(int)
+    TRANK = {"official": 2, "both": 1, "listing": 0}
+    # the hand-checked copy wins (it carries the research), then the licensed one; the kept copy takes the license from the other
+    rank = o.tier.map(TRANK).fillna(0) * 10 + o.hc.astype(int) * 25 + o.web.notna().astype(int)
     keyname = o.name_out.map(lambda n: norm_name(n) or re.sub(r"[^a-z0-9]", "", str(n).lower()))
-    keyaddr = ["|".join(k) if all(k := street_key(s_)) else None for s_ in o.street]
+    # same name at the same address in the same town ("195 S Main St" in Torrington is not "195 Main St" in Norwalk)
+    keyaddr = ["|".join(k) + "|" + (street_dir(s_) or "") + "|" + str(c_) if all(k := street_key(s_)) else None for s_, c_ in zip(o.street, o.city)]
     drop, merged, seen = set(), [], {}
     for pos, i in enumerate(o.index):
         if keyaddr[pos] and keyname[i]:
@@ -892,6 +1022,39 @@ if APP:
                 merged.append((seen[k], lose))
             else:
                 seen[k] = i
+    # one phone number at one street number in one town, under two spellings of a name ("Pepe's Pizza" / "Frank Pepe Pizzeria Napoletana")
+    phone_n = o.phone.map(lambda v: (re.sub(r"\D", "", v or "")[-10:] if isinstance(v, str) else "") or None)
+    by_ph = {}
+    for i in o.index:
+        if i in drop or not isinstance(phone_n[i], str) or len(phone_n[i]) < 10 or not isinstance(o.at[i, "street"], str):
+            continue
+        num = street_key(o.at[i, "street"])[0]
+        if not num:
+            continue
+        k = (phone_n[i], num, o.at[i, "city"])
+        j = by_ph.get(k)
+        if j is None or j in drop:
+            by_ph[k] = i; continue
+        a_, b_ = keyname[i], keyname[j]
+        if a_ and b_ and (distinct(a_) & distinct(b_) or fuzz.token_set_ratio(a_, b_) >= 90):
+            lose = i if rank[i] <= rank[j] else j
+            drop.add(lose); by_ph[k] = j if lose == i else i
+            merged.append((by_ph[k], lose))
+    # one address, two spellings of one business ("Pepe's Pizza" / "Frank Pepe Pizzeria Napoletana" at 64 High Ridge Rd): the same number,
+    # street and side of it in one town, and a distinctive word in common
+    by_addr = collections.defaultdict(list)
+    for pos, i in enumerate(o.index):
+        if i not in drop and keyaddr[pos] and keyname[i]:
+            by_addr[keyaddr[pos]].append(i)
+    for grp in by_addr.values():
+        for a_ in range(len(grp)):
+            for b_ in range(a_ + 1, len(grp)):
+                i, j = grp[a_], grp[b_]
+                if i in drop or j in drop:
+                    continue
+                if distinct(keyname[i]) & distinct(keyname[j]):
+                    lose = i if rank[i] <= rank[j] else j
+                    drop.add(lose); merged.append((j if lose == i else i, lose))
     single = o[(o.chain_n.fillna(1) < 2) & ~o.index.isin(drop)]
     for (nm_, town), g in single.groupby([keyname[single.index], single.city]):
         if len(g) < 2 or not nm_:
@@ -911,16 +1074,39 @@ if APP:
         for col in [c for c in o.columns if c.startswith("t_")] + ["hc", "honored", "seasonal"]:
             if bool(o.at[lose, col]) and not bool(o.at[keep_i, col]):
                 o.at[keep_i, col] = o.at[lose, col]
-        for col in ("dishes", "season", "branch", "rnote", "rsite", "rsrc", "web", "phone", "founded", "icon", "jbf", "honors", "chef", "s_icon", "village", "cur_tags"):
+        for col in ("dishes", "season", "branch", "rnote", "rsite", "rsrc", "web", "phone", "founded", "icon", "jbf", "honors", "chef", "s_icon", "village",
+                    "cur_tags", "fv_r", "fv_d", "fv_n", "host", "zip", "brand_n", "raddr", "rname"):
             if pd.isna(o.at[keep_i, col]) and not pd.isna(o.at[lose, col]):
                 o.at[keep_i, col] = o.at[lose, col]
+        if TRANK.get(o.at[lose, "tier"], 0) > TRANK.get(o.at[keep_i, "tier"], 0):   # the license travels with the place
+            for col in ("tier", "official", "lic_kind", "lic_jur", "lic_since", "lic", "hfd_cls", "seats"):
+                o.at[keep_i, col] = o.at[lose, col]
+        o.at[keep_i, "chain_n"] = max(o.at[keep_i, "chain_n"] or 1, o.at[lose, "chain_n"] or 1) if isinstance(o.at[keep_i, "brand_n"], str) else o.at[keep_i, "chain_n"]
+        if o.at[keep_i, "hc"]:
+            o.at[keep_i, "venue"] = False   # a hand-checked place is a restaurant, whichever copy carried the check
     print("duplicates removed for the app:", len(drop), [o.at[i, "name_out"] for i in list(drop)[:8]])
+    json.dump([[o.at[k, "name_out"], o.at[k, "street"], o.at[k, "city"], o.at[l, "name_out"], o.at[l, "street"], o.at[l, "city"]] for k, l in merged],
+              open(f"{CT}/app_merged.json", "w"), indent=0, default=str)   # for review: kept, dropped
     o = o.drop(index=list(drop))
     fixes = json.load(open(f"{DATA}/research/name_fixes.json")) if os.path.exists(f"{DATA}/research/name_fixes.json") else []
     for fx in fixes:
         hit = (o.name_out.str.upper() == fx["name"].upper()) & (o.city == fx["town"]) & o.street.fillna("").str.startswith(fx["street_number"] + " ")
         o.loc[hit, "name_out"] = fx["fixed"]
         print("name fix:", fx["name"], "->", fx["fixed"], int(hit.sum()))
+# a hand-checked place shows the researched address, and the researched name when the listing only adds a tail to it
+# ("Euro Plate - Traditional Polish Cuisine" -> "Euro Plate"; the permit's "22 Bliss Rd" -> the inn's own "22 Hopkins Road")
+for i in o.index[o.hc]:
+    ra, rn = o.at[i, "raddr"], o.at[i, "rname"]
+    if isinstance(ra, str) and re.match(r"\s*\d", ra):
+        o.at[i, "street"] = ra
+    if isinstance(rn, str):
+        rn = re.sub(r"\s*\([^)]*\)\s*$", "", rn).strip()
+        # a license-only row's trade name is the permit's shorthand: the researched name is the place's own
+        same_biz = distinct(norm_name(rn)) & distinct(norm_name(o.at[i, "name_out"]))
+        if norm_name(rn) and (o.at[i, "src"] == "official" or same_biz
+                              or (len(rn) < len(o.at[i, "name_out"]) and norm_name(o.at[i, "name_out"]).startswith(norm_name(rn)))):
+            o.at[i, "name_out"] = rn
+
 # adult clubs aren't restaurants and don't belong in a 13+ app or the leaderboard; smoke/vape/cigar shops are hidden with non-restaurants
 webs = o.web.fillna("").astype(str) + " " + o.rsite.fillna("").astype(str)
 adult = (o.name_out.str.contains(r"gentlem[ae]n'?s club|exotic dancer|strip club|adult entertainment", case=False, regex=True)
@@ -928,7 +1114,10 @@ adult = (o.name_out.str.contains(r"gentlem[ae]n'?s club|exotic dancer|strip club
     | webs.str.contains(r"centerfolds|gentlemensclub|stripclub", case=False, regex=True)
 print("adult clubs removed:", int(adult.sum()), o.name_out[adult].tolist())
 o = o[~adult]
-smoke = o.name_out.str.contains(r"\bvape\b|smoke shop|\btobacco\b|cigar|\bcbd\b|dispensary|head shop|hookah lounge", case=False, regex=True) & ~o.hc
+SMOKE = r"\bvape\b|\bvapor\b|smoke shop|smoke lounge|\btobacco|cigar|\bcbd\b|dispensary|head shop|hookah|\bsmoke ?shop|\bkratom\b"
+SMOKE_KEEP = r"^The Owl Shop$"   # New Haven's 1934 cigar bar holds a cafe liquor permit and serves drinks: a bar, kept (Nick, 2026-10-07)
+smoke = (o.name_out.str.contains(SMOKE, case=False, regex=True) | o.web.fillna("").str.contains(r"hookah|smokeshop|smoke-shop|cigar|vape", case=False, regex=True)) \
+    & ~o.hc & ~o.name_out.str.contains(SMOKE_KEEP, regex=True)
 o.loc[smoke, "venue"] = True
 print("smoke/vape/cigar shops hidden with non-restaurants:", int(smoke.sum()))
 o = o.reset_index(drop=True)
@@ -945,20 +1134,39 @@ REGIONS = sorted(set(REGION.values()))
 KBIT = {k: 1 << i for i, k in enumerate(KINDS)}
 
 
+def phone_e164(v):
+    """+1 and ten digits, or nothing: listings carry "+2032592299" (a Connecticut number missing its 1, which would dial Egypt)."""
+    d = re.sub(r"\D", "", v if isinstance(v, str) else "")
+    if len(d) == 11 and d[0] == "1":
+        d = d[1:]
+    return "+1" + d if len(d) == 10 and d[0] in "23456789" and d[3] in "23456789" else None
+
+
+def place_id(x):
+    """A stable id from the source record, never from a display name or rounded coordinates (a nudge of a few meters or a corrected name
+    used to make a new id): Overture's GERS id for a map listing, the permit number for a license-only row, the researched name and town
+    for a hand-checked place no map listing has."""
+    src = str(x.id) if isinstance(x.id, str) and x.id else f"{norm_name(x.name_out)}|{x.city}"
+    if src.startswith("research-"):
+        src = f"research|{norm_name(src[9:])}|{x.city}"
+    return hashlib.md5(src.encode()).hexdigest()[:12]
+
+
 def jbf_flags(jb):
     jb = jb or ""
     return (1 if "America's Classic" in jb else 0) | (2 if re.search(r"\bwinner\b", jb, re.I) else 0) \
-        | (4 if re.search(r"(?<!semi)finalist", jb, re.I) else 0) | (8 if re.search(r"semifinalist", jb, re.I) else 0) | (16 if jb == "" else 0)
+        | (4 if re.search(r"(?<!semi)finalist|\bnominee", jb, re.I) else 0) | (8 if re.search(r"semifinalist", jb, re.I) else 0) | (16 if jb == "" else 0)
 
 
 if APP:
     places, seen_ids = [], set()
     LINKS = json.load(open(f"{CT}/website_check.json")) if os.path.exists(f"{CT}/website_check.json") else None
+    if LINKS is None:   # fail closed: only checked links ever ship
+        print("!! data/ct/website_check.json is missing: shipping NO website links. Run check_websites.py, then this export again.")
     link_drops, link_cands = collections.Counter(), {}
+    ICON_YEAR = int(GENERATED[:4]) - 40
     for i, x in o.iterrows():
-        # a stable id (name + ~100 m cell) so saved places survive a data refresh
-        idsrc = f"{norm_name(x.name_out)}|{round(float(x.lat), 3)}|{round(float(x.lon), 3)}"
-        p = {"id": hashlib.md5(idsrc.encode()).hexdigest()[:12], "n": x.name_out, "c": ci.get(x.city) if isinstance(x.city, str) else None,
+        p = {"id": place_id(x), "n": x.name_out, "c": ci.get(x.city) if isinstance(x.city, str) else None,
              "cu": cu[x.cuisine], "t": TIER[x.tier], "s": SRCS.index(x.src) if x.src in SRCS else 1}
         if isinstance(x.village, str): p["vi"] = vi[x.village]
         if isinstance(x.street, str): p["a"] = nice(x.street, addr=True)
@@ -978,7 +1186,11 @@ if APP:
             p["hc"] = 1
             kinds = [k for k in (x.cur_tags or "").split("; ") if k in KBIT]
             if kinds: p["k"] = sum(KBIT[k] for k in kinds)
-            p["ip"] = round(float(x.s_icon), 1)
+            # the Icons guide: James Beard and other honors, or 40+ years at the address (a 2011 branch or a 2008 candy shop isn't one)
+            fy = pd.to_numeric(x.founded, errors="coerce")
+            p["fs"] = round(float(x.s_icon), 1)   # the classics' "Featured first" order (honors, years at the address)
+            if (isinstance(x.jbf, str) and x.jbf) or (isinstance(x.honors, str) and x.honors) or (fy == fy and fy <= ICON_YEAR):
+                p["ip"] = p["fs"]
             for k, v in (("note", x.rnote), ("jbf", x.jbf), ("hon", x.honors), ("dish", x.dishes), ("sea", x.season), ("br", x.branch), ("chef", x.chef), ("src", x.rsrc)):
                 if isinstance(v, str) and v:
                     if k == "hon":   # honors are facts; ratings and readers' polls stay out
@@ -989,25 +1201,56 @@ if APP:
         if x.founded == x.founded and x.founded is not None: p["f"] = int(float(x.founded))
         web = x.rsite if isinstance(x.rsite, str) else (x.web if isinstance(x.web, str) else None)
         if web:
-            w_ = clean_url(web)
+            w_ = clean_url(web.strip())
             link_cands[w_] = x.brand_n if isinstance(x.brand_n, str) else x.name_out
-            if LINKS is None or LINKS.get(w_, {}).get("ok"):
-                p["w"] = w_
+            v_ = (LINKS or {}).get(w_, {})
+            u_ = w_ if re.match(r"(?i)https?://", w_) else "https://" + w_   # what the checker fetched
+            fin = urllib.parse.urlparse(v_.get("final") or "")
+            # a link the checker saw end on https at the same host ships as https (the first hop isn't left in the clear)
+            if u_.lower().startswith("http://") and fin.scheme == "https" and fin.netloc.lower().removeprefix("www.") == urllib.parse.urlparse(u_).netloc.lower().removeprefix("www."):
+                u_ = "https://" + u_[7:]
+            if v_.get("ok") and urllib.parse.urlparse(u_).scheme in ("http", "https") and urllib.parse.urlparse(u_).netloc:
+                p["w"] = u_
             else:
-                link_drops[LINKS.get(w_, {}).get("why", "not checked yet")] += 1
-        if isinstance(x.phone, str) and x.phone: p["ph"] = x.phone
-        if isinstance(x.lic, str) and x.lic_jur == "dcp": p["lic"] = x.lic
-        if isinstance(x.fv_r, str) and isinstance(x.fv_d, str): p["fv"] = {"r": x.fv_r, "d": x.fv_d}
+                link_drops[v_.get("why", "not checked yet")] += 1
+        ph = phone_e164(x.phone)
+        if ph: p["ph"] = ph
+        if isinstance(x.fv_r, str) and isinstance(x.fv_d, str):
+            p["fv"] = {"r": x.fv_r, "d": x.fv_d}
+            if isinstance(x.fv_n, str) and norm_name(x.fv_n) != norm_name(x.name_out):
+                p["fv"]["n"] = nice(x.fv_n) if x.fv_n.isupper() else x.fv_n   # the name the district rated it under
         while p["id"] in seen_ids:
             p["id"] = p["id"] + "x"
         seen_ids.add(p["id"])
         places.append(p)
     print("website links dropped:", sum(link_drops.values()), link_drops.most_common(8))
     json.dump(link_cands, open(f"{CT}/website_candidates.json", "w"), indent=0, ensure_ascii=False)
-    out = {"v": 1, "generated": GENERATED, "overture": OVERTURE, "cities": CITIES, "villages": VILLS, "regions": REGIONS,
+    # saved places survive an id change: every id ever exported is remembered (data/id_history.json, kept in the repo), and one that's
+    # gone points at the same-named place within 300 m (the app remaps saved ids through "aliases")
+    HIST = f"{DATA}/id_history.json"
+    hist = json.load(open(HIST)) if os.path.exists(HIST) else {}
+    now_ids = {p["id"] for p in places}
+    by_name = collections.defaultdict(list)
+    for p in places:
+        by_name[norm_name(p["n"])].append(p)
+    aliases = {}
+    for old_id, (nk, la, lo) in hist.items():
+        if old_id in now_ids:
+            continue
+        near = [p for p in by_name.get(nk, []) if km(la, lo, p["la"], p["lo"]) < 0.3]
+        if near:
+            aliases[old_id] = min(near, key=lambda p: km(la, lo, p["la"], p["lo"]))["id"]
+    for p in places:
+        hist[p["id"]] = [norm_name(p["n"]), p["la"], p["lo"]]
+    json.dump(hist, open(HIST, "w"), separators=(",", ":"), sort_keys=True)
+    print("ids remembered:", len(hist), "| aliases for ids that changed:", len(aliases))
+    body = json.dumps(places, separators=(",", ":"), ensure_ascii=False, sort_keys=True, default=str)
+    out = {"v": 1, "generated": GENERATED, "data_version": hashlib.md5(body.encode()).hexdigest()[:12], "research_checked": RESEARCH_CHECKED,
+           "overture": OVERTURE, "aliases": aliases, "cities": CITIES, "villages": VILLS, "regions": REGIONS,
            "town_region": [REGIONS.index(REGION[c]) if c in REGION else None for c in CITIES], "cuisines": CUIS, "brands": BRANDS,
            "tags": TAGS, "kinds": KINDS, "hosts": HOSTS, "sources": SRCS, "count": len(places), "count_restaurants": int(len(nv)),
-           "calibration": calib.get("app", {}), "fvhd_fetched": FV_FETCHED, "places": places}
+           "calibration": calib.get("app", {}), "fvhd_fetched": FV_FETCHED, "fvhd_pages": FV.get("pages", {}) if os.path.exists(FVP) else {},
+           "places": places}
     os.makedirs(SITE, exist_ok=True)
     json.dump(out, open(f"{SITE}/places.json", "w"), separators=(",", ":"), ensure_ascii=False, allow_nan=False, default=str)
     json.dump(json.load(open(f"{CT}/ct_shapes.json")), open(f"{SITE}/ct_shapes.json", "w"), separators=(",", ":"))

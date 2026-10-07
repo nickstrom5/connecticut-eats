@@ -1,10 +1,11 @@
 {
- "generated": "2026-10-05",
- "data_generated": "2026-10-05",
+ "generated": "2026-10-07",
+ "data_generated": "2026-10-07",
  "domain": "https://nickstrom5.github.io/connecticut-eats",
- "restaurants": 9615,
+ "og_line": "Apizza & lobster roll guide \u00b7 9,358 restaurants in 166 towns",
+ "restaurants": 9358,
  "towns": 166,
- "apizza": 24,
+ "apizza": 27,
  "lobster_rolls_and_clam_shacks": 58,
  "lobster_roll": 56,
  "clam_shack": 28,
@@ -16,12 +17,12 @@
  "dairy_bars": 34,
  "dairy_seasonal": 10,
  "little_poland": 4,
- "hand_checked": 163,
- "oldest_known_year": 52,
- "named_diner_not_checked": 115,
+ "hand_checked": 166,
+ "oldest_known_year": 55,
+ "named_diner_not_checked": 113,
  "named_apizza_not_checked": 26,
- "casino_restaurants": 58,
- "fvhd_rated": 217,
+ "casino_restaurants": 54,
+ "fvhd_rated": 200,
  "fvhd_towns": [
   "Avon",
   "Barkhamsted",
@@ -36,7 +37,7 @@
  ],
  "towns_pages": {
   "New Haven": {
-   "restaurants": 447,
+   "restaurants": 443,
    "apizza_near": 14,
    "lobster_near": 13,
    "burgers_near": 2,
@@ -45,8 +46,8 @@
    "fvhd_rated": 0
   },
   "Hartford": {
-   "restaurants": 429,
-   "apizza_near": 3,
+   "restaurants": 418,
+   "apizza_near": 2,
    "lobster_near": 2,
    "burgers_near": 3,
    "diners_near": 2,
@@ -54,7 +55,7 @@
    "fvhd_rated": 0
   },
   "Stamford": {
-   "restaurants": 391,
+   "restaurants": 375,
    "apizza_near": 3,
    "lobster_near": 11,
    "burgers_near": 3,
@@ -63,7 +64,7 @@
    "fvhd_rated": 0
   },
   "Bridgeport": {
-   "restaurants": 373,
+   "restaurants": 367,
    "apizza_near": 1,
    "lobster_near": 16,
    "burgers_near": 3,
@@ -72,7 +73,7 @@
    "fvhd_rated": 0
   },
   "Norwalk": {
-   "restaurants": 348,
+   "restaurants": 335,
    "apizza_near": 3,
    "lobster_near": 13,
    "burgers_near": 1,
@@ -81,16 +82,16 @@
    "fvhd_rated": 0
   },
   "Waterbury": {
-   "restaurants": 272,
-   "apizza_near": 1,
+   "restaurants": 266,
+   "apizza_near": 2,
    "lobster_near": 2,
    "burgers_near": 2,
    "diners_near": 4,
-   "hand_checked_in_town": 1,
+   "hand_checked_in_town": 2,
    "fvhd_rated": 0
   },
   "Danbury": {
-   "restaurants": 259,
+   "restaurants": 255,
    "apizza_near": 1,
    "lobster_near": 3,
    "burgers_near": 2,
@@ -100,7 +101,7 @@
   },
   "New Britain": {
    "restaurants": 122,
-   "apizza_near": 1,
+   "apizza_near": 2,
    "lobster_near": 1,
    "burgers_near": 5,
    "diners_near": 2,
@@ -108,7 +109,7 @@
    "fvhd_rated": 0
   },
   "Groton": {
-   "restaurants": 131,
+   "restaurants": 120,
    "apizza_near": 1,
    "lobster_near": 15,
    "burgers_near": 1,
@@ -117,7 +118,7 @@
    "fvhd_rated": 0
   },
   "Stonington": {
-   "restaurants": 92,
+   "restaurants": 89,
    "apizza_near": 1,
    "lobster_near": 15,
    "burgers_near": 1,
@@ -126,7 +127,7 @@
    "fvhd_rated": 0
   },
   "Middletown": {
-   "restaurants": 142,
+   "restaurants": 138,
    "apizza_near": 1,
    "lobster_near": 1,
    "burgers_near": 3,
@@ -135,16 +136,16 @@
    "fvhd_rated": 0
   },
   "West Hartford": {
-   "restaurants": 180,
-   "apizza_near": 3,
+   "restaurants": 177,
+   "apizza_near": 1,
    "lobster_near": 3,
    "burgers_near": 3,
    "diners_near": 3,
-   "hand_checked_in_town": 2,
+   "hand_checked_in_town": 3,
    "fvhd_rated": 0
   },
   "Fairfield": {
-   "restaurants": 201,
+   "restaurants": 195,
    "apizza_near": 2,
    "lobster_near": 16,
    "burgers_near": 3,
@@ -153,7 +154,7 @@
    "fvhd_rated": 0
   },
   "Milford": {
-   "restaurants": 178,
+   "restaurants": 172,
    "apizza_near": 12,
    "lobster_near": 14,
    "burgers_near": 2,
@@ -162,7 +163,7 @@
    "fvhd_rated": 0
   },
   "Greenwich": {
-   "restaurants": 171,
+   "restaurants": 165,
    "apizza_near": 2,
    "lobster_near": 9,
    "burgers_near": 3,
@@ -171,16 +172,16 @@
    "fvhd_rated": 0
   },
   "Manchester": {
-   "restaurants": 161,
-   "apizza_near": 2,
+   "restaurants": 158,
+   "apizza_near": 1,
    "lobster_near": 1,
    "burgers_near": 2,
    "diners_near": 2,
-   "hand_checked_in_town": 1,
+   "hand_checked_in_town": 2,
    "fvhd_rated": 0
   },
   "Meriden": {
-   "restaurants": 118,
+   "restaurants": 115,
    "apizza_near": 2,
    "lobster_near": 3,
    "burgers_near": 5,
@@ -189,7 +190,7 @@
    "fvhd_rated": 0
   },
   "New London": {
-   "restaurants": 104,
+   "restaurants": 101,
    "apizza_near": 1,
    "lobster_near": 18,
    "burgers_near": 1,
@@ -198,22 +199,22 @@
    "fvhd_rated": 0
   },
   "Farmington": {
-   "restaurants": 66,
-   "apizza_near": 3,
+   "restaurants": 63,
+   "apizza_near": 1,
    "lobster_near": 3,
    "burgers_near": 2,
    "diners_near": 3,
    "hand_checked_in_town": 0,
-   "fvhd_rated": 45
+   "fvhd_rated": 40
   },
   "Simsbury": {
    "restaurants": 62,
-   "apizza_near": 2,
+   "apizza_near": 3,
    "lobster_near": 1,
    "burgers_near": 3,
    "diners_near": 2,
    "hand_checked_in_town": 1,
-   "fvhd_rated": 53
+   "fvhd_rated": 50
   }
  }
 }

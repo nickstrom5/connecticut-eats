@@ -7,13 +7,22 @@ struct MapScreen: View {
     var selection: Binding<Place?>? = nil
 
     @State private var layer: Layer = .apizza
-    @State private var pushed: Place?
     @State private var region: MKCoordinateRegion?
     /// "My location": where to move the map (a new object each tap, so a second tap re-centers after panning away)
     @State private var centerOn: CLLocation?
     @State private var centerWhenFound = false
     @State private var notice: String?
+    /// "My location" from outside Connecticut: said for as long as the map stays on the whole state
+    @State private var outside = false
     @State private var askSettings = false
+    /// places on one spot (a food hall, a casino floor) from a tapped cluster, and the one picked from that list
+    @State private var stacked: Stack?
+    @State private var picked: Place?
+
+    struct Stack: Identifiable {
+        let id = UUID()
+        let places: [Place]
+    }
 
     /// All 11,000 restaurants at once would keep the map busy (16,000 pins took over a minute in QA), so the Everything layer fills in
     /// only once you zoom to about town size (this many degrees of latitude on screen), and only for what's in view.
@@ -35,14 +44,17 @@ struct MapScreen: View {
     }
 
     var body: some View {
-        let layerPlaces = model.places.filter { layer.guide.includes($0) && model.filters.allows($0) && $0.coordinate != nil }
+        // the whole guide, whatever a list's filters say (the map has no filter control)
+        let layerPlaces = model.mapPlaces(layer.guide)
         // the smaller side decides: a tall, narrow iPad column shows a lot of latitude even at town zoom
         let zoomedOut = layer == .all && min(region?.span.latitudeDelta ?? .infinity, region?.span.longitudeDelta ?? .infinity) > Self.everythingSpan
-        let places = layer != .all ? layerPlaces : zoomedOut ? [] : layerPlaces.filter(inView)
+        // a quarter screen of margin around the view, so a short pan doesn't show empty edges
+        let places = layer != .all ? layerPlaces : zoomedOut ? [] : layerPlaces.filter { inView($0, margin: 0.75) }
+        let onScreen = layer == .all ? places.filter { inView($0, margin: 0.5) }.count : places.count
         ZStack(alignment: .top) {
-            ClusteredMap(places: places, showsUser: location.location != nil, center: centerOn, onRegion: { region = $0 }) { p in
-                if let selection { selection.wrappedValue = p } else { pushed = p }
-            }
+            ClusteredMap(places: places, showsUser: location.location != nil, center: centerOn, start: ScreenshotMode.mapRegion,
+                         onRegion: { r in region = r; if r.span.latitudeDelta < 0.5 { outside = false } },
+                         onStack: { stacked = Stack(places: $0.sorted { $0.name < $1.name }) }) { openPlace($0) }
             .ignoresSafeArea(edges: .bottom)
             VStack(spacing: 6) {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -62,15 +74,33 @@ struct MapScreen: View {
                 }
                 .accessibilityIdentifier("layers")
                 Text(notice ?? (zoomedOut ? "Zoom in to a town to see all \(layerPlaces.count.formatted()) places"
-                               : "\(places.count.formatted()) \(layer == .all ? "places here" : "places") · tap a pin, then its name"))
+                               : "\(onScreen.formatted()) \(onScreen == 1 ? "place" : "places")\(layer == .all ? " here" : "") · tap a pin, then its name"))
                     .font(.caption).foregroundStyle(Theme.ink2)
                     .padding(.horizontal, 10).padding(.vertical, 4).background(Capsule().fill(.thinMaterial))
+                    .accessibilityIdentifier("mapHint")
+                if outside {
+                    Text("You're outside Connecticut, so the map stays on the state.")
+                        .font(.caption).foregroundStyle(Theme.ink2)
+                        .padding(.horizontal, 10).padding(.vertical, 4).background(Capsule().fill(.thinMaterial))
+                        .accessibilityIdentifier("outsideNote")
+                }
             }
             .padding(.top, 8)
         }
         .navigationTitle("Map")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(item: $pushed) { PlaceDetailView(place: $0) }
+        .sheet(item: $stacked, onDismiss: { if let p = picked { picked = nil; openPlace(p) } }) { stack in
+            NavigationStack {
+                List(stack.places) { p in
+                    Button { picked = p; stacked = nil } label: { PlaceRow(place: p) }
+                }
+                .listStyle(.plain)
+                .navigationTitle("\(stack.places.count) places at this spot")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { stacked = nil } } }
+            }
+            .presentationDetents([.medium, .large])
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -108,11 +138,16 @@ struct MapScreen: View {
 }
 
 extension MapScreen {
+    private func openPlace(_ p: Place) {
+        if let selection { selection.wrappedValue = p } else { model.mapPath.append(p) }
+    }
+
     /// Town-level zoom on the reader, unless they're outside Connecticut: then the map stays on the state and says why.
     private func center(on here: CLLocation) {
         if location.isOutsideConnecticut {
-            flash("You're outside Connecticut, so the map stays on the state.")
+            outside = true
         } else {
+            outside = false
             centerOn = CLLocation(latitude: here.coordinate.latitude, longitude: here.coordinate.longitude)
         }
     }
@@ -122,10 +157,10 @@ extension MapScreen {
         Task { try? await Task.sleep(for: .seconds(5)); if notice == text { notice = nil } }
     }
 
-    /// On screen, with half a screen of margin so panning doesn't show empty edges.
-    private func inView(_ p: Place) -> Bool {
+    /// Within `margin` spans of the map's center: 0.5 is what's on screen.
+    private func inView(_ p: Place, margin: Double) -> Bool {
         guard let r = region, let c = p.coordinate else { return false }
-        return abs(c.latitude - r.center.latitude) <= r.span.latitudeDelta && abs(c.longitude - r.center.longitude) <= r.span.longitudeDelta
+        return abs(c.latitude - r.center.latitude) <= r.span.latitudeDelta * margin && abs(c.longitude - r.center.longitude) <= r.span.longitudeDelta * margin
     }
 }
 
@@ -135,7 +170,11 @@ struct ClusteredMap: UIViewRepresentable {
     let showsUser: Bool
     /// move the map here (town-level zoom) whenever a new location object arrives
     var center: CLLocation? = nil
+    /// where the map opens (screenshots); otherwise the whole state
+    var start: MKCoordinateRegion? = nil
     var onRegion: (MKCoordinateRegion) -> Void = { _ in }
+    /// a tapped cluster that zooming can't split
+    var onStack: ([Place]) -> Void = { _ in }
     let onSelect: (Place) -> Void
 
     func makeUIView(context: Context) -> MKMapView {
@@ -144,8 +183,8 @@ struct ClusteredMap: UIViewRepresentable {
         map.pointOfInterestFilter = .excludingAll
         map.register(PlaceMarker.self, forAnnotationViewWithReuseIdentifier: PlaceMarker.id)
         map.register(ClusterMarker.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-        map.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41.52, longitude: -72.76),
-                                         span: MKCoordinateSpan(latitudeDelta: 1.35, longitudeDelta: 2.1)), animated: false)
+        map.setRegion(start ?? MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41.52, longitude: -72.76),
+                                                  span: MKCoordinateSpan(latitudeDelta: 1.35, longitudeDelta: 2.1)), animated: false)
         let start = map.region
         DispatchQueue.main.async { onRegion(start) }
         return map
@@ -154,6 +193,7 @@ struct ClusteredMap: UIViewRepresentable {
     func updateUIView(_ map: MKMapView, context: Context) {
         context.coordinator.onSelect = onSelect
         context.coordinator.onRegion = onRegion
+        context.coordinator.onStack = onStack
         map.showsUserLocation = showsUser
         if let c = center, c !== context.coordinator.centered {
             context.coordinator.centered = c
@@ -172,6 +212,7 @@ struct ClusteredMap: UIViewRepresentable {
     final class Coordinator: NSObject, MKMapViewDelegate {
         var onSelect: ((Place) -> Void)?
         var onRegion: ((MKCoordinateRegion) -> Void)?
+        var onStack: (([Place]) -> Void)?
         var centered: CLLocation?
 
         func mapView(_ map: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -190,9 +231,18 @@ struct ClusteredMap: UIViewRepresentable {
         }
 
         func mapView(_ map: MKMapView, didSelect annotation: MKAnnotation) {
-            if let cluster = annotation as? MKClusterAnnotation {
+            guard let cluster = annotation as? MKClusterAnnotation else { return }
+            map.deselectAnnotation(cluster, animated: false)
+            let members = cluster.memberAnnotations.compactMap { $0 as? PlaceAnnotation }
+            // places sharing one point never split however far in you zoom, and near full zoom nothing more will: list them
+            let first = members.first.map { CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude) }
+            let onePoint = first.map { f in
+                members.allSatisfy { CLLocation(latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude).distance(from: f) < 2 }
+            } ?? false
+            if !members.isEmpty && (onePoint || map.region.span.latitudeDelta < 0.002) {
+                onStack?(members.map(\.place))
+            } else {
                 map.showAnnotations(cluster.memberAnnotations, animated: true)
-                map.deselectAnnotation(cluster, animated: false)
             }
         }
     }

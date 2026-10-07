@@ -74,7 +74,7 @@
     "website": "https://www.coracoraeats.com/",
     "open": true,
     "evidence_date": "2026-02",
-    "james_beard": ["Outstanding Restaurant finalist 2023", "Outstanding Restaurant semifinalist 2024"],
+    "james_beard": ["Outstanding Restaurant nominee 2023", "Outstanding Restaurant semifinalist 2024"],
     "other_honors": [],
     "chef": null,
     "sources": [
@@ -106,7 +106,7 @@
     "website": "https://www.communitytablect.com/",
     "open": true,
     "evidence_date": "2026-01",
-    "james_beard": ["Best Chef: Northeast finalist 2023 (Christian Hunter)", "Best Chef: Northeast semifinalist 2026 (Bolivar Hilario)"],
+    "james_beard": ["Best Chef: Northeast nominee 2023 (Christian Hunter)", "Best Chef: Northeast semifinalist 2026 (Bolivar Hilario)"],
     "other_honors": [],
     "chef": "Bolivar Hilario",
     "sources": [
@@ -136,9 +136,9 @@
     "open": true,
     "evidence_date": "2026-10",
     "james_beard": [
-      "Best Chef: Northeast finalist 2023 (Renee Touponce)",
-      "Outstanding Chef finalist 2024 (Renee Touponce)",
-      "Outstanding Wine and Other Beverages Program finalist 2026"
+      "Best Chef: Northeast nominee 2023 (Renee Touponce)",
+      "Outstanding Chef nominee 2024 (Renee Touponce)",
+      "Outstanding Wine and Other Beverages Program nominee 2026"
     ],
     "other_honors": [],
     "chef": "Renee Touponce",
@@ -204,7 +204,7 @@
     "website": "https://www.shipwrightsdaughter.com/",
     "open": true,
     "evidence_date": "2026-03",
-    "james_beard": ["Best Chef: Northeast winner 2024 (David Standridge)", "Outstanding Chef finalist 2026 (David Standridge)"],
+    "james_beard": ["Best Chef: Northeast winner 2024 (David Standridge)", "Outstanding Chef nominee 2026 (David Standridge)"],
     "other_honors": [],
     "chef": "David Standridge",
     "sources": [
@@ -236,7 +236,7 @@
     "website": "https://thecottage.kitchen/",
     "open": true,
     "evidence_date": "2026-10",
-    "james_beard": ["Best Chef: Northeast finalist 2025 (Brian Lewis)"],
+    "james_beard": ["Best Chef: Northeast nominee 2025 (Brian Lewis)"],
     "other_honors": [],
     "chef": "Brian Lewis",
     "sources": [
@@ -294,7 +294,7 @@
     "website": "https://materiaristo.com/",
     "open": true,
     "evidence_date": "2026-10",
-    "james_beard": ["Best Chef: Northeast finalist 2026 (David DiStasi)"],
+    "james_beard": ["Best Chef: Northeast nominee 2026 (David DiStasi)"],
     "other_honors": [],
     "chef": "David DiStasi",
     "sources": [

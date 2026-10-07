@@ -41,7 +41,6 @@ targets:
         UIUserInterfaceStyle: Light      # the palette is light-only (Design/Theme.swift); dark mode made lists unreadable
         NSLocationWhenInUseUsageDescription: "Your location sorts apizza places, lobster shacks and restaurants by distance and shows where you are on the map. It stays on your device."
         ITSAppUsesNonExemptEncryption: false
-        LSApplicationQueriesSchemes: [maps]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.connecticuteats.ios

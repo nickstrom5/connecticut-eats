@@ -27,14 +27,16 @@ struct ConnecticutEatsApp: App {
                     await model.load()
                     ScreenshotMode.apply(to: model)
                     if model.isLoaded && !ScreenshotMode.isActive {
-                        SpotlightIndexer.indexIfNeeded(model.places, generated: model.generated)
+                        SpotlightIndexer.indexIfNeeded(model.places, version: model.dataVersion)
                     }
                 }
                 .onContinueUserActivity(CSSearchableItemActionType) { activity in
                     guard let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else { return }
                     Task {
                         await model.load()
-                        if let p = model.place(id: id) { model.tab = .guides; model.selectedPlace = p; model.guidesPath = [.place(p)] }
+                        // an entry from before an id changed follows the alias; one for a place that's gone just opens the app
+                        guard let p = model.place(id: id) else { return }
+                        model.tab = .guides; model.selectedPlace = p; model.guidesPath = [.place(p)]
                     }
                 }
         }

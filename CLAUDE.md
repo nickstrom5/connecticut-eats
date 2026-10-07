@@ -3,9 +3,9 @@
 Three products share this folder and one data pipeline:
 - **The iOS/iPadOS app** "Connecticut Eats: Restaurants" (subtitle "Apizza & Lobster Roll Guide", home screen "CT Eats", bundle
   `com.connecticuteats.ios`; SwiftUI, iOS 18+), with its website in `docs/` (GitHub Pages; planned home connecticut.eatsranked.com).
-- **The web leaderboard** (`site/`), a private claude.ai Artifact: https://claude.ai/artifact/JDWfmR2pey4q1RDYBDqWZF (republish
+- **The web leaderboard** (`site/`, untracked), a private claude.ai Artifact whose URL is in `LOCAL.md` (untracked; republish
   `site/index.html` with `connecticut.json`, `ct_detail.json`, `ct_shapes.json` from the same path to keep the URL). It uses Google 2021
-  ratings and review signals; the app never does.
+  ratings and review signals; the app never does. Keep its URL out of tracked files.
 
 Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `playbook/12-sources.md` first. Never modify `../chi-eats/`,
 `../wi-eats/`, `../co-eats/` or `../wa-eats/`.
@@ -27,8 +27,26 @@ Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `
 - Research matching never merges two locations: a name-only match must be in the same town or village and at a compatible street
   number (The Spot at 163 Wooster St is not Pepe's at 157).
 - Connecticut has no statewide inspection data. Say so; no inspection boards.
-- Website links: `pipeline/check_websites.py` checks every candidate link politely and the export keeps only verified ones. Re-run it
-  before each submission, then rebuild. Never bypass bot protection (403s, 503s, bot checks, logins).
+- Website links: `pipeline/check_websites.py` checks every candidate link politely and the export keeps only verified ones (fail closed:
+  without `data/ct/website_check.json` no links ship; only http/https; an http link the checker saw end on https at the same host ships as
+  https). The name test reads page text only, never the URL; meta-refresh and script redirects are followed one hop; blocked hosts match
+  by registered domain, never as substrings; every chain store page is checked. Verdicts are dated and re-fetched after 14 days or when
+  `RULES` changes; run `check_websites.py --fresh` before each submission, then rebuild. Never bypass bot protection (403s, 503s, bot
+  checks, logins): a domain that refuses twice isn't asked again in that run.
+- Place ids come from the source record (Overture GERS id, permit number, or researched name + town), never from names or rounded
+  coordinates. `data/id_history.json` (committed) remembers every id ever exported; an id that disappears gets an alias to the same-named
+  place within 300 m (`aliases` in places.json), and the app remaps saved places through it. `data_version` (a content hash) drives
+  Spotlight re-indexing.
+- Phones ship as `+1` and ten digits or not at all. Permit numbers (`lic`) don't ship.
+- Licenses: only an ACTIVE status is a current permit (DCP flags LAPSED rows active=1). One permit, one place (best name match); the
+  same number and street in another town is another address; a casino's umbrella permit (LCN) makes no listing "licensed".
+- Farmington Valley ratings attach one-to-one, best match first, and only when the names share a distinctive word (never by address
+  alone: the Exxon's C is not the Dunkin' next door).
+- Hand-checked places show the researched address, and the researched name when the listing only adds a tail to it. A closure entry can
+  list `alt_addresses` when the permit and the news disagree on the number.
+- Hidden as non-restaurants: club permits, license-only hotel and caterer permits (unless the name says dining), cinemas, golf, bowling
+  and other activity venues, member clubs, smoke/hookah/cigar lounges (The Owl Shop is kept: a licensed 1934 cigar bar), home bakers and
+  delivery-only brands. Brand renames happen only when the rest of the name is generic ("Five Guys Flippin' Pies" is not Five Guys).
 - Casino restaurants (Foxwoods, Mohegan Sun) are real places on tribal land, labeled with their host.
 
 ## Rebuild

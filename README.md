@@ -4,8 +4,8 @@ Connecticut's version of the state restaurant products (models: `../wi-eats/`, `
 
 1. **Connecticut Eats**, a free iPhone and iPad app (App Store name "Connecticut Eats: Restaurants", subtitle "Apizza & Lobster Roll
    Guide", home screen "CT Eats"), and its generated website in `docs/` (GitHub Pages; planned connecticut.eatsranked.com).
-2. **The web leaderboard** of every restaurant in Connecticut, a private claude.ai Artifact from `site/index.html`
-   (https://claude.ai/artifact/JDWfmR2pey4q1RDYBDqWZF). Its JSON is not committed: it carries Google 2021-derived ratings.
+2. **A private web leaderboard**, built locally from `site/` (not committed; its data carries Google 2021-derived ratings and never
+   ships in the app or the website).
 
 | Path | What |
 |---|---|

@@ -37,6 +37,15 @@ enum Guide: String, CaseIterable, Identifiable, Hashable {
         }
     }
 
+    /// The line at the top of a list, where a classic adds how it was checked (so it doesn't say "hand-checked" twice).
+    var listSubtitle: String {
+        switch self {
+        case .apizza: "Coal- and oven-fired pies, white clam to tomato"
+        case .diners: "Long-running diners"
+        default: subtitle
+        }
+    }
+
     var systemImage: String {
         switch self {
         case .apizza: "flame"
@@ -70,6 +79,10 @@ enum Guide: String, CaseIterable, Identifiable, Hashable {
 
     var defaultSort: SortOrder { sortOptions[0] }
 
+    /// The order a list opens in: the classics by distance when you're in Connecticut, featured otherwise (a reader in
+    /// California shouldn't get a Stamford branch at 2,580 miles ahead of the New Haven originals).
+    func defaultSort(inConnecticut: Bool) -> SortOrder { isClassic ? (inConnecticut ? .nearest : .featured) : defaultSort }
+
     func includes(_ p: Place) -> Bool {
         switch self {
         // the classics promise "hand-checked", so only places our research confirmed open; a listing merely named "… Diner" isn't enough
@@ -98,10 +111,13 @@ enum SortOrder: String, CaseIterable, Identifiable {
         case .iconic: "Most iconic"
         }
     }
+    /// The orders that rank, so only these number the rows (Nearest and A to Z aren't a ranking).
+    var isRanking: Bool { self == .iconic || self == .oldest }
 }
 
-/// Filters shared by every list. Search text lives with each list.
-struct Filters: Equatable, Codable {
+/// Filters shared by every list (and only lists: Home, the Map and Surprise me show each guide whole). Search text lives with
+/// each list. Only the two toggles are kept across launches; a town or cuisine is for this visit.
+struct Filters: Hashable, Codable {
     var town: String?
     var cuisine: String?
     var hideChains = false
@@ -116,29 +132,31 @@ struct Filters: Equatable, Codable {
         if !includeNonRestaurants && p.isVenue { return false }
         if let town, p.city != town { return false }
         if let cuisine, p.cuisine != cuisine { return false }
-        if hideChains && p.isChain { return false }
-        if confirmedOnly && p.tier == .listing { return false }
+        if hideChains && p.isChain && !p.isHandCheckedOriginal { return false }   // Pepe's on Wooster St stays; its branches go
+        if confirmedOnly && p.tier == .listing && !p.handChecked { return false }   // hand-checked counts as confirmed
         return true
     }
 }
 
 enum Ranking {
     static func sort(_ places: [Place], by order: SortOrder, from here: CLLocation?) -> [Place] {
-        func name(_ a: Place, _ b: Place) -> Bool { a.name.localizedCaseInsensitiveCompare(b.name) == .orderedAscending }
-        func dist(_ p: Place) -> Double { (here != nil ? p.location?.distance(from: here!) : nil) ?? .greatestFiniteMagnitude }
+        // names compare by their place in the A to Z order (Place.nameRank), worked out once at load
+        func name(_ a: Place, _ b: Place) -> Bool { a.nameRank < b.nameRank }
         switch order {
         case .nearest where here != nil:
-            return places.sorted { dist($0) != dist($1) ? dist($0) < dist($1) : name($0, $1) }
+            // each distance once, not per comparison
+            let d = places.map { p in (p, p.coordinate.map { here!.distance(from: CLLocation(latitude: $0.latitude, longitude: $0.longitude)) } ?? .greatestFiniteMagnitude) }
+            return d.sorted { $0.1 != $1.1 ? $0.1 < $1.1 : name($0.0, $1.0) }.map(\.0)
         case .featured, .nearest:
-            // honored places first, then the verified year at this address, then name
+            // the featured score first (honored, long-running classics), then the verified year at this address, then name
             return places.sorted {
-                let a = $0.iconicPoints ?? -1, b = $1.iconicPoints ?? -1
+                let a = $0.featuredScore ?? -1, b = $1.featuredScore ?? -1
                 if a != b { return a > b }
                 let fa = $0.founded ?? 9999, fb = $1.founded ?? 9999
                 return fa != fb ? fa < fb : name($0, $1)
             }
         case .oldest:
-            return places.sorted { ($0.founded ?? 9999, $0.name) < ($1.founded ?? 9999, $1.name) }
+            return places.sorted { ($0.founded ?? 9999) != ($1.founded ?? 9999) ? ($0.founded ?? 9999) < ($1.founded ?? 9999) : name($0, $1) }
         case .name:
             return places.sorted(by: name)
         case .iconic:

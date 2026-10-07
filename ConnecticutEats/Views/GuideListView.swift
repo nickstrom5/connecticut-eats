@@ -10,19 +10,32 @@ struct GuideListView: View {
 
     @State private var sort: SortOrder?
     @State private var search = ""
+    @State private var searching = false
     @State private var showFilters = false
     @State private var shown = 100
+    /// The list, built off the main thread (AppModel.buildList) for the key it was built for. Until the first one arrives
+    /// there's nothing to say "no matches" about.
+    @State private var places: [Place] = []
+    @State private var built: AppModel.ListKey?
 
-    private var order: SortOrder { sort ?? (guide.isClassic ? (here != nil ? .nearest : .featured) : guide.defaultSort) }
+    /// A sort this guide doesn't offer (left over from another guide) is ignored.
+    private var order: SortOrder {
+        if let sort, guide.sortOptions.contains(sort) { return sort }
+        return guide.defaultSort(inConnecticut: here.map { LocationService.isInConnecticut($0.coordinate) } ?? false)
+    }
     private var here: CLLocation? { model.screenshotLocation ?? location.location }
 
     var body: some View {
-        let places = model.list(guide, sort: order, search: search, here: here)
+        let key = model.listKey(guide, sort: order, search: search, here: here)
         List {
             Section {
-                Text(guide.subtitle + (guide.isClassic ? ". Each one checked open with a 2025 or 2026 source." : ""))
+                Text(guide.listSubtitle + (guide.isClassic ? ". Each one hand-checked against a \(model.sourceYears) source." : ""))
                     .font(.subheadline).foregroundStyle(Theme.muted)
                     .listRowSeparator(.hidden)
+                if guide == .icons {
+                    Text("Points come from honors and years at the address; not a rating.")
+                        .font(.caption).foregroundStyle(Theme.ink2).listRowSeparator(.hidden)
+                }
                 if guide == .lobster {
                     Text("Many shacks close for the winter. Seasons are noted where the place posts them; check before you drive.")
                         .font(.caption).foregroundStyle(Theme.ink2).listRowSeparator(.hidden)
@@ -35,7 +48,9 @@ struct GuideListView: View {
                 if model.filters.activeCount > 0 { activeFilters }
             }
             Section {
-                if places.isEmpty && !(guide == .nearMe && here == nil) {
+                if built == nil {
+                    ProgressView().frame(maxWidth: .infinity).listRowSeparator(.hidden)
+                } else if built == key && places.isEmpty && !(guide == .nearMe && here == nil) {
                     ContentUnavailableView {
                         Label(search.isEmpty ? "Nothing here" : "No matches", systemImage: "magnifyingglass")
                     } description: {
@@ -46,20 +61,20 @@ struct GuideListView: View {
                     }
                 }
                 ForEach(Array(places.prefix(shown).enumerated()), id: \.element.id) { i, p in
-                    row(p, rank: guide.isRanked ? i + 1 : nil)
+                    row(p, rank: order.isRanking && hasMetric(p) ? i + 1 : nil)
                 }
                 if places.count > shown {
                     Button("Show more (\((places.count - shown).formatted()) left)") { shown += 200 }
                         .frame(maxWidth: .infinity).foregroundStyle(Theme.navy)
                 }
             } header: {
-                Text("\(places.count.formatted()) \(places.count == 1 ? "place" : "places") · \(order.label)").textCase(nil).foregroundStyle(Theme.ink2)
+                Text(built == nil ? "" : "\(places.count.formatted()) \(places.count == 1 ? "place" : "places") · \(order.label)").textCase(nil).foregroundStyle(Theme.ink2)
             }
         }
         .listStyle(.plain)
         .navigationTitle(guide.title)
         .navigationBarTitleDisplayMode(.large)
-        .searchable(text: $search, placement: .navigationBarDrawer(displayMode: guide == .all ? .always : .automatic), prompt: "Name, town, street or zip")
+        .searchable(text: $search, isPresented: $searching, placement: .navigationBarDrawer(displayMode: .always), prompt: "Name, town or street")
         .onChange(of: search) { shown = 100 }
         .onChange(of: sort) { shown = 100 }
         .toolbar {
@@ -77,7 +92,35 @@ struct GuideListView: View {
             }
         }
         .sheet(isPresented: $showFilters) { FiltersSheet() }
-        .task { if !ScreenshotMode.isActive && (guide == .nearMe || order == .nearest) { location.request() } }
+        .task(id: key) { await rebuild(key) }
+        .task {
+            if !ScreenshotMode.isActive && (guide == .nearMe || order == .nearest) { location.request() }
+            // from the Home search box: the field is active once the list has pushed in, so the keyboard is up
+            if model.focusSearch && guide == .all {
+                model.focusSearch = false
+                try? await Task.sleep(for: .milliseconds(450))
+                searching = true
+            }
+        }
+    }
+
+    /// Every change (a keystroke, a sort, a filter, moving 100 m) builds the list away from the main thread; a list built
+    /// before is reused, and while typing it waits for a pause.
+    private func rebuild(_ key: AppModel.ListKey) async {
+        if let hit = model.cachedList(key) { places = hit; built = key; return }
+        if let built, built.search != key.search {
+            try? await Task.sleep(for: .milliseconds(120))
+            if Task.isCancelled { return }
+        }
+        let out = await model.buildList(key, here: here)
+        if Task.isCancelled { return }
+        places = out
+        built = key
+    }
+
+    /// The ranking's own number: places without a year (Oldest first) or points (Most iconic) sort last, unnumbered.
+    private func hasMetric(_ p: Place) -> Bool {
+        order == .oldest ? p.founded != nil : order == .iconic ? p.iconicPoints != nil : false
     }
 
     @ViewBuilder
@@ -95,8 +138,7 @@ struct GuideListView: View {
         switch order {
         case .nearest: if let here, let l = p.location { return .text(here.milesText(to: l), "away") }
         case .oldest: if let f = p.founded { return .text("\(f)", "since") }
-        case .iconic: if let pts = p.iconicPoints { return .text("\(Int(pts.rounded()))", "iconic pts") }
-        default: break
+        default: break   // Most iconic shows what earns the place (its year below, its honor as a chip), never a score
         }
         if let f = p.founded, guide != .all { return .text("\(f)", "since") }
         return nil
@@ -178,7 +220,7 @@ struct PlaceChips: View {
 
     private var items: [(String, Chip.Style)] {
         var out: [(String, Chip.Style)] = []
-        if let jb = place.jamesBeardLabel { out.append((jb, .navy)) }
+        if let jb = place.jamesBeardLabel { out.append((jb, .navy)) } else if place.otherHonors != nil { out.append(("Honored", .navy)) }
         for k in place.kinds.names where k != "Historic" { out.append((k, .tomato)) }
         if place.kinds.isEmpty {   // places outside the research still carry tags from their names (a "… Diner", an "… Apizza")
             if place.tags.contains(.apizza) { out.append(("Apizza", .tomato)) }

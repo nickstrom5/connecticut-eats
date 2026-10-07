@@ -736,6 +736,7 @@
   {
     "name": "Guilford Lobster Pound",
     "address": "505A Whitfield St",
+    "match_names": ["GUILFORD LOBSTER POUND"],
     "town": "Guilford",
     "village": null,
     "zip": "06437",

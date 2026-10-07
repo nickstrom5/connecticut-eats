@@ -8,7 +8,7 @@ establishment must post it near its permit. FVHD publishes the current ratings a
 Polite: robots.txt allows these pages; an honest user agent; one page at a time, 30 s apart. Any 403, 429 or 503, or a dropped connection, stops the run
 (no retry, no workaround): the previous file is kept and the next refresh tries again.
 """
-import os, re, sys, json, time, html
+import collections, os, re, sys, json, time, html
 import requests
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "data", "raw", "official")
@@ -43,6 +43,7 @@ def parse(page, town):
 
 
 def main():
+    prev = collections.Counter(e["town"] for e in json.load(open(f"{OUT}/fvhd_ratings.json"))["ratings"]) if os.path.exists(f"{OUT}/fvhd_ratings.json") else {}
     rows, pages = [], {}
     for i, (town, path) in enumerate(TOWNS.items()):
         if i:
@@ -59,6 +60,10 @@ def main():
         r.raise_for_status()
         got = parse(r.text, town)
         print(town, len(got), "rated places", flush=True)
+        # a 200 that isn't the ratings page (a bot check, a redesign) parses to nothing: never let it erase a town's ratings
+        if not got or len(got) < 0.5 * prev.get(town, 0):
+            print(f"stopped: {url} gave {len(got)} ratings (last time {prev.get(town, 0)}); keeping the previous file, check the page by hand")
+            sys.exit(1)
         rows += got; pages[town] = url
     json.dump({"source": "Farmington Valley Health District, food ratings by town", "index": "https://fvhd.org/environmental-health/food/food-ratings/",
                "pages": pages, "fetched": time.strftime("%Y-%m-%d"), "ratings": rows}, open(f"{OUT}/fvhd_ratings.json", "w"), indent=1)

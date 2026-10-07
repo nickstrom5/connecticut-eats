@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+import MapKit
 import UIKit
 
 /// `-screenshot <name>` opens one screen with fixed state for App Store screenshots (scripts/capture-screenshots.sh).
@@ -16,6 +17,12 @@ enum ScreenshotMode {
         #endif
     }
     static var isActive: Bool { name != nil }
+
+    /// The map shot opens on New Haven's apizza at neighborhood zoom, so the pins show one by one rather than as statewide clusters.
+    static var mapRegion: MKCoordinateRegion? {
+        name == "map" ? MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 41.293, longitude: -72.927),
+                                           span: MKCoordinateSpan(latitudeDelta: 0.07, longitudeDelta: 0.04)) : nil
+    }
 
     @MainActor
     static func apply(to model: AppModel) {

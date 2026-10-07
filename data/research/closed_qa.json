@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Margaritaville Restaurant Mohegan Sun",
+    "address": "1 Mohegan Sun Blvd",
+    "town": "Montville",
+    "closed_reason": "Closed January 2, 2019 (59 layoffs); the listing survived only on the casino's umbrella permit.",
+    "sources": ["https://www.theday.com/business/20181101/margaritaville-in-mohegan-sun-to-close-resulting-in-59-layoffs/"]
+  },
+  {
+    "name": "La Cupola Ristorante",
+    "address": "637 Bantam Rd",
+    "town": "Litchfield",
+    "closed_reason": "The owner retired; Materia Ristorante (the DiStasi brothers) took over the space at 637 Bantam Rd.",
+    "sources": ["https://litchfieldmagazine.com/onourradar/living-in-a-materia-world/", "https://litchfieldmagazine.com/onourradar/materia/"]
+  },
+  {
+    "name": "Dippin' Chicken",
+    "address": "236 East Ave",
+    "town": "Norwalk",
+    "closed_reason": "Closed September 17, 2026, citing construction outside the business.",
+    "sources": ["https://patch.com/connecticut/norwalk/norwalk-restaurant-announces-closure-amid-construction-outside-business"]
+  },
+  {
+    "name": "Down The Hatch",
+    "address": "292 Candlewood Lake Rd",
+    "town": "Brookfield",
+    "closed_reason": "Stays closed for 2026 with no plans to reopen; the property is listed for sale (April 2026, citing the NewsTimes).",
+    "sources": ["https://thecoconutmama.com/a-longtime-connecticut-waterfront-restaurant-closes-after-nearly-50-years/"]
+  },
+  {
+    "name": "G's Burgers",
+    "address": "778 New Haven Rd",
+    "town": "Naugatuck",
+    "closed_reason": "Naugatuck store's last day was September 28, 2026 (the Watertown store stays open).",
+    "sources": ["https://patch.com/connecticut/naugatuck/naugatuck-burger-restaurant-ice-cream-shop-announce-sudden-closure"]
+  },
+  {
+    "name": "Chapter One Food & Drink",
+    "address": "25 Whitfield St",
+    "town": "Guilford",
+    "closed_reason": "Shown closed (September 2026) and its restaurant permit LIR.0019930 lapsed on 2026-09-24.",
+    "sources": ["https://www.yelp.com/biz/chapter-one-food-and-drink-guilford-guilford",
+                "https://data.ct.gov/resource/ngch-56tr.json?$select=dba,status,expirationdate&$where=fullcredentialcode='LIR.0019930'"]
+  },
+  {
+    "name": "Funju Noodle Bar",
+    "town": "Wallingford",
+    "closed_reason": "Restaurant permit LIR.0020186 went from active (Oct 5) to INACTIVE / CANCELLATION (Oct 7, 2026); Apple Maps marks it closed. Recheck before each release.",
+    "sources": ["https://data.ct.gov/resource/ngch-56tr.json?$select=dba,status,statusreason&$where=fullcredentialcode='LIR.0020186'"]
+  }
+]

@@ -27,7 +27,10 @@ ON_PREMISE = {"restaurant", "bar", "hotel"}   # the permits a restaurant or bar 
 def road(a):
     """One spelling for numbered roads: 'ROUTE 12' = 'RT 12' = 'RTE 12' = 'CT-12' = 'STATE ROUTE 12' = 'US ROUTE 6' = 'US-6'."""
     a = re.sub(r"(\d)\s*&\s*(\d)", r"\1-\2", a.upper())
-    a = re.sub(r"\b(?:U\.?\s?S\.?|CT|CONN|STATE)[-\s]+(?:ROUTE|RTE|RT|HIGHWAY|HWY)?\s*-?\s*(\d+[A-Z]?)\b", r"RT \1", a)
+    a = re.sub(r"\b(?:U\.?\s?S\.?|STATE)[-\s]+(?:ROUTE|RTE|RT|HIGHWAY|HWY)?\s*-?\s*(\d+[A-Z]?)\b", r"RT \1", a)
+    # "CT 32" is a route right after the house number (or written "CT-32" / "CT Route 32"); "12 Maple Ct 3" is a court and a unit
+    a = re.sub(r"\b(?:CT|CONN)(?:\s*-\s*|\s+(?:ROUTE|RTE|RT|HIGHWAY|HWY)\s*-?\s*)(\d+[A-Z]?)\b", r"RT \1", a)
+    a = re.sub(r"^(\s*\d+[A-Z]?(?:\s*-\s*\d+[A-Z]?)?\s+|[&/]\s*)(?:CT|CONN)\s+(\d+[A-Z]?)\b", r"\1RT \2", a)
     a = re.sub(r"\b(?:ROUTE|RTE|RT)\.?\s*#?\s*(\d+[A-Z]?)\b", r"RT \1", a)
     a = re.sub(r"\bTPKE\b|\bTPK\b", "TURNPIKE", a)
     return re.sub(r"\bHIGHWAY\b", "HWY", a)
@@ -42,7 +45,7 @@ def street_key(a):
     if not m:
         return None, None
     words = [w for w in m.group(2).split() if w]
-    while len(words) > 1 and words[0] in DIRS:
+    while len(words) > 1 and words[0] in DIRS and words[1] not in TYPES:   # "3 West St" is West Street, not a direction
         words = words[1:]
     core = []
     for w in words:
@@ -51,6 +54,38 @@ def street_key(a):
         core.append(w)
     core = [{"FIRST": "1ST", "SECOND": "2ND", "THIRD": "3RD", "FOURTH": "4TH", "FIFTH": "5TH", "SIXTH": "6TH"}.get(w, w) for w in core]
     return m.group(1), " ".join(core[:3]) or None
+
+
+def street_dir(a):
+    """The direction before the street name: '345 N Main St' -> 'N'; '345 Main St' and '3 West St' -> None. street_key leaves it out so
+    a listing's "345 Main St" still meets a license's "345 N Main St"; anything that places or merges by address checks it too."""
+    if not isinstance(a, str):
+        return None
+    m = re.match(r"^\s*\d+[A-Z]?(?:\s*-\s*\d+[A-Z]?)?\s+(.*)$", re.sub(r"[.,#]", " ", road(a)))
+    w = m.group(1).split() if m else []
+    return DIRS[w[0]] if len(w) > 1 and w[0] in DIRS and w[1] not in TYPES else None
+
+
+TYPE_ABBR = {"STREET": "ST", "AVENUE": "AVE", "AV": "AVE", "ROAD": "RD", "DRIVE": "DR", "LANE": "LN", "COURT": "CT", "PLACE": "PL",
+             "PARKWAY": "PKWY", "TERRACE": "TER", "TRAIL": "TRL", "HIGHWAY": "HWY", "CIRCLE": "CIR", "PLAZA": "PLZ", "SQUARE": "SQ",
+             "TURNPIKE": "TPKE", "TPK": "TPKE", "PIKE": "TPKE", "EXTENSION": "EXT", "GREEN": "GRN", "LANDING": "LNDG", "COMMONS": "CMNS",
+             "BOULEVARD": "BLVD"}
+
+
+def street_type(a):
+    """'41 Enfield St' -> 'ST'; '41 Enfield Terrace' -> 'TER'; a numbered route or no type -> None."""
+    if not isinstance(a, str):
+        return None
+    m = re.match(r"^\s*\d+[A-Z]?(?:\s*-\s*\d+[A-Z]?)?\s+(.*)$", re.sub(r"[.,#]", " ", road(a)))
+    w = m.group(1).split() if m else []
+    for i, x in enumerate(w):
+        if i and x in TYPES:
+            return TYPE_ABBR.get(x, x)
+    return None
+
+
+def dir_ok(d1, d2):
+    return d1 is None or d2 is None or d1 == d2
 
 
 def street_nums(a):
@@ -89,23 +124,36 @@ def address_index():
     if _AP is None:
         ap = pd.read_parquet(f"{CT}/addresses_ct.parquet", columns=["number", "street", "postcode", "muni", "state", "lat", "lon"])
         ap = ap[ap.state == "CT"]
-        idx, line = {}, {}
+        idx, line, bystreet = {}, {}, {}
         for n, s, z, m, la, lo in zip(ap.number.astype(str), ap.street.fillna(""), ap.postcode.fillna(""), ap.muni, ap.lat, ap.lon):
             s = re.sub(r"\s*\([^)]*\)\s*$", "", s)   # "East Putnam Ave(COS COB)"
             k = street_key(f"{n} {s}")
             if k[1]:
-                idx.setdefault(k, []).append((la, lo, m, z[:5]))
-                line.setdefault((k[1], m), []).append((int(k[0]), la, lo, z[:5]))
+                d, t = street_dir(f"{n} {s}"), street_type(f"{n} {s}")
+                idx.setdefault(k, []).append((la, lo, m, z[:5], d, t))
+                line.setdefault((k[1], m), []).append((int(k[0]), la, lo, z[:5], d, t))
+                bystreet.setdefault(k[1], {}).setdefault(m, set()).add(z[:5])
         for v in line.values():
-            v.sort()
-        _AP = (idx, line)
+            v.sort(key=lambda p: (p[0], p[1], p[2]))
+        _AP = (idx, line, bystreet)
     return _AP
 
 
-def _interpolate(num, st, town):
-    """A number missing from the points: between the nearest numbers on both sides (same parity first) within 60, else the nearest within 20."""
+def _same_dir(pts, d, at, t=None):
+    """Points on the license's own street: its direction when the points have it (else the ones without one), then its street type
+    when some points have it (41 Enfield St, not 41 Enfield Terrace)."""
+    if d is not None:
+        pts = [p for p in pts if p[at] == d] or [p for p in pts if p[at] is None]
+    if t is not None:
+        pts = [p for p in pts if p[at + 1] == t] or pts
+    return pts
+
+
+def _interpolate(num, st, town, d=None, t=None):
+    """A number missing from the points: between the nearest numbers on both sides (same parity first) within 60, else the nearest within 20.
+    Only along the license's own side of a split street (N Main St is not S Main St)."""
     import bisect
-    pts = address_index()[1].get((st, town))
+    pts = _same_dir(address_index()[1].get((st, town)) or [], d, 4, t)
     if not pts:
         return None
     n = int(num)
@@ -131,33 +179,44 @@ def geocode(addr, town=None, zip5=None):
     None when it can't be placed or would be a guess (the same address in two far-apart towns)."""
     idx = address_index()[0]
     st = street_key(addr)[1]
+    d, t = street_dir(addr), street_type(addr)
     nums = sorted(street_nums(addr))
+    ambiguous = set()
     for n in nums:
-        pts = idx.get((n, st))
+        pts = _same_dir(idx.get((n, st)) or [], d, 4, t)
         if not pts:
             continue
         same = [p for p in pts if town and p[2] == town] or [p for p in pts if zip5 and p[3] == zip5]
         if (town or zip5) and not same:
             continue   # "123 Main St" in Stamford is not 123 Main St in Groton: never borrow another town's point
         pts = same or pts
+        spread = lambda q: max(math.hypot((p[0] - np.median([x[0] for x in q])) * 111, (p[1] - np.median([x[1] for x in q])) * 83) for p in q)
+        if spread(pts) > 1.0 and zip5 and [p for p in pts if p[3] == zip5]:
+            pts = [p for p in pts if p[3] == zip5]   # 7 Burrows St exists twice in Groton: the license's zip says which
         la, lo = float(np.median([p[0] for p in pts])), float(np.median([p[1] for p in pts]))
         if max(math.hypot((p[0] - la) * 111, (p[1] - lo) * 83) for p in pts) > 1.0:
+            ambiguous.add(n)   # the same address twice, far apart: a guess either way, and interpolating would pick one
             continue
         return la, lo, pts[0][2], True
+    if not town and zip5 and st:   # a village's mail: the one town where this street has this zip
+        ts = [m for m, zs in (address_index()[2].get(st) or {}).items() if zip5 in zs]
+        town = ts[0] if len(ts) == 1 else None
     if town and st:
         for n in nums:
-            g = _interpolate(n, st, town)
+            g = None if n in ambiguous else _interpolate(n, st, town, d, t)
             if g:
                 return g[0], g[1], g[2], False
     return None
 
 
 def zip_towns():
-    """zip -> the municipality most of its address points are in (license records give a mailing city, not always the town)."""
+    """zip -> (the municipality most of its address points are in, every municipality it covers). License records give a mailing city,
+    not always the town: "Mystic" 06355 is Groton and Stonington, "Canaan" 06018 is North Canaan."""
     ap = pd.read_parquet(f"{CT}/addresses_ct.parquet", columns=["postcode", "muni", "state"])
     ap = ap[(ap.state == "CT") & ap.postcode.notna()]
     ap["z"] = ap.postcode.str[:5]
-    return ap.groupby("z").muni.agg(lambda x: x.mode().iat[0]).to_dict()
+    g = ap.groupby("z").muni
+    return g.agg(lambda x: x.mode().iat[0]).to_dict(), g.agg(lambda x: set(x.value_counts()[lambda c: c >= 20].index)).to_dict()
 
 
 def load(cache=True):
@@ -165,20 +224,23 @@ def load(cache=True):
     if cache and os.path.exists(path) and os.path.getmtime(path) > max(os.path.getmtime(f"{OFF}/dcp_licenses.csv"), os.path.getmtime(__file__)):
         return pd.read_pickle(path)
     towns = {f["properties"]["town"] for f in json.load(open(f"{CT}/ct_towns.geojson"))["features"]}
-    ztown = zip_towns()
+    ztown, _ = zip_towns()
     rows = []
     d = pd.read_csv(f"{OFF}/dcp_licenses.csv", dtype=str)
     d = d[(d.state.fillna("CT") == "CT") & d.credentialtype.isin(KIND)].fillna("")
     for _, r in d.iterrows():
         z = (r.zip or "")[:5]
         mail = canon_city(r.city)
-        town = mail if mail in towns else ztown.get(z)
+        # a town's own name is that town ("Canaan" with North Canaan's 06018 is the mailing name, not the town of Canaan); a village name
+        # (Mystic) is placed by its zip first, in whichever of the zip's towns has the address, then in the zip's main town
+        town = "North Canaan" if mail == "Canaan" and z == "06018" else (mail if mail in towns else None)
         num, st = street_key(r.address)
         if not re.match(r"\s*\d", r.address):   # no street number (a few records hold a name or a mall in the address field)
             num, st = None, None
-        rows.append({"jur": "dcp", "lic": r.fullcredentialcode, "name": r.dba or None, "keys": _names(r.dba),
+        rows.append({"jur": "dcp", "lic": r.fullcredentialcode, "ztown": ztown.get(z), "name": r.dba or None, "keys": _names(r.dba),
                      "addr": r.address, "city": mail, "town": town, "zip": z, "num": num, "street": st, "kind": KIND[r.credentialtype],
-                     "cred": r.credential, "active": r.active == "1", "status": r.status, "since": (r.issuedate or "")[:10],
+                     # DCP flags LAPSED and APPROVED rows active=1: only an ACTIVE status is a current permit
+                     "cred": r.credential, "active": r.active == "1" and r.status.startswith("ACTIVE"), "status": r.status, "since": (r.issuedate or "")[:10],
                      "expires": (r.expirationdate or "")[:10], "cls": None, "seats": None})
     h = json.load(open(f"{OFF}/hartford_food.json"))["features"]
     for f in h:
@@ -191,10 +253,10 @@ def load(cache=True):
                      "since": None, "expires": None, "cls": a["Classification"], "seats": int(seats.group(1)) if seats else None})
     df = pd.DataFrame(rows)
     df = df[df.name.notna()].reset_index(drop=True)
-    g = [geocode(a, t, z) for a, t, z in zip(df.addr, df.town, df.zip)]
+    g = [geocode(a, t, z) or (geocode(a, zt, z) if t is None and isinstance(zt, str) else None) for a, t, z, zt in zip(df.addr, df.town, df.zip, df.ztown)]
     df["lat"] = [x[0] if x else np.nan for x in g]
     df["lon"] = [x[1] if x else np.nan for x in g]
-    df["town"] = [x[2] if x else t for x, t in zip(g, df.town)]
+    df["town"] = [x[2] if x else (t if isinstance(t, str) else zt) for x, t, zt in zip(g, df.town, df.get("ztown", df.town))]
     df["geo_exact"] = [bool(x and x[3]) for x in g]
     # one business can hold several licenses (restaurant liquor + bakery, a renewal under a new permit): same address, a name in common
     from common import name_sim, _stems, GENERIC

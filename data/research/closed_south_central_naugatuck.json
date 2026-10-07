@@ -13,6 +13,8 @@
   {
     "name": "Green Olive Diner",
     "address": "477 South Broad St",
+    "alt_addresses": ["443 S Broad St"],
+    "alt_note": "DCP permit LRW.0004757 and the map listings give 443 South Broad St.",
     "town": "Meriden",
     "closed_reason": "Closed at the end of November 2025 after 16 years; the owners cited a large rent increase.",
     "sources": [

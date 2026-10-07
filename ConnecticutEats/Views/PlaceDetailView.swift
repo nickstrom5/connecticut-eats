@@ -22,6 +22,10 @@ struct PlaceDetailView: View {
                 if let r = place.healthRating { rating(r) }
                 if let host = place.host { hostVenue(host) }
                 listing
+                Link(destination: Links.problemEmail(for: place)) {
+                    Label("Report a problem with this listing", systemImage: "exclamationmark.bubble").font(.subheadline.weight(.semibold))
+                }
+                .accessibilityHint("Writes an email about this place")
             }
             .padding(16)
         }
@@ -30,8 +34,9 @@ struct PlaceDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
+                // not "Saved": that's the tab's name
                 Button { model.toggleSaved(place) } label: {
-                    Label(model.isSaved(place) ? "Saved" : "Save", systemImage: model.isSaved(place) ? "heart.fill" : "heart")
+                    Label(model.isSaved(place) ? "Remove from Saved" : "Save", systemImage: model.isSaved(place) ? "heart.fill" : "heart")
                 }
                 ShareLink(item: shareText) { Label("Share", systemImage: "square.and.arrow.up") }
             }
@@ -49,15 +54,22 @@ struct PlaceDetailView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text((place.village.map { "\($0) · \(place.city ?? "")" } ?? place.city ?? "Connecticut").uppercased())
+            // shown in capitals, read as written (VoiceOver would spell a short capitalized name out as an acronym)
+            let town = place.village.map { "\($0) · \(place.city ?? "")" } ?? place.city ?? "Connecticut"
+            Text(town.uppercased())
                 .font(.caption.weight(.bold)).tracking(1.2).foregroundStyle(Theme.navy2)
+                .accessibilityLabel(town)
             Text(place.name.uppercased())
                 .displayFont(38).foregroundStyle(Theme.navy)
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityLabel(place.name)
                 .accessibilityAddTraits(.isHeader)
             Text([place.fullAddress, place.cuisine].filter { !$0.isEmpty }.joined(separator: " · "))
                 .font(.subheadline).foregroundStyle(Theme.ink2)
                 .textSelection(.enabled)
+            if let phone = place.phoneText {
+                Text(phone).font(.subheadline).foregroundStyle(Theme.ink2).textSelection(.enabled)
+            }
             if let here = model.screenshotLocation ?? location.location, let l = place.location {
                 Text("\(here.milesText(to: l)) away").font(.subheadline).foregroundStyle(Theme.muted)
             }
@@ -95,8 +107,10 @@ struct PlaceDetailView: View {
 
             HStack(spacing: 10) {
                 actionButton("Directions", "arrow.triangle.turn.up.right.diamond") { AppleMaps.openInMaps(place, directions: true) }
-                if let phone = place.phone, let url = URL(string: "tel:\(phone.filter { $0.isNumber || $0 == "+" })") {
+                // only a US number (Place.usPhone): a malformed one could dial another country
+                if let phone = place.phone, let url = URL(string: "tel:\(phone)") {
                     actionButton("Call", "phone") { UIApplication.shared.open(url) }
+                        .accessibilityLabel("Call \(place.phoneText ?? phone)")
                 }
                 if let web = place.website {
                     actionButton("Website", "safari") { UIApplication.shared.open(web) }
@@ -121,10 +135,21 @@ struct PlaceDetailView: View {
         Map(initialPosition: .region(MKCoordinateRegion(center: c, latitudinalMeters: 900, longitudinalMeters: 900)), interactionModes: []) {
             Marker(place.name, systemImage: MarkerGlyph.symbol(for: place), coordinate: c).tint(place.handChecked ? Theme.tomato : Theme.navy)
         }
+        .accessibilityLabel("Map of \(place.name)")
         .frame(height: 170)
         .clipShape(RoundedRectangle(cornerRadius: 14))
-        .onTapGesture { AppleMaps.openInMaps(place) }
-        .accessibilityLabel("Map of \(place.name). Opens Apple Maps.")
+        // a button rather than a tap on the whole map, so MapKit's own "Legal" link stays tappable
+        .overlay(alignment: .topTrailing) {
+            Button { AppleMaps.openInMaps(place) } label: {
+                Label("Open in Maps", systemImage: "map")
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 10).padding(.vertical, 6)
+                    .foregroundStyle(Theme.navy)
+                    .background(Capsule().fill(.regularMaterial))
+            }
+            .padding(8)
+            .accessibilityLabel("Open \(place.name) in Apple Maps")
+        }
     }
 
     private var checked: some View {
@@ -136,7 +161,7 @@ struct PlaceDetailView: View {
                 if let s = place.season { fact("Season", s) } else if place.isSeasonal { fact("Season", "Seasonal; check before you go.") }
                 if let f = place.founded { fact("At this address since", "\(f)") }
                 if let b = place.branchOf { fact("A branch of", b) }
-                Text("Checked open in October 2026 against a 2025 or 2026 source: the place's own site or menu, local news, or a tourism listing. Hours and menus change, so check before you go.")
+                Text("Checked open in \(model.researchChecked) against a \(model.sourceYears) source: the place's own site or menu, local news, or a tourism listing. Hours and menus change, so check before you go.")
                     .font(.caption).foregroundStyle(Theme.ink2)
             }
         }
@@ -165,7 +190,13 @@ struct PlaceDetailView: View {
                         if let d = r.d { Text("Rated \(Self.date(d))").font(.subheadline).foregroundStyle(Theme.ink2) }
                     }
                 }
-                Text("The Farmington Valley Health District rates restaurants A (Excellent), B (Good), C (Fair) or U (Unsatisfactory) at each routine inspection, and each place must post its rating. Only these 10 towns publish a current rating; the rest of Connecticut's health departments don't post results.")
+                Text("As published by the Farmington Valley Health District\(model.fvhdFetched.map { " (copied \(Self.date($0)))" } ?? "")."
+                     + (r.n.map { " Rated as \($0)." } ?? ""))
+                    .font(.subheadline).foregroundStyle(Theme.ink2)
+                if let town = place.city, let page = model.fvhdPages[town] {
+                    Link("Ratings for \(town)", destination: page).font(.subheadline.weight(.semibold))
+                }
+                Text("The Farmington Valley Health District (Avon, Barkhamsted, Canton, Colebrook, East Granby, Farmington, Granby, Hartland, New Hartford and Simsbury) rates restaurants A (Excellent), B (Good), C (Fair) or U (Unsatisfactory) at each routine inspection, and each place must post its rating. Only these 10 towns publish a current letter rating. Other Connecticut health departments publish no ratings, and most post no inspection results online.")
                     .font(.caption).foregroundStyle(Theme.muted)
             }
         }
@@ -198,7 +229,7 @@ struct PlaceDetailView: View {
     private var listingNote: String {
         let checked = place.handChecked
         if place.source == "research" {
-            return "On our hand-checked list (checked in October 2026 against a 2025 or 2026 source). The open map data didn't list it as a place to eat, so it's placed at its street address."
+            return "On our hand-checked list (checked in \(model.researchChecked) against a \(model.sourceYears) source). The open map data didn't list it as a place to eat, so it's placed at its street address."
         }
         switch place.tier {
         case .licensed:
@@ -206,14 +237,14 @@ struct PlaceDetailView: View {
                 ? "From the \(place.jurisdiction.listName). The open map data didn't have it, so it's placed at its street address."
                 : "Matched to an active entry in the \(place.jurisdiction.listName)."
         case .confirmed where checked, .listing where checked:
-            return "On our hand-checked list: checked open in October 2026 against a 2025 or 2026 source (its own site or menu, local news, or a tourism listing). It's in Overture's open map data too."
+            return "On our hand-checked list: checked open in \(model.researchChecked) against a \(model.sourceYears) source (its own site or menu, local news, or a tourism listing). It's in Overture's open map data too."
         case .confirmed, .listing:
             let rate = model.matchRate(for: place)
             let base = place.tier == .confirmed
                 ? "A high-confidence listing in Overture's open map data."
                 : "A single listing in Overture's open map data, so it may be closed or misfiled."
             let measured = rate.map { " Checked against Hartford's food licenses, listings like this matched a licensed food business \($0) of the time." } ?? ""
-            return base + measured + (checked ? " It's also on our hand-checked list, checked in October 2026 against a 2025 or 2026 source." : "")
+            return base + measured + (checked ? " It's also on our hand-checked list, checked in \(model.researchChecked) against a \(model.sourceYears) source." : "")
         }
     }
 

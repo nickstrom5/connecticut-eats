@@ -1,0 +1,92 @@
+[
+  {
+    "village": null,
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "open": true,
+    "evidence_date": "2026-10",
+    "james_beard": [],
+    "other_honors": [],
+    "chef": null,
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "1148 New Britain Ave",
+    "town": "West Hartford",
+    "zip": "06110",
+    "founded": 2013,
+    "founded_note": "West Hartford location opened in September 2013.",
+    "note": "West Hartford branch of Pepe's with a coal-fired brick oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-west-hartford",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-west-hartford",
+      "https://pepespizzeria.com/locations/directory/connecticut"
+    ]
+  },
+  {
+    "village": null,
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "open": true,
+    "evidence_date": "2026-10",
+    "james_beard": [],
+    "other_honors": [],
+    "chef": null,
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "221 Buckland Hills Drive",
+    "town": "Manchester",
+    "zip": "06042",
+    "founded": 2007,
+    "founded_note": "Manchester location opened in September 2007.",
+    "note": "Manchester branch of Pepe's, near Buckland Hills, with a coal-fired oven built like the original.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-manchester",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-manchester",
+      "https://pepespizzeria.com/locations/directory/connecticut"
+    ]
+  },
+  {
+    "village": null,
+    "kinds": [
+      "apizza"
+    ],
+    "dishes": [
+      "white clam pie",
+      "original tomato pie"
+    ],
+    "seasonal": false,
+    "season": null,
+    "branch_of": "Frank Pepe Pizzeria Napoletana, New Haven",
+    "open": true,
+    "evidence_date": "2026-10",
+    "james_beard": [],
+    "other_honors": [],
+    "chef": null,
+    "name": "Frank Pepe Pizzeria Napoletana",
+    "address": "130 Reidville Drive",
+    "town": "Waterbury",
+    "zip": "06705",
+    "founded": 2017,
+    "founded_note": "Waterbury location opened in April 2017.",
+    "note": "Waterbury branch of Pepe's with a coal-fired oven.",
+    "website": "https://pepespizzeria.com/locations/connecticut/frank-pepes-waterbury",
+    "sources": [
+      "https://pepespizzeria.com/locations/connecticut/frank-pepes-waterbury",
+      "https://pepespizzeria.com/locations/directory/connecticut"
+    ]
+  }
+]

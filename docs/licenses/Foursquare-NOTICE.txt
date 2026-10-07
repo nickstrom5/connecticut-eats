@@ -12,4 +12,4 @@ You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-
 See the License for the specific language governing permissions and limitations under the License.
 We also encourage you to join our Placemaker community where you can contribute and provide suggestions to improve the accuracy of the Data for future releases for yourself and others.
 
-Notice of changes: Connecticut Eats filtered the Data to eating and drinking places in Connecticut, removed duplicates and closed, adult or unverifiable listings, and reformatted it for this app and website (2026).
+Notice of changes: Connecticut Eats filtered the Data to eating and drinking places in Connecticut, removed duplicates and closed, adult, or unverifiable listings, and reformatted it for this app and website (2026).

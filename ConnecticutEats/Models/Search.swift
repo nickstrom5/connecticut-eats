@@ -29,7 +29,16 @@ struct Search {
 
     /// Addresses (only) get their street words abbreviated so "north main street" finds "N Main St".
     static func normalizeAddress(_ s: String) -> String {
-        normalize(s).split(separator: " ").map { synonyms[String($0)] ?? String($0) }.joined(separator: " ")
+        routes(normalize(s).split(separator: " ").map(String.init)).map { synonyms[$0] ?? $0 }.joined(separator: " ")
+    }
+
+    /// A route number: "CT-32", "US 1", "Rte 66" and "route 32" all read "rt <number>".
+    static let routeWords: Set<String> = ["ct", "us", "rte", "route", "rt"]
+    static func routes(_ words: [String]) -> [String] {
+        words.indices.map { i in
+            let next = i + 1 < words.count ? words[i + 1] : ""
+            return routeWords.contains(words[i]) && !next.isEmpty && next.allSatisfy({ ("0"..."9").contains($0) }) ? "rt" : words[i]
+        }
     }
 
     struct Query {
@@ -39,6 +48,8 @@ struct Search {
         var placePhrase: String?
         var tag: PlaceTags?
         var tagPhrase: String?
+        /// typed something, but nothing searchable ("🍕", "!!!"): nothing to look for
+        var unsearchable = false
         var isEmpty: Bool { tokens.isEmpty && town == nil && village == nil && tag == nil }
     }
 
@@ -47,8 +58,11 @@ struct Search {
     static func parse(_ text: String, towns: [String: String], villages: [String: String] = [:]) -> Query {
         var q = Query()
         var raw = normalize(text).split(separator: " ").map(String.init)
+        q.unsearchable = raw.isEmpty && !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        var w = 0   // "near me" asks for nothing
+        while w + 1 < raw.count { if raw[w] == "near" && raw[w + 1] == "me" { raw.removeSubrange(w...w + 1) } else { w += 1 } }
         guard !raw.isEmpty else { return q }
-        var mapped = raw.map { synonyms[$0] ?? $0 }
+        var mapped = routes(raw).map { synonyms[$0] ?? $0 }
         func find(_ phrase: String) -> Range<Int>? {
             let p = phrase.split(separator: " ").map(String.init)
             guard p.count <= mapped.count else { return nil }
@@ -63,23 +77,30 @@ struct Search {
         for (phrase, tag) in tagPhrases {
             if let r = find(normalize(phrase)) { q.tag = tag; q.tagPhrase = cut(r); break }
         }
-        // the longest town (then village) named in the query wins, unless a street type follows it ("new britain ave" is a street)
-        func place(_ dict: [String: String]) -> (String, String)? {
-            for key in dict.keys.sorted(by: { $0.count > $1.count }) {
-                if let r = find(key), !(r.upperBound < mapped.count && typeAbbreviations.contains(mapped[r.upperBound])) {
-                    return (dict[key]!, cut(r))
-                }
-            }
-            return nil
+        // the single longest town or village named in the query wins ("new preston" is the village, not the town of Preston;
+        // a town wins a tie), unless a street type follows it ("new britain ave" is a street)
+        let named: [(key: String, isTown: Bool)] = towns.keys.map { ($0, true) } + villages.keys.map { ($0, false) }
+        let keys = named.sorted { (a, b) -> Bool in
+            if a.key.count != b.key.count { return a.key.count > b.key.count }
+            if a.isTown != b.isTown { return a.isTown }
+            return a.key < b.key
         }
-        if let (t, phrase) = place(towns) { q.town = t; q.placePhrase = phrase }
-        else if let (v, phrase) = place(villages) { q.village = v; q.placePhrase = phrase }
+        for (key, isTown) in keys {
+            if let r = find(key), !(r.upperBound < mapped.count && typeAbbreviations.contains(mapped[r.upperBound])) {
+                if isTown { q.town = towns[key] } else { q.village = villages[key] }
+                q.placePhrase = cut(r)
+                break
+            }
+        }
+        // stop words go once a town, village or tag is set, or when any other word is left ("apizza in new haven")
         let stop: Set<String> = ["the", "and", "of", "a", "in", "near"]
         var idx = Array(raw.indices)
-        if idx.contains(where: { !stop.contains(mapped[$0]) }) { idx = idx.filter { !stop.contains(mapped[$0]) } }
+        if q.town != nil || q.village != nil || q.tag != nil || idx.contains(where: { !stop.contains(mapped[$0]) }) {
+            idx = idx.filter { !stop.contains(mapped[$0]) }
+        }
         for (n, i) in idx.enumerated() {
             let token = raw[i], isLast = n == idx.count - 1
-            if let abbr = synonyms[token] { q.tokens.append([" \(abbr) ", " \(token)"]); continue }
+            if mapped[i] != token { q.tokens.append([" \(mapped[i]) ", " \(token)"]); continue }
             let whole = (abbreviations.contains(token) && (!isLast || token.count > 1)) || (token.count <= 2 && !isLast)
             var needles = [" " + token + (whole ? " " : "")]
             // what people call a place ("pepes", "sallys") may be a possessive the name doesn't have: Frank Pepe Pizzeria

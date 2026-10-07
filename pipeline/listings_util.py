@@ -25,6 +25,7 @@ def official_match(L, R, one_to_one=False, town_words=frozenset(), street_col="s
     rstems = [set().union(*[(_stems(k) - GENERIC - town_words) for k in ks]) if ks else set() for ks in R["keys"]]
     rnums = [street_nums(a) for a in R.addr]
     pairs = []
+    ltown = list(L.town) if "town" in L else None
     for i, (k, street, la, lo) in enumerate(zip(L.k, L[street_col], L.lat, L.lon)):
         if not k:
             continue
@@ -40,9 +41,12 @@ def official_match(L, R, one_to_one=False, town_words=frozenset(), street_col="s
                     cand.update(grid.get((gy + dy, gx + dx), []))
         mine = _stems(k) - GENERIC - town_words
         for j in cand:
-            same_addr = bool(st and R.street.iat[j] == st and nums & rnums[j])
             rl, ro = R.lat.iat[j], R.lon.iat[j]
-            dist = math.hypot((rl - la) * 111000, (ro - lo) * 79000) if (rl == rl and la == la) else (40 if same_addr else 9999)
+            dist = math.hypot((rl - la) * 111000, (ro - lo) * 79000) if (rl == rl and la == la) else 9999
+            # the same number and street name in another town is another address (195 S Main St, Torrington is not 195 Main St, Norwalk)
+            same_addr = bool(st and R.street.iat[j] == st and nums & rnums[j]) and (dist <= 1000 or (ltown is not None and ltown[i] == R.town.iat[j]))
+            if same_addr and dist == 9999:
+                dist = 40
             s = max((name_sim(k, rk) for rk in R["keys"].iat[j]), default=0)
             shared = bool(mine & rstems[j]) or _close_words(mine, rstems[j])
             # the same street address and one name inside the other ("Grand Apizza" / "Grand Apizza Shoreline"), even when all its words are generic

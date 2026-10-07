@@ -4,7 +4,19 @@ import CoreLocation
 // MARK: - The bundled data file (Resources/places.json), written by pipeline/connecticut.py with CT_APP=1
 
 struct DataFile: Decodable {
+    /// the date of the license data the build used
     let generated: String
+    /// a hash of the places, new with every rebuild that changes anything (older files: none, so `generated` stands in)
+    let data_version: String?
+    /// when the hand-checked guides were last researched: "October 2026"
+    let research_checked: String?
+    /// the Overture Maps release: "2026-09-23.1"
+    let overture: String?
+    /// ids that changed since an earlier build: old id -> new id, so saved places and Spotlight entries follow a place
+    let aliases: [String: String]?
+    /// when the Farmington Valley Health District's ratings were copied, and each town's ratings page
+    let fvhd_fetched: String?
+    let fvhd_pages: [String: String]?
     let cities: [String]
     let villages: [String]
     let cuisines: [String]
@@ -26,6 +38,8 @@ struct CalibrationGroup: Decodable, Hashable {
 struct HealthRating: Decodable, Hashable {
     let r: String
     let d: String?
+    /// the name the district rated it under, when that isn't the name shown
+    let n: String?
     var meaning: String {
         switch r {
         case "A": "Excellent"
@@ -62,6 +76,8 @@ struct PlaceRecord: Decodable {
     let k: Int?
     let h: Int?
     let ip: Double?
+    /// the featured score of a hand-checked place (the classics' "Featured first" order); `ip` is only on icons
+    let fs: Double?
     let note: String?
     let jbf: String?
     let hon: String?
@@ -73,7 +89,6 @@ struct PlaceRecord: Decodable {
     let f: Int?
     let w: String?
     let ph: String?
-    let lic: String?
     let fv: HealthRating?
 }
 
@@ -168,7 +183,10 @@ struct Place: Identifiable, Hashable {
     let handChecked: Bool
     let kinds: Kinds
     let honorFlags: Int
+    /// the Icons guide's order (honors and years at the address); only icons have it, and it's never shown as a number
     let iconicPoints: Double?
+    /// the classics' "Featured first" order
+    let featuredScore: Double?
     let note: String?
     let jamesBeard: String?
     let otherHonors: String?
@@ -178,23 +196,28 @@ struct Place: Identifiable, Hashable {
     let branchOf: String?
     let chef: String?
     let founded: Int?
+    /// http or https only
     let website: URL?
+    /// a US number, "+12035551234"; anything else could ring abroad, so it isn't offered
     let phone: String?
-    let license: String?
     let healthRating: HealthRating?
     /// normalized text for search: name, town, village, zip, cuisine, brand, dishes, then the address with street words abbreviated
     let searchText: String
     let nameText: String
+    /// position in the A to Z order of every place, worked out once at load so sorting never compares names
+    var nameRank = 0
 
     static func == (a: Place, b: Place) -> Bool { a.id == b.id }
     func hash(into h: inout Hasher) { h.combine(id) }
 
     var isHonored: Bool { handChecked }
     var isChain: Bool { chainCount >= 5 }
+    /// a hand-checked place that isn't someone's branch: Frank Pepe on Wooster St, though Pepe's has eight
+    var isHandCheckedOriginal: Bool { handChecked && branchOf == nil }
     var jamesBeardLabel: String? {
         if honorFlags & 1 != 0 { return "America's Classic" }
         if honorFlags & 2 != 0 { return "James Beard winner" }
-        if honorFlags & 4 != 0 { return "James Beard finalist" }
+        if honorFlags & 4 != 0 { return "James Beard nominee" }
         if honorFlags & 8 != 0 { return "James Beard semifinalist" }
         return nil
     }
@@ -208,6 +231,21 @@ struct Place: Identifiable, Hashable {
         [address, [village ?? city, zip].compactMap { $0 }.joined(separator: " ")].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: ", ")
     }
     var location: CLLocation? { coordinate.map { CLLocation(latitude: $0.latitude, longitude: $0.longitude) } }
+    /// "(203) 555-1234"
+    var phoneText: String? {
+        phone.map { p in "(\(p.dropFirst(2).prefix(3))) \(p.dropFirst(5).prefix(3))-\(p.dropFirst(8))" }
+    }
+
+    static func usPhone(_ s: String?) -> String? {
+        guard let s, s.range(of: #"^\+1[2-9][0-9]{9}$"#, options: .regularExpression) != nil else { return nil }
+        return s
+    }
+
+    /// A website link only when it's a web address: no other scheme, and nothing scheme-less that could resolve oddly.
+    static func webURL(_ s: String?) -> URL? {
+        guard let s, let u = URL(string: s), ["http", "https"].contains(u.scheme?.lowercased() ?? ""), !(u.host ?? "").isEmpty else { return nil }
+        return u
+    }
 
     init(_ r: PlaceRecord, file: DataFile) {
         let city = r.c.flatMap { $0 < file.cities.count ? file.cities[$0] : nil }
@@ -238,6 +276,7 @@ struct Place: Identifiable, Hashable {
         kinds = Kinds(rawValue: r.k ?? 0)
         honorFlags = r.h ?? 0
         iconicPoints = r.ip
+        featuredScore = r.fs ?? r.ip
         note = r.note
         jamesBeard = r.jbf
         otherHonors = r.hon
@@ -247,9 +286,8 @@ struct Place: Identifiable, Hashable {
         branchOf = r.br
         chef = r.chef
         founded = r.f
-        website = r.w.flatMap { URL(string: $0.hasPrefix("http") ? $0 : "https://" + $0) }
-        phone = r.ph
-        license = r.lic
+        website = Self.webURL(r.w)
+        phone = Self.usPhone(r.ph)
         healthRating = r.fv
         // the dishes a place is known for are searchable too: "white clam pie", "hot buttered"
         searchText = " " + Search.normalize([r.n, city, village, r.z, cuisine, brand, host, r.dish].compactMap { $0 }.joined(separator: " ")) + " "

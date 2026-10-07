@@ -4,6 +4,8 @@ import CoreLocation
 struct RootView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.horizontalSizeClass) private var sizeClass
+    /// the layout on screen; it follows the size class only after the model has carried the open list and place across
+    @State private var layout: UserInterfaceSizeClass?
 
     var body: some View {
         Group {
@@ -11,13 +13,20 @@ struct RootView: View {
                 ContentUnavailableView("Couldn't open the list", systemImage: "exclamationmark.triangle", description: Text(error))
             } else if !model.isLoaded {
                 ProgressView("Loading Connecticut's restaurants…").tint(Theme.navy).foregroundStyle(Theme.muted)
-            } else if sizeClass == .regular {
+            } else if (layout ?? sizeClass) == .regular {
                 SplitRoot()
             } else {
                 TabRoot()
             }
         }
         .background(Theme.surface)
+        .onChange(of: sizeClass, initial: true) { _, new in
+            // full width <-> a narrow window (Split View, Stage Manager): the same list and place on the other layout
+            if layout != nil && layout != new {
+                if new == .regular { model.syncToRegular() } else { model.syncToCompact() }
+            }
+            layout = new
+        }
     }
 }
 
@@ -38,9 +47,13 @@ struct TabRoot: View {
                     }
             }
                 .tabItem { Label("Guides", systemImage: "list.bullet.rectangle") }.tag(AppModel.Tab.guides)
-            NavigationStack { MapScreen() }
+            NavigationStack(path: $model.mapPath) {
+                MapScreen().navigationDestination(for: Place.self) { PlaceDetailView(place: $0) }
+            }
                 .tabItem { Label("Map", systemImage: "map") }.tag(AppModel.Tab.map)
-            NavigationStack { SavedView() }
+            NavigationStack(path: $model.savedPath) {
+                SavedView().navigationDestination(for: Place.self) { PlaceDetailView(place: $0) }
+            }
                 .tabItem { Label("Saved", systemImage: "heart") }.tag(AppModel.Tab.saved)
             NavigationStack { AboutView() }
                 .tabItem { Label("About", systemImage: "info.circle") }.tag(AppModel.Tab.about)
@@ -51,17 +64,36 @@ struct TabRoot: View {
 /// iPad: guides in the sidebar, the list in the middle, the place on the right.
 struct SplitRoot: View {
     @Environment(AppModel.self) private var model
-    @State private var sidebar: SidebarItem? = .home
     // .automatic opened a portrait iPad on a blank "Pick a place" page with the list hidden behind the sidebar button;
     // .all shows the list next to the place (and the sidebar too, in landscape)
     @State private var columns: NavigationSplitViewVisibility = .all
 
     enum SidebarItem: Hashable { case home, guide(Guide), map, saved, about }
 
+    /// The sidebar is the model's tab and guide, so a Home card, Spotlight or a layout change moves it too.
+    private var sidebar: Binding<SidebarItem?> {
+        Binding(get: {
+            switch model.tab {
+            case .guides: model.selectedGuide.map { .guide($0) } ?? .home
+            case .map: .map
+            case .saved: .saved
+            case .about: .about
+            }
+        }, set: { item in
+            switch item {
+            case .guide(let g): model.tab = .guides; model.selectedGuide = g; model.guidesPath = [.guide(g)]
+            case .map: model.tab = .map
+            case .saved: model.tab = .saved
+            case .about: model.tab = .about
+            case .home, nil: model.tab = .guides; model.selectedGuide = nil; model.guidesPath = []
+            }
+        })
+    }
+
     var body: some View {
         @Bindable var model = model
         NavigationSplitView(columnVisibility: $columns) {
-            List(selection: $sidebar) {
+            List(selection: sidebar) {
                 Label("Home", systemImage: "house").tag(SidebarItem.home)
                 Section {
                     ForEach(Guide.allCases) { g in
@@ -76,8 +108,9 @@ struct SplitRoot: View {
             }
             .navigationTitle("Connecticut Eats")
         } content: {
-            switch sidebar {
-            case .guide(let g): GuideListView(guide: g, selection: $model.selectedPlace)
+            switch sidebar.wrappedValue {
+            // a fresh list per guide, so one guide's sort, search and paging don't carry over to the next
+            case .guide(let g): GuideListView(guide: g, selection: $model.selectedPlace).id(g)
             case .map: MapScreen(selection: $model.selectedPlace)
             case .saved: SavedView(selection: $model.selectedPlace)
             case .about: AboutView()
@@ -92,18 +125,5 @@ struct SplitRoot: View {
         }
         .navigationSplitViewStyle(.balanced)
         .tint(Theme.navy)
-        .onAppear { show(model.tab) }
-        .onChange(of: model.tab) { _, t in show(t) }
-        .onChange(of: model.selectedGuide) { _, g in if let g { sidebar = .guide(g) } }
-        .onChange(of: model.guideRequest) { _, _ in if let g = model.selectedGuide { sidebar = .guide(g) } }
-    }
-
-    private func show(_ tab: AppModel.Tab) {
-        switch tab {
-        case .map: sidebar = .map
-        case .saved: sidebar = .saved
-        case .about: sidebar = .about
-        case .guides: if let g = model.selectedGuide { sidebar = .guide(g) }
-        }
     }
 }

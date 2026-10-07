@@ -15,8 +15,9 @@ struct HomeView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 header
-                if isShackSeason && model.count(.lobster) > 0 { seasonCard }
-                Button { model.openGuide(.all) } label: {
+                // screenshots leave the seasonal card out, so the lead shot holds all year
+                if isShackSeason && model.count(.lobster) > 0 && !ScreenshotMode.isActive { seasonCard }
+                Button { model.openSearch() } label: {
                     HStack(spacing: 10) {
                         Image(systemName: "magnifyingglass").foregroundStyle(Theme.navy)
                         Text("Search by name, town or street").foregroundStyle(Theme.muted)
@@ -71,7 +72,7 @@ struct HomeView: View {
                 Image(systemName: "fish.fill").font(.title2).foregroundStyle(.white)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Shack season").displayFont(24).foregroundStyle(.white)
-                    Text("Lobster rolls and clam shacks near you").font(.subheadline).foregroundStyle(.white)
+                    Text("Lobster rolls and clam shacks, in season").font(.subheadline).foregroundStyle(.white)
                 }
                 Spacer()
                 Image(systemName: "chevron.right").foregroundStyle(.white)

@@ -2,15 +2,15 @@ import CoreSpotlight
 import UniformTypeIdentifiers
 
 /// Puts the hand-checked places (apizza, lobster shacks, burger and hot dog icons, diners, dairy bars, honorees) into iPhone search,
-/// so "lobster roll noank" in Spotlight can open the place in the app.
+/// so "lobster roll noank" in Spotlight can open the place in the app. Re-indexed whenever the data changes (`data_version`),
+/// so a fix or a closure reaches Spotlight with the next update.
 enum SpotlightIndexer {
     static let domain = "places"
-    private static let versionKey = "spotlightIndexedGenerated"
+    private static let versionKey = "spotlightIndexedVersion"
 
-    static func indexIfNeeded(_ places: [Place], generated: String, defaults: UserDefaults = .standard) {
-        guard CSSearchableIndex.isIndexingAvailable(), defaults.string(forKey: versionKey) != generated else { return }
-        let featured = places.filter { !$0.isVenue && $0.handChecked && !$0.isChain }
-        let items = featured.map { p -> CSSearchableItem in
+    static func indexIfNeeded(_ places: [Place], version: String, defaults: UserDefaults = .standard) {
+        guard CSSearchableIndex.isIndexingAvailable(), defaults.string(forKey: versionKey) != version else { return }
+        let items = featured(places).map { p -> CSSearchableItem in
             let attrs = CSSearchableItemAttributeSet(contentType: .content)
             attrs.title = p.name
             var kinds = p.kinds.names.filter { $0 != "Historic" }
@@ -22,8 +22,13 @@ enum SpotlightIndexer {
         }
         CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [domain]) { _ in
             CSSearchableIndex.default().indexSearchableItems(items) { error in
-                if error == nil { defaults.set(generated, forKey: versionKey) }
+                if error == nil { defaults.set(version, forKey: versionKey) }
             }
         }
+    }
+
+    /// The hand-checked places; of a hand-checked chain, only the original (Frank Pepe on Wooster St), not its branches.
+    static func featured(_ places: [Place]) -> [Place] {
+        places.filter { !$0.isVenue && $0.handChecked && (!$0.isChain || $0.branchOf == nil) }
     }
 }

@@ -1,6 +1,8 @@
 // Regenerates the brand images: the app icon (a charred, oblong New Haven apizza on a sheet pan; Nick's pick, Oct 5, 2026),
 // docs/brand/, and the site's og.png, favicons and manifest icons.
 // Usage: swift scripts/make-brand.swift   (run from ct-eats/)
+//        swift scripts/make-brand.swift og ["<tagline>"]   redraws docs/og.png only, never the icons. scripts/make-site.py runs
+//        this whenever the restaurant or town count changes; without a tagline it reads og_line from playbook/site-numbers.json.
 import AppKit
 import CoreGraphics
 
@@ -87,19 +89,34 @@ func text(_ c: CGContext, _ str: String, font: NSFont, color: CGColor, at p: CGP
 }
 func heavy(_ size: CGFloat) -> NSFont { NSFont(name: "HelveticaNeue-CondensedBlack", size: size) ?? NSFont.systemFont(ofSize: size, weight: .black) }
 
-let appIcon = opaque(icon(1024))
-save(appIcon, "ConnecticutEats/Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png")
-save(appIcon, "docs/brand/icon-1024.png")
-save(opaque(icon(512)), "docs/icon-512.png")
-save(opaque(icon(192)), "docs/icon-192.png")
-save(opaque(icon(180)), "docs/apple-touch-icon.png")
-save(opaque(icon(32)), "docs/favicon-32.png")
+let args = Array(CommandLine.arguments.dropFirst())
+let ogOnly = args.first == "og"
+if !ogOnly {
+    let appIcon = opaque(icon(1024))
+    save(appIcon, "ConnecticutEats/Resources/Assets.xcassets/AppIcon.appiconset/icon-1024.png")
+    save(appIcon, "docs/brand/icon-1024.png")
+    save(opaque(icon(512)), "docs/icon-512.png")
+    save(opaque(icon(192)), "docs/icon-192.png")
+    save(opaque(icon(180)), "docs/apple-touch-icon.png")
+    save(opaque(icon(32)), "docs/favicon-32.png")
+}
+/// The tagline carries the directory's real counts ("9,615 restaurants in 166 towns", from the data), never "every restaurant".
+func ogLine() -> String {
+    if ogOnly && args.count > 1 { return args[1] }
+    let url = URL(fileURLWithPath: root + "/playbook/site-numbers.json")
+    guard let data = try? Data(contentsOf: url), let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+          let line = json["og_line"] as? String else {
+        fatalError("no og_line in playbook/site-numbers.json: run .venv/bin/python scripts/make-site.py first")
+    }
+    return line
+}
+let tagline = ogLine()
 let og = canvas(1200, 630) { c in
     c.setFillColor(navy); c.fill(CGRect(x: 0, y: 0, width: 1200, height: 630))
     c.setFillColor(tomato); c.fill(CGRect(x: 72, y: 470, width: 90, height: 12))
     text(c, "CONNECTICUT", font: heavy(118), color: white, at: CGPoint(x: 66, y: 330))
     text(c, "EATS", font: heavy(118), color: rgb(0xFF8A7F), at: CGPoint(x: 66, y: 215))
-    text(c, "Apizza & lobster roll guide · every restaurant in 169 towns", font: NSFont.systemFont(ofSize: 30, weight: .semibold), color: white, at: CGPoint(x: 70, y: 150))
+    text(c, tagline, font: NSFont.systemFont(ofSize: 30, weight: .semibold), color: white, at: CGPoint(x: 70, y: 150))
     text(c, "Free for iPhone and iPad", font: NSFont.systemFont(ofSize: 28, weight: .regular), color: rgb(0xFF8A7F), at: CGPoint(x: 70, y: 98))
     c.saveGState(); c.translateBy(x: 800, y: 150); apizza(c, 360); c.restoreGState()
 }
