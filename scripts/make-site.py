@@ -249,18 +249,34 @@ def checked_open(ps):
     return f"checked in business in {CHECKED}" if any(p.seasonal for p in ps) else f"confirmed open in {CHECKED}"
 
 
-# The app icon in miniature (scripts/make-brand.swift): an oblong, charred New Haven apizza on a gray sheet pan, on navy.
-_CHAR = "".join(f'<circle cx="{32 + 20.6 * math.cos(t):.1f}" cy="{32 + 13.1 * math.sin(t):.1f}" r="{r}" fill="{c}"/>'
-                for t, r, c in [(a * math.pi / 7 + 0.2, 1.9 if a % 2 else 1.4, "#2E1A0E" if a % 3 else "#5A3418") for a in range(14)])
-LOGO = ('<svg viewBox="0 0 64 64" width="32" height="32" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#000E2F"/>'
-        '<g transform="rotate(15 32 32)"><rect x="5" y="14" width="54" height="36" rx="5" fill="#7C878E"/>'
-        '<rect x="7.5" y="16.5" width="49" height="31" rx="3.5" fill="#5F696F"/>'
-        '<ellipse cx="32" cy="32" rx="22" ry="14.4" fill="#D99A5B"/><ellipse cx="32" cy="32" rx="17.6" ry="10.8" fill="#B82E1C"/>'
-        '<ellipse cx="24" cy="28.5" rx="3.6" ry="2.6" fill="#8F1F12"/><ellipse cx="38" cy="35.5" rx="3.8" ry="2.7" fill="#8F1F12"/>'
-        '<ellipse cx="41" cy="27.5" rx="2.5" ry="1.8" fill="#8F1F12"/>'
-        '<ellipse cx="29" cy="35" rx="1.3" ry=".9" fill="#F3E3C3"/><ellipse cx="33" cy="27" rx="1.3" ry=".9" fill="#F3E3C3"/>'
-        '<ellipse cx="45" cy="33" rx="1.2" ry=".85" fill="#F3E3C3"/><ellipse cx="20" cy="34" rx="1.2" ry=".85" fill="#F3E3C3"/>'
-        + _CHAR + "</g></svg>")
+# The app icon in miniature (scripts/make-brand.swift's apizza(), redrawn 2026-10-09 in the shared Eats Ranked icon style):
+# a New Haven apizza on its gray sheet pan, flat and level, with one slice pulled out, on navy. The 1024 drawing at 1/16 scale
+# (y flipped); the masks cut the slice from the pie and slide it 30 px out, as the Swift path booleans do.
+LOGO = ('<svg viewBox="0 0 64 64" width="32" height="32" aria-hidden="true"><defs>'
+        '<mask id="ctlp" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">'
+        '<rect width="64" height="64" fill="#fff"/>'
+        '<path d="M31.12 31.5L63.39 77.58L87.16 36.4Z" fill="#000" stroke="#000" stroke-width="1.625" stroke-linejoin="round" stroke-linecap="round"/>'
+        '</mask><mask id="ctls" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">'
+        '<path d="M31.12 31.5L63.39 77.58L87.16 36.4Z" fill="#fff"/>'
+        '<path d="M63.39 77.58L31.12 31.5L87.16 36.4" fill="none" stroke="#000" stroke-width="1.625" stroke-linejoin="round" stroke-linecap="round"/>'
+        '</mask><mask id="ctlw" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">'
+        '<path d="M31.12 31.5L63.39 77.58L87.16 36.4Z" fill="#fff"/></mask><g id="ctlf">'
+        '<path d="M51.75 31.5C51.75 23.66 44.52 19.62 30.5 19.62C17.63 19.62 11 23.66 11 31.5C11 39.59 17.63 43.75 30.5 43.75C44.52 43.75 51.75 39.59 51.75 31.5Z" fill="#D99A5B"/>'
+        '<path d="M47.38 31.69C47.38 26.59 42.41 24.19 31.88 24.19C20.91 24.19 15.75 26.59 15.75 31.69C15.75 37.13 20.91 39.69 31.88 39.69C42.41 39.69 47.38 37.13 47.38 31.69Z" fill="#B82E1C"/>'
+        '<g fill="#2E1A0E"><ellipse cx="46.32" cy="38.29" rx="2.75" ry="1.56" transform="rotate(-65.72 46.32 38.29)"/>'
+        '<ellipse cx="41.31" cy="22.93" rx="2.38" ry="1.44" transform="rotate(-130.41 41.31 22.93)"/>'
+        '<ellipse cx="25.32" cy="22.22" rx="2.81" ry="1.62" transform="rotate(-211.2 25.32 22.22)"/>'
+        '<ellipse cx="13.52" cy="33.34" rx="2.31" ry="1.44" transform="rotate(83.94 13.52 33.34)"/>'
+        '<ellipse cx="26.7" cy="41.54" rx="2.75" ry="1.56" transform="rotate(24.35 26.7 41.54)"/></g><g fill="#F3E3C3">'
+        '<ellipse cx="23.25" cy="30" rx="1.88" ry="1.44" transform="rotate(-20 23.25 30)"/>'
+        '<ellipse cx="33" cy="27.38" rx="1.75" ry="1.31" transform="rotate(25 33 27.38)"/>'
+        '<ellipse cx="40.5" cy="35.12" rx="1.75" ry="1.31" transform="rotate(-10 40.5 35.12)"/></g></g></defs>'
+        '<rect width="64" height="64" rx="14" fill="#000E2F"/>'
+        '<rect x="8" y="16.69" width="48" height="30.63" rx="3.19" fill="#7C878E"/>'
+        '<path d="M51.75 31.5C51.75 23.66 44.52 19.62 30.5 19.62C17.63 19.62 11 23.66 11 31.5C11 39.59 17.63 43.75 30.5 43.75C44.52 43.75 51.75 39.59 51.75 31.5Z" fill="#000E2F" stroke="#000E2F" stroke-width="1.625" stroke-linejoin="round" stroke-linecap="round"/>'
+        '<use href="#ctlf" mask="url(#ctlp)"/><g transform="translate(1.62 0.94)">'
+        '<path d="M51.75 31.5C51.75 23.66 44.52 19.62 30.5 19.62C17.63 19.62 11 23.66 11 31.5C11 39.59 17.63 43.75 30.5 43.75C44.52 43.75 51.75 39.59 51.75 31.5Z" fill="#000E2F" stroke="#000E2F" stroke-width="1.625" stroke-linejoin="round" stroke-linecap="round" mask="url(#ctlw)"/>'
+        '<use href="#ctlf" mask="url(#ctls)"/></g></svg>')
 FAVICON = "data:image/svg+xml," + LOGO.replace('width="32" height="32" ', "").replace(' aria-hidden="true"', "").replace("<svg ", "<svg xmlns='http://www.w3.org/2000/svg' ").replace('"', "'").replace("#", "%23").replace("<", "%3C").replace(">", "%3E")
 
 

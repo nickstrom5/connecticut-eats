@@ -12,6 +12,8 @@ Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `
 
 ## Nick's decisions (2026-10-05)
 - Name, subtitle and home-screen name above; icon = a charred, oblong New Haven apizza on a sheet pan (`scripts/make-brand.swift`).
+  Redrawn 2026-10-09 in the shared Eats Ranked style Nick approved (same food and colours, still on the sheet pan, now flat and level
+  with one slice pulled out; `../state-prompts/ICON-STYLE.md`). The site's header mark and SVG favicon are its miniature (`LOGO` in make-site.py).
 - Palette: UConn-inspired navy #000E2F, white, gray #7C878E (rules only, never text), tomato #B3261E as a fill with white text.
   One Connecticut element: a Long Island Sound shoreline wave. No Husky marks; no flag, seal or grapevine arms (CGS §3-106a).
 - Farmington Valley Health District's official A/B/C/U ratings appear in place details only (with the date), never as a board.

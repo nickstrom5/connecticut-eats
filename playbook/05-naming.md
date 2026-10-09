@@ -20,6 +20,8 @@ Nutmeg Plates: CT Restaurants.
 ## Icon
 Concept A: a charred, oblong New Haven tomato pie on a sheet pan, on navy (`scripts/make-brand.swift`; concepts in
 `scripts/icon-concepts.swift` → `playbook/icon-concepts.png`). Runners-up: B hot buttered lobster roll, C Meriden steamed cheeseburger.
+Redrawn 2026-10-09 in the shared Eats Ranked icon style Nick approved (`../state-prompts/ICON-STYLE.md`): same food and colours, still on
+the sheet pan, now flat, level and centred with one slice pulled out (generator `scripts/make-brand.swift`; the concept images are the 10-05 originals).
 
 ## Palette
 UConn-inspired navy #000E2F, white, gray #7C878E (rules only; 3.7:1 on white), tomato #B3261E fill with white text (6.4:1). No Husky
