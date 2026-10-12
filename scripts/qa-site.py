@@ -15,10 +15,24 @@ sorts by distance from the browser's location. Also: no layout shift while the l
 phone panel is a modal dialog and the desktop panel covers no control, the search rules shared with the app ("apizza in new
 haven", "near mystic", "new preston", "route 32", "pizza near me"), #g=constructor, the skip link, rank numbers only on
 ranking sorts and no iconic points, "Confirmed only" keeps hand-checked places, "Hide chains" keeps hand-checked originals,
-Featured order from outside Connecticut, a slow drag on the map opens nothing, and stacked dots open a chooser.
+Featured order from outside Connecticut, a slow drag on the map opens nothing, stacked dots open a chooser, and a malformed
+saved-places value in localStorage doesn't break the web app.
+
+Also (2026-10-12 QA pass): the old contact address appears nowhere in docs/; every page's footer says "Part of Eats Ranked" and
+its JSON-LD names the Eats Ranked parentOrganization; no page names another state's app, repo or site; the privacy page names
+every localStorage key the web app writes; no "confirmed open" or "verified open" claim; breadcrumb JSON-LD lists real pages
+only; a town page doesn't link to itself.
+
+Also (2026-10-12 verification pass): the copy's numbers and claims the data must back (check_copy_claims: a town's count, not
+"search <town> and N come up"; no "12 to 12 miles"; no James Beard honorees claimed where a town has none; "the N most common
+kinds" matches the list; no "season listed with each" while some seasonal places post no dates; the home description's New
+Haven apizza and lobster roll numbers); every localStorage key the web app reads survives a malformed value; on a phone the
+search box and selects are at least 16 px; with no location fix the count line never says "Nearest". No website on
+pipeline/website_blocklist.json (hacked, expired or another business's) appears anywhere in docs/ (check_blocklist).
 
 Usage: .venv/bin/python scripts/qa-site.py      (serves docs/ itself on a free localhost port; exits 1 on any problem)
   QA_DOCS=<dir>   check another copy of docs/ (used to confirm that each check can fail)
+  QA_PORT=<port>  serve on this port instead of a free one (the machine is shared: each session keeps to its own ports)
   QA_SHOTS=<dir>  also save a few screenshots there
 Copied from wi-eats/scripts/qa-site.py and extended. Never drives anyone's own browser.
 """
@@ -34,6 +48,7 @@ import re
 import sys
 import threading
 import time
+import unicodedata
 import urllib.parse
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
@@ -64,6 +79,17 @@ PRIVATE_DIGESTS = {
     "31b7679e2f02e2b0561693acc0c78f067633b6713ac53fb5980dcb0f7c2ea237",
     "928009cbd52e0a32a3542c0f41efa0ac8feef2e05974b8126f26c7d4f9b593e3",
 }
+OLD_EMAIL, CONTACT = "work-with-nick@gmail.com", "nick@eatsranked.com"
+# other Eats Ranked state apps, repos and project sites: none may be named in this site's public files (XS-05). A few real
+# Connecticut phrases name a state ("Maine-style" lobster rolls, Washington St, the town of Washington, "California-inspired"),
+# so those are blanked out before the search.
+OTHER_STATES = re.compile(r"\b(?:wi|chi|fl|ca|wa|co|me|id|ny|tx|mi)-eats\b|\b(?:wisconsin|florida|california|washington|colorado|maine|idaho|"
+                          r"new-york|chicago|texas|michigan)-eats\b|chicago-restaurants-ranked|\b(?:Wisconsin|Florida|California|Washington|"
+                          r"Colorado|Maine|Idaho|New York|Texas|Michigan) Eats\b|Chicago Restaurants: Ranked|\b(?:Wisconsin|Illinois|Florida|"
+                          r"California|Washington|Colorado|Maine|Idaho|New York|Texas|Michigan|Chicago)\b")
+ALLOWED_STATE_WORDS = re.compile(r"\bMaine(?:-| )(?:style|lobster|chilled)|\bcold Maine\b|\bthe Maine style\b|\bCalifornia-inspired\b|"
+                                 r"\bWashington (?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Pl|Place|Ter|Terrace|Sq|Square)\b|"
+                                 r"<option>Washington</option>|New York(?:-| )style|Washington Depot")
 CSP_REST = ("style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; "
             "form-action 'none'; upgrade-insecure-requests")
 
@@ -82,7 +108,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 
 def serve():
-    srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(Handler, directory=DOCS))
+    srv = http.server.ThreadingHTTPServer(("127.0.0.1", int(os.environ.get("QA_PORT") or 0)), functools.partial(Handler, directory=DOCS))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return f"http://127.0.0.1:{srv.server_address[1]}"
 
@@ -205,11 +231,33 @@ def check_static_pages(problems):
                     if "sameAs" in r and urllib.parse.urlsplit(r["sameAs"]).scheme not in ("http", "https"):
                         problems.append(f"{name}: {r.get('name')!r} sameAs {r['sameAs']!r}")
         text = H.unescape(re.sub(r"<[^>]+>", " ", doc))
-        for bad in ("James Beard finalist", "Every Connecticut restaurant", "every restaurant in 169"):
+        for bad in ("James Beard finalist", "Every Connecticut restaurant", "every restaurant in 169", "confirmed open", "verified open",
+                    "verified restaurants", "confirmed restaurants"):
             if bad.lower() in text.lower() or bad.lower() in doc.lower():
                 problems.append(f"{name}: says {bad!r}")
         if private_words(doc):
             problems.append(f"{name}: contains a private email address or part of one")
+        # the family link, visible in the footer and in the structured data, on every page (404 included)
+        foot = doc[doc.rfind("<footer"):]
+        if '<p>© 2026 Connecticut Eats. Part of <a href="https://eatsranked.com/">Eats Ranked</a>, restaurant apps state by state.</p>' not in foot:
+            problems.append(f"{name}: the footer doesn't say 'Part of Eats Ranked' with a link to https://eatsranked.com/")
+        orgs = []
+        for raw in re.findall(r'<script type="application/ld\+json">(.*?)</script>', doc, re.S):
+            try:
+                ld = json.loads(raw)
+            except ValueError:
+                continue
+            orgs += [n for n in ld.get("@graph", [ld]) if n.get("@type") == "Organization" and n.get("@id", "").endswith("/#org")]
+            for n in ld.get("@graph", [ld]):
+                if n.get("@type") == "BreadcrumbList" and any("#" in it.get("item", "") for it in n["itemListElement"]):
+                    problems.append(f"{name}: a breadcrumb JSON-LD item is a #fragment, not a page")
+        if not any((o.get("parentOrganization") or {}).get("@id") == "https://eatsranked.com/#organization" for o in orgs):
+            problems.append(f"{name}: no Organization JSON-LD with parentOrganization https://eatsranked.com/#organization")
+        if name.startswith("towns" + os.sep):
+            more = doc[doc.find('<section id="more">'):]
+            more = more[:more.find("</section>")]
+            if re.search(rf'href="[^"]*/{re.escape(os.path.basename(name))}"', more):
+                problems.append(f"{name}: the other-towns list links to the page itself")
         if "M16.4 12.6c0-2.5" in doc:
             problems.append(f"{name}: draws the Apple logo")
         if re.search(r"<h1[^>]*>\s*<span class=\"kicker\"", doc):
@@ -226,6 +274,28 @@ def check_static_pages(problems):
         for x in files:
             if x.endswith((".json", ".txt", ".xml", ".webmanifest")) and private_words(open(os.path.join(d, x), encoding="utf-8", errors="replace").read()):
                 problems.append(f"{os.path.relpath(os.path.join(d, x), DOCS)}: contains a private email address or part of one")
+            if x.endswith((".html", ".json", ".txt", ".xml", ".webmanifest", ".js", ".css")):
+                text = open(os.path.join(d, x), encoding="utf-8", errors="replace").read()
+                rel = os.path.relpath(os.path.join(d, x), DOCS)
+                if OLD_EMAIL in text.lower():
+                    problems.append(f"{rel}: still shows the old contact address (the site's address is {CONTACT})")
+                if not x.endswith(".json"):   # place names and notes in the data may name other states ("Maine-style")
+                    for m in OTHER_STATES.finditer(ALLOWED_STATE_WORDS.sub(" ", text)):
+                        problems.append(f"{rel}: names another state's app, repo or site: {text[max(0, m.start() - 40):m.end() + 40]!r}")
+                        break
+    # the privacy page names every localStorage key the web app writes
+    priv, app = os.path.join(DOCS, "privacy.html"), os.path.join(DOCS, "explore", "index.html")
+    if os.path.exists(priv) and os.path.exists(app):
+        js = open(app, encoding="utf-8").read()
+        prefix = re.search(r'localStorage\.setItem\("([^"]*)" \+ k', js)
+        keys = {(prefix.group(1) if prefix else "") + k for k in re.findall(r'store\.set\("([^"]+)"', js)}
+        keys |= set(re.findall(r'localStorage\.setItem\("([^"]+)",', js))
+        ptext = open(priv, encoding="utf-8").read()
+        for k in sorted(keys):
+            if k not in ptext:
+                problems.append(f"privacy.html: doesn't name the web app's localStorage key {k!r}")
+        if not keys:
+            problems.append("explore/index.html: found no localStorage keys to check against the privacy page")
 
 
 TOWN_SECTIONS = {"apizza": (["apizza"], 10), "lobster": (["lobster roll", "clam shack"], 15),
@@ -285,10 +355,107 @@ def check_town_claims(data, problems):
             wrong = close(k, rad)
             if wrong:
                 problems.append(f"{name}: says none of our hand-checked {k} places is in or within {rad} miles of {t}, but {wrong[:3]} are")
-        if f"None of our" in doc and re.search(r"hand-checked places is in [^<]*? yet", doc):
+        if (f"None of our" in doc and re.search(r"hand-checked places is in [^<]*? yet", doc)) or re.search(r"None of the \d+ places on our hand-checked lists is in [^<]*? yet", doc):
             hc_here = [C["n"][i] for i in range(n) if C["hc"][i] == 1 and C["v"][i] != 1 and town(i) == t]
             if hc_here:
                 problems.append(f"{name}: says none of our hand-checked places is in {t}, but {hc_here[:3]} are")
+
+
+BLOCKLIST = os.path.join(ROOT, "pipeline", "website_blocklist.json")
+
+
+def blocked_patterns():
+    """One case-insensitive pattern per pipeline/website_blocklist.json entry (hacked, expired or wrong-business websites): a
+    "domain" entry matches the domain and every subdomain, www. included, with or without a scheme; a "url" entry matches that
+    URL with http or https, with or without www. and the trailing slash, and nothing else on its (shared) host."""
+    out = []
+    for b in json.load(open(BLOCKLIST, encoding="utf-8")):
+        if b.get("match", "domain") == "url":
+            u = urllib.parse.urlsplit(b["url"])
+            host, path = re.escape(u.hostname.lower().removeprefix("www.")), re.escape(u.path.rstrip("/"))
+            out.append((b, re.compile(rf"(?<![\w.-])(?:www\.)?{host}{path}/?(?=$|[\"'<>\s?#)\\,])", re.I)))
+        else:
+            out.append((b, re.compile(rf"(?<![\w-])(?:[\w-]+\.)*{re.escape(b['domain'].lower().removeprefix('www.'))}(?![\w-])", re.I)))
+    return out
+
+
+def check_blocklist(problems):
+    """No blocklisted website (pipeline/website_blocklist.json) anywhere in docs/: pages, JSON-LD, the web app's data files."""
+    if not os.path.exists(BLOCKLIST):
+        problems.append("pipeline/website_blocklist.json is missing")
+        return
+    pats = blocked_patterns()
+    for d, _, files in os.walk(DOCS):
+        for x in sorted(files):
+            if not x.endswith((".html", ".json", ".txt", ".xml", ".webmanifest", ".js", ".css")):
+                continue
+            text = open(os.path.join(d, x), encoding="utf-8", errors="replace").read()
+            for b, pat in pats:
+                hits = pat.findall(text)
+                if hits:
+                    problems.append(f"{os.path.relpath(os.path.join(d, x), DOCS)}: links a blocklisted website ({b['severity']}, {b['reason'][:60]}): "
+                                    f"{len(hits)} × {b.get('url') or b['domain']} ({b['place']})")
+
+
+def norm(s):
+    """explore.js normalize() / Search.swift: no accents, lower case, "&" read as "and", no apostrophes, words split on the rest."""
+    t = "".join(ch for ch in unicodedata.normalize("NFD", s or "") if not unicodedata.combining(ch)).lower()
+    t = re.sub(r"\b([a-z0-9])\s*&\s*([a-z0-9])\b", r"\1\2", t).replace("&", " and ")
+    return re.sub(r"[\W_]+", " ", re.sub(r"['’`]", "", t)).strip()
+
+
+def check_copy_claims(data, problems):
+    """Numbers and claims in the hand-written copy that the data has to back (2026-10-12 verification pass): a town's count
+    (and what a search for the town's name returns, which also finds places named for it elsewhere), "the closest are 12 to 12
+    miles", James Beard honorees claimed where a town has none, "the N most common kinds" against the list shown, a season
+    "listed with each" when some seasonal places post none, and the home description's apizza and lobster roll numbers."""
+    core, detail, C, *_ = data
+    n = len(C["id"])
+    kbit = {k: 1 << i for i, k in enumerate(core["kinds"])}
+    town = lambda i: core["cities"][C["c"][i]] if C["c"][i] is not None else None
+    live = [i for i in range(n) if C["v"][i] != 1]
+    name_text = {i: " " + norm(" ".join(x for x in (C["n"][i], core["brands"][C["b"][i]] if C["b"][i] is not None else None) if x)) + " "
+                 for i in live}
+    in_town = Counter(town(i) for i in live)
+    search_n = lambda t: sum(1 for i in live if town(i) == t or (" " + norm(t)) in name_text[i])
+    seasonal_no_dates = [C["n"][i] for i in live if C["hc"][i] == 1 and C["seas"][i] == 1 and not (detail[i] or {}).get("sea")]
+    for f in all_html():
+        name = os.path.relpath(f, DOCS)
+        doc = open(f, encoding="utf-8").read()
+        text = H.unescape(re.sub(r"<[^>]+>", "", doc))
+        for m in re.finditer(r"Search (.+?) in the app and ([\d,]+) places", text):
+            if int(m.group(2).replace(",", "")) != search_n(m.group(1)):
+                problems.append(f"{name}: says a search for {m.group(1)} returns {m.group(2)} places; it returns {search_n(m.group(1)):,}")
+        for m in re.finditer(r"In the app's directory, (.+?) has ([\d,]+) places", text):
+            if int(m.group(2).replace(",", "")) != in_town[m.group(1)]:
+                problems.append(f"{name}: says {m.group(1)} has {m.group(2)} places; the data has {in_town[m.group(1)]:,}")
+        for m in re.finditer(r"The closest are (\S+) to (\S+) miles", text):
+            if m.group(1) == m.group(2):
+                problems.append(f"{name}: says 'the closest are {m.group(1)} to {m.group(2)} miles'")
+        icons = re.search(r'<section id="icons">(.*?)</section>', doc, re.S)
+        if icons and "James Beard honorees" in icons.group(1) and "tag-jb" not in icons.group(1) and not re.search(
+                r"America's Classic|James Beard (?:winner|nominee|semifinalist)", icons.group(1)):
+            problems.append(f"{name}: the town's list claims James Beard honorees, but none of its places has one")
+        cuis = re.search(r'<section id="cuisines">(.*?)</section>', doc, re.S)
+        if cuis:
+            pills = re.findall(r"<li><a [^>]*>[^<]*\(([\d,]+)\)</a></li>", cuis.group(1))
+            m = re.search(r"The (\d+) most common kinds", cuis.group(1))
+            if "break down by kind" in cuis.group(1) or (m and int(m.group(1)) != len(pills)):
+                problems.append(f"{name}: the kinds section's sentence doesn't match the {len(pills)} kinds it lists")
+        if seasonal_no_dates:
+            for bad in ("carry their season", "list their season", "season listed with each"):
+                if bad in text:
+                    problems.append(f"{name}: says {bad!r}, but {len(seasonal_no_dates)} seasonal places post no dates ({seasonal_no_dates[:2]})")
+    home = open(os.path.join(DOCS, "index.html"), encoding="utf-8").read()
+    desc = H.unescape(re.search(r'<meta name="description" content="([^"]*)"', home).group(1))
+    m = re.search(r"(\d+) New Haven apizza", desc)
+    nh = sum(1 for i in live if C["hc"][i] == 1 and (C["k"][i] or 0) & kbit["apizza"] and town(i) == "New Haven")
+    if m and int(m.group(1)) != nh:
+        problems.append(f"index.html: the description says {m.group(1)} New Haven apizza places; {nh} are in New Haven (say New Haven-style)")
+    m = re.search(r"(\d+) lobster roll stops", desc)
+    rolls = sum(1 for i in live if C["hc"][i] == 1 and (C["k"][i] or 0) & kbit["lobster roll"])
+    if m and int(m.group(1)) != rolls:
+        problems.append(f"index.html: the description says {m.group(1)} lobster roll stops; {rolls} serve one")
 
 
 def rows(page):
@@ -639,6 +806,37 @@ def check_explore(page, base, width, data, problems, errors):
             page.wait_for_timeout(400)
             if not page.locator("#ex-panel").is_visible() or page.locator("#ex-pname").text_content() != names[0]:
                 problems.append(f"{where}: picking a place from the map's chooser didn't open it")
+    # 17. the github.io address is shared with other sites, so a saved-places value that isn't a list of ids (another page's
+    # write, a hand edit) mustn't stop the web app from loading; the same for every key it reads (ce-saved, ce-guide), and
+    # for an object, bad JSON, a list of the wrong things, a number, or a guide name that's an Object property
+    for key, raw, hash_ in (("ce-saved", '{"a":1}', "g=apizza"), ("ce-saved", "not json", "g=apizza"), ("ce-saved", "[null, 5, {}]", "g=saved"),
+                            ("ce-saved", "5", "g=apizza"), ("ce-guide", '{"a":1}', "view=list"), ("ce-guide", "not json", "view=list"),
+                            ("ce-guide", '"constructor"', "view=list")):
+        page.evaluate("([k, v]) => localStorage.setItem(k, v)", [key, raw])
+        errors_before = len(errors)
+        fresh(hash_)
+        ok = page.locator("#ex-list .ex-row").count() or (hash_ == "g=saved" and page.locator("#ex-list .ex-empty").count())
+        if not ok or len(errors) > errors_before:
+            problems.append(f"{where}: {key} = {raw!r} in localStorage breaks the web app ({errors[errors_before:][:1]})")
+        del errors[errors_before:]
+        page.evaluate("k => localStorage.removeItem(k)", key)
+
+    # 18. (Addendum 2, WA-14) on a phone the search box and the selects are at least 16 px, or iOS Safari zooms the page into
+    # them on focus
+    if width <= 600:
+        fresh("g=apizza")
+        small = page.evaluate("""[...document.querySelectorAll('#ex-q, .ex-row2 select')]
+            .map(el => [el.id, parseFloat(getComputedStyle(el).fontSize)]).filter(([, px]) => px < 16)""")
+        if small:
+            problems.append(f"{where}: fields under 16 px on a phone (iOS zooms in on focus): {small}")
+
+    # 19. (Addendum 2, WA-13) without a location fix the list falls back to Featured order, so the count line mustn't say
+    # "Nearest" (a fresh load with sort=nearest in the link has no fix yet; the page doesn't ask until a tap)
+    for hash_ in ("g=all&sort=nearest", "g=apizza&sort=nearest", "g=near"):
+        fresh(hash_)
+        label = page.locator("#ex-count").text_content() or ""
+        if "Nearest" in label:
+            problems.append(f"{where}: #{hash_} with no location says {label!r}, but the list isn't in distance order")
     problems.extend(f"{where}: console error: {x}" for x in errors)
     problems.extend(f"{where}: CSP violation: {x}" for x in page.evaluate("window.__csp || []"))
 
@@ -651,6 +849,8 @@ def main():
     check_static_guides(data, problems)
     check_static_pages(problems)
     check_town_claims(data, problems)
+    check_copy_claims(data, problems)
+    check_blocklist(problems)
     if SHOTS:
         os.makedirs(SHOTS, exist_ok=True)
     with sync_playwright() as pw:

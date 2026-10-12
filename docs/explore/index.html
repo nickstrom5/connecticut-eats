@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-base="/connecticut-eats">
 <head>
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-cmidJ1GR/4C65B/bVWrj3EZQ3fs7vgp6TZ/glSJtCsM='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-h2wgGoS5j1otZIkVkveAP73yuHAV252O/63REN1IlfE='; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Search Connecticut Restaurants, Apizza &amp; Lobster Rolls</title>
@@ -237,11 +237,41 @@
     #ex-sub { min-height: 3.1em; }   /* most guides' descriptions take two lines here; hold them so the count below doesn't jump */
     /* 44 px touch targets */
     .ex-guides button, .ex-view button, .ex-small, .ex-row2 select { min-height: 44px; }
+    /* iOS Safari zooms the page into any field under 16 px when it gets focus */
+    .ex-row2 select { font-size: 16px; }
     .ex-row2 label { min-height: 44px; }
     .ex-row2 input[type=checkbox] { width: 20px; height: 20px; margin: 0; }
   }
   @media (max-width: 400px) { .ex-row1 input[type=search] { flex-basis: 100%; } }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Organization",
+ "@id": "https://nickstrom5.github.io/connecticut-eats/#org",
+ "name": "Connecticut Eats",
+ "url": "https://nickstrom5.github.io/connecticut-eats/",
+ "logo": {
+  "@type": "ImageObject",
+  "url": "https://nickstrom5.github.io/connecticut-eats/icon-512.png",
+  "width": 512,
+  "height": 512
+ },
+ "email": "nick@eatsranked.com",
+ "contactPoint": {
+  "@type": "ContactPoint",
+  "contactType": "customer support",
+  "email": "nick@eatsranked.com",
+  "availableLanguage": "en"
+ },
+ "parentOrganization": {
+  "@type": "Organization",
+  "@id": "https://eatsranked.com/#organization",
+  "name": "Eats Ranked",
+  "url": "https://eatsranked.com/"
+ }
+}
+</script>
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -303,9 +333,9 @@
 <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/connecticut-eats/">Home</a></li><li aria-current="page">Search</li></ol></nav>
   <main id="main">
   <section class="ex-hero">
-    <p class="kicker">Connecticut Eats · on the web</p>
+    <p class="kicker">Connecticut Eats · web search and map</p>
     <h1>Search Connecticut restaurants</h1>
-    <p class="sub"><span class="ex-long">9,358 restaurants, cafés, bars, and bakeries in 166 towns, with 27 hand-checked apizza places, 58 lobster roll and clam shack stops, 21 hot dog and burger icons, 11 diners, and 34 dairy bars. The same data as the free iPhone and iPad app. Nothing about you is stored anywhere but this browser.</span><span class="ex-short">9,358 places in 166 towns, with the app's hand-checked guides.</span></p>
+    <p class="sub"><span class="ex-long">Look up 9,358 restaurants, cafés, bars, and bakeries across 166 Connecticut towns by name, town, village, street, or dish. The hand-checked guides come first: 27 apizza places, 58 lobster roll and clam shack stops, 21 hot dog and burger icons, 11 diners, and 34 dairy bars, from the same data file as the iPhone and iPad app. What you save stays in this browser.</span><span class="ex-short">9,358 places in 166 towns; the hand-checked guides come first.</span></p>
   </section>
   <noscript><p>The search needs JavaScript. The guides work without it: <a href="/connecticut-eats/new-haven-apizza.html">new haven apizza</a>, <a href="/connecticut-eats/connecticut-lobster-rolls.html">lobster rolls &amp; clam shacks</a>, <a href="/connecticut-eats/connecticut-hot-dogs-burgers.html">hot dog &amp; burger icons</a>, <a href="/connecticut-eats/connecticut-diners-dairy-bars.html">diners &amp; dairy bars</a>, <a href="/connecticut-eats/connecticut-oldest-restaurants.html">oldest restaurants</a>.</p></noscript>
   <div id="ex-app" aria-busy="true">
@@ -336,7 +366,7 @@
       <div id="ex-chooser" class="ex-chooser" role="dialog" aria-labelledby="ex-chooser-h" hidden></div>
       <p id="ex-maphint"></p>
     </div>
-    <p class="fine">Confirmed = on Connecticut's liquor-permit list or Hartford's food-license list, a high-confidence map listing, or hand-checked by us. Gas-station and grocery counters and other non-restaurants are left out. Health ratings appear only where an official one exists: the 10 Farmington Valley Health District towns. Town outlines: U.S. Census Bureau. See also <a href="/connecticut-eats/connecticut-oldest-restaurants.html">Connecticut's oldest restaurants</a>.</p>
+    <p class="fine">"Confirmed only" keeps places on Connecticut's liquor-permit list or Hartford's food-license list, high-confidence map listings, and places we checked by hand. Gas-station and grocery counters and other non-restaurants are left out. An official health grade shows only where one is published: the 10 towns of the Farmington Valley Health District. Town outlines: U.S. Census Bureau. Also see <a href="/connecticut-eats/connecticut-oldest-restaurants.html">Connecticut's oldest restaurants</a>.</p>
   </div>
   <div id="ex-panel" class="ex-panel" role="complementary" aria-labelledby="ex-pname" hidden></div>
   </main>
@@ -479,11 +509,15 @@ window.APP_STORE_URL = "";
   // "Featured first": the featured score every hand-checked place has (fs), else the iconic points only true icons have (ip)
   const featured = (p) => p.fs ?? p.ip ?? -1;
   const SORT_LABEL = { featured: "Featured first", nearest: "Nearest", oldest: "Oldest first", name: "A to Z", iconic: "Most iconic" };
+  // the order the list is really in: "Nearest" needs a location fix, and until there is one (before the first, after a denial
+  // or a timeout) list() falls back to Featured order, so the label says that; Near me without a fix lists nothing to order
+  const orderLabel = (g, o) => (g.needsHere && !here ? "" : o === "nearest" && !here ? `${SORT_LABEL.featured} until your location is known` : SORT_LABEL[o]);
 
   // ---------------------------------------------------------------- state
   let P = [], D = null, CAL = {}, SOURCES = [], HOSTS = [], N_TOWNS = 0;
   let here = null, locDenied = false, shown = 100, current = [], view = "list";
-  const saved = new Set(store.get("saved", []));
+  // the github.io address is shared with other sites, so read saved ids defensively: only a list of strings counts
+  const saved = new Set([].concat(store.get("saved", [])).filter((x) => typeof x === "string"));
   const st = { g: "apizza", q: "", sort: "", town: "", cuisine: "", chains: false, conf: false, p: "" };
   const CT_BOX = { s: 40.95, n: 42.06, w: -73.74, e: -71.78 };
   const inCT = (pt) => pt && pt.la >= CT_BOX.s && pt.la <= CT_BOX.n && pt.lo >= CT_BOX.w && pt.lo <= CT_BOX.e;
@@ -571,7 +605,8 @@ window.APP_STORE_URL = "";
     sortSel.innerHTML = g.sorts.map((s) => `<option value="${s}"${s === o ? " selected" : ""}>${SORT_LABEL[s]}</option>`).join("");
     sortSel.disabled = g.sorts.length < 2;
     const filters = [st.town && `in ${st.town}`, st.cuisine && st.cuisine, st.chains && "no chains", st.conf && "confirmed only"].filter(Boolean);
-    $("#ex-count").textContent = `${current.length.toLocaleString("en-US")} ${current.length === 1 ? "place" : "places"} · ${SORT_LABEL[o]}` + (filters.length ? ` · ${filters.join(", ")}` : "");
+    const ol = orderLabel(g, o);
+    $("#ex-count").textContent = `${current.length.toLocaleString("en-US")} ${current.length === 1 ? "place" : "places"}` + (ol ? ` · ${ol}` : "") + (filters.length ? ` · ${filters.join(", ")}` : "");
     $("#ex-clear").hidden = !filters.length;
     if (view === "list") renderList(o); else drawMap();
     saveHash();
@@ -1051,11 +1086,11 @@ window.APP_STORE_URL = "";
       <a href="/connecticut-eats/new-haven-apizza.html">New Haven apizza</a><a href="/connecticut-eats/connecticut-lobster-rolls.html">Lobster rolls &amp; clam shacks</a><a href="/connecticut-eats/connecticut-hot-dogs-burgers.html">Hot dog &amp; burger icons</a><a href="/connecticut-eats/connecticut-diners-dairy-bars.html">Diners &amp; dairy bars</a><a href="/connecticut-eats/connecticut-oldest-restaurants.html">Oldest restaurants</a>
       <a href="/connecticut-eats/privacy.html">Privacy policy</a>
       <a href="/connecticut-eats/terms.html">Terms of use</a>
-      <a href="mailto:work-with-nick@gmail.com">Email us</a>
+      <a href="mailto:nick@eatsranked.com">Email us</a>
     </nav>
     <p>Place data: hand-checked research by Connecticut Eats (checked October 2026); Overture Maps Foundation places (CDLA Permissive 2.0, and Apache 2.0 for Foursquare data, with the <a href="/connecticut-eats/terms.html#sources">Foursquare NOTICE</a>); Connecticut Department of Consumer Protection licenses (data.ct.gov, public domain); City of Hartford open data; Farmington Valley Health District food service ratings; U.S. Census Bureau town outlines. In the app, maps and each place's live card come from Apple Maps. Data as of Oct 7, 2026.</p>
     <p>Connecticut Eats is independent: not affiliated with or endorsed by the State of Connecticut, the City of Hartford, the Farmington Valley Health District, the Mashantucket Pequot or Mohegan tribes or their casinos, the University of Connecticut, the James Beard Foundation, Apple, or any restaurant or chain. James Beard Foundation and James Beard Award are trademarks of the James Beard Foundation. Places open and close, so check before you go.</p>
-    <p>© 2026 Connecticut Eats.</p>
+    <p>© 2026 Connecticut Eats. Part of <a href="https://eatsranked.com/">Eats Ranked</a>, restaurant apps state by state.</p>
   </footer>
 </div>
 </body>

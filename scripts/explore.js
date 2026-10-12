@@ -134,11 +134,15 @@
   // "Featured first": the featured score every hand-checked place has (fs), else the iconic points only true icons have (ip)
   const featured = (p) => p.fs ?? p.ip ?? -1;
   const SORT_LABEL = { featured: "Featured first", nearest: "Nearest", oldest: "Oldest first", name: "A to Z", iconic: "Most iconic" };
+  // the order the list is really in: "Nearest" needs a location fix, and until there is one (before the first, after a denial
+  // or a timeout) list() falls back to Featured order, so the label says that; Near me without a fix lists nothing to order
+  const orderLabel = (g, o) => (g.needsHere && !here ? "" : o === "nearest" && !here ? `${SORT_LABEL.featured} until your location is known` : SORT_LABEL[o]);
 
   // ---------------------------------------------------------------- state
   let P = [], D = null, CAL = {}, SOURCES = [], HOSTS = [], N_TOWNS = 0;
   let here = null, locDenied = false, shown = 100, current = [], view = "list";
-  const saved = new Set(store.get("saved", []));
+  // the github.io address is shared with other sites, so read saved ids defensively: only a list of strings counts
+  const saved = new Set([].concat(store.get("saved", [])).filter((x) => typeof x === "string"));
   const st = { g: "apizza", q: "", sort: "", town: "", cuisine: "", chains: false, conf: false, p: "" };
   const CT_BOX = { s: 40.95, n: 42.06, w: -73.74, e: -71.78 };
   const inCT = (pt) => pt && pt.la >= CT_BOX.s && pt.la <= CT_BOX.n && pt.lo >= CT_BOX.w && pt.lo <= CT_BOX.e;
@@ -226,7 +230,8 @@
     sortSel.innerHTML = g.sorts.map((s) => `<option value="${s}"${s === o ? " selected" : ""}>${SORT_LABEL[s]}</option>`).join("");
     sortSel.disabled = g.sorts.length < 2;
     const filters = [st.town && `in ${st.town}`, st.cuisine && st.cuisine, st.chains && "no chains", st.conf && "confirmed only"].filter(Boolean);
-    $("#ex-count").textContent = `${current.length.toLocaleString("en-US")} ${current.length === 1 ? "place" : "places"} · ${SORT_LABEL[o]}` + (filters.length ? ` · ${filters.join(", ")}` : "");
+    const ol = orderLabel(g, o);
+    $("#ex-count").textContent = `${current.length.toLocaleString("en-US")} ${current.length === 1 ? "place" : "places"}` + (ol ? ` · ${ol}` : "") + (filters.length ? ` · ${filters.join(", ")}` : "");
     $("#ex-clear").hidden = !filters.length;
     if (view === "list") renderList(o); else drawMap();
     saveHash();

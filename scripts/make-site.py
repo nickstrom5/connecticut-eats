@@ -37,7 +37,12 @@ BASE = "" if CUSTOM_DOMAIN else "/connecticut-eats"     # path prefix for root-r
 BRAND = "Connecticut Eats"
 SHORT = "CT Eats"
 TAGLINE = "Apizza & lobster roll guide"
-EMAIL = "work-with-nick@gmail.com"
+# the public contact address (Nick, 2026-10-12: nick@eatsranked.com, Cloudflare Email Routing); the app's own About screen
+# and the App Store listing switch with the next app build
+EMAIL = "nick@eatsranked.com"
+# the Eats Ranked hub lists this site as a subOrganization; every page says so from this side too (footer + JSON-LD)
+HUB = "https://eatsranked.com/"
+PARENT_ORG = {"@type": "Organization", "@id": "https://eatsranked.com/#organization", "name": "Eats Ranked", "url": HUB}
 # Once the App Store listing exists, paste its URL here (looks like https://apps.apple.com/app/id123456789) and re-run: every
 # "Get early access" button becomes an App Store link (Apple's official badge if docs/img/app-store-badge.svg is there; get it
 # from Apple's marketing tools, never draw the Apple logo), the notes stop saying "coming", the privacy page says the label "is",
@@ -46,7 +51,7 @@ EMAIL = "work-with-nick@gmail.com"
 APP_STORE_URL = ""
 TODAY = datetime.date.today().isoformat()   # sitemap lastmod and dateModified; datePublished comes from FIRST_PUBLISHED
 CHECKED = "October 2026"
-PRIVACY_UPDATED = TERMS_UPDATED = "2026-10-07"   # change these when the policy or terms text changes, not on every build
+PRIVACY_UPDATED = TERMS_UPDATED = "2026-10-12"   # change these when the policy or terms text changes, not on every build (10-12: contact address; privacy also names the storage keys)
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 
 
@@ -79,6 +84,28 @@ VALID_VILLAGE = {v: v not in ALL_TOWNS for v in VILLAGES}
 HOST_TEXT = {"Foxwoods": "Inside Foxwoods Resort Casino, on Mashantucket Pequot tribal land",
              "Mohegan Sun": "Inside Mohegan Sun, on Mohegan tribal land"}
 RATING_MEANING = {"A": "Excellent", "B": "Good", "C": "Fair", "U": "Unsatisfactory"}
+# Websites the site never links (pipeline/website_blocklist.json: hacked, expired, or another business's), until the app data's
+# own link check drops them. A "domain" entry covers the domain and every subdomain; a "url" entry only that URL (one site on a
+# shared host). Only the link goes, never the place: it shows like any place without a website, on the pages and in the web
+# app's data. New entries need no code change; scripts/qa-site.py fails if any of them appears anywhere in docs/.
+BLOCKLIST = json.load(open(f"{ROOT}/pipeline/website_blocklist.json", encoding="utf-8"))
+BLOCKED_DROPPED = Counter()
+
+
+def blocked_site(w):
+    """The blocklist entry that covers website `w`, or None."""
+    u = urllib.parse.urlsplit(w.strip())
+    host = (u.hostname or "").lower().removeprefix("www.")
+    for b in BLOCKLIST:
+        if b.get("match", "domain") == "url":
+            v = urllib.parse.urlsplit(b["url"])
+            if host == (v.hostname or "").lower().removeprefix("www.") and u.path.rstrip("/") == v.path.rstrip("/"):
+                return b
+        else:
+            d = b["domain"].lower().removeprefix("www.")
+            if host == d or host.endswith("." + d):
+                return b
+    return None
 
 
 class P:
@@ -118,6 +145,9 @@ class P:
         self.host = HOSTS[r["host"]] if r.get("host") is not None else None
         w = r.get("w") or ""
         self.site = w if urllib.parse.urlsplit(w).scheme in ("http", "https") else ""   # a link only for http(s), never javascript: or data:
+        if self.site and blocked_site(self.site):
+            BLOCKED_DROPPED[blocked_site(self.site).get("url") or blocked_site(self.site)["domain"]] += 1
+            self.site = ""
         ph = r.get("ph") or ""
         self.phone = ph if re.fullmatch(r"\+1[2-9]\d{9}", ph) else ""   # a valid US number only; anything else could dial abroad
         self.fv = r.get("fv")
@@ -244,9 +274,9 @@ def explore_url(**params):
 
 
 def checked_open(ps):
-    """'confirmed open in October 2026', or 'checked in business …' when the list has seasonal places that may be closed for
-    the season right now."""
-    return f"checked in business in {CHECKED}" if any(p.seasonal for p in ps) else f"confirmed open in {CHECKED}"
+    """'checked open in October 2026', or 'checked in business …' when the list has seasonal places that may be closed for
+    the season right now. Never "confirmed" or "verified": each check rests on a 2025 or 2026 source, not a visit."""
+    return f"checked in business in {CHECKED}" if any(p.seasonal for p in ps) else f"checked open in {CHECKED}"
 
 
 # The app icon in miniature (scripts/make-brand.swift's apizza(), redrawn 2026-10-09 in the shared Eats Ranked icon style):
@@ -442,8 +472,10 @@ def crumbs(trail):
     """trail: [(name, url)] ending with the current page."""
     items = "".join(f'<li><a href="{u}">{e(n)}</a></li>' if i < len(trail) - 1 else f'<li aria-current="page">{e(n)}</li>'
                     for i, (n, u) in enumerate(trail))
+    # the JSON-LD trail lists real pages only: a "#towns" step is the home page again, so it stays visible but isn't an item
+    real = [(n, u) for n, u in trail if "#" not in u]
     ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": i + 1, "name": n, "item": DOMAIN + u} for i, (n, u) in enumerate(trail)]}
+        {"@type": "ListItem", "position": i + 1, "name": n, "item": DOMAIN + u} for i, (n, u) in enumerate(real)]}
     return f'<nav class="crumbs" aria-label="Breadcrumb"><ol>{items}</ol></nav>', ld
 
 
@@ -460,12 +492,19 @@ def store_button(label="Get early access"):
 
 
 def store_note(text="Free for iPhone and iPad."):
-    return f'{text} Coming to the App Store.' if not APP_STORE_URL else text
+    return f'{text} Early access by email until the App Store release.' if not APP_STORE_URL else text
 
 
 GUIDE_PAGES = [("new-haven-apizza.html", "New Haven apizza"), ("connecticut-lobster-rolls.html", "Lobster rolls & clam shacks"),
                ("connecticut-hot-dogs-burgers.html", "Hot dog & burger icons"), ("connecticut-diners-dairy-bars.html", "Diners & dairy bars")]
 OLDEST_PAGE = ("connecticut-oldest-restaurants.html", "Oldest restaurants")
+
+
+ORG_ID = f"{DOMAIN}/#org"
+ORG = {"@type": "Organization", "@id": ORG_ID, "name": BRAND, "url": f"{DOMAIN}/",
+       "logo": {"@type": "ImageObject", "url": f"{DOMAIN}/icon-512.png", "width": 512, "height": 512}, "email": EMAIL,
+       "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": EMAIL, "availableLanguage": "en"},
+       "parentOrganization": PARENT_ORG}
 
 
 def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview:large", og_alt=None, extra_css="", head_extra=""):
@@ -478,6 +517,9 @@ def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview
     canonical = "" if path == "404.html" else f'<link rel="canonical" href="{url}">\n'
     og_url = "" if path == "404.html" else f'<meta property="og:url" content="{url}">\n'
     og_alt = og_alt or f"{BRAND}: {TAGLINE}. Connecticut restaurants, with hand-checked New Haven apizza, lobster rolls, clam shacks, and diners."
+    # every page names the site's Organization and its parent (Eats Ranked); the home page carries it in its @graph
+    if not any(n.get("@id") == ORG_ID for x in lds for n in x.get("@graph", [x])):
+        lds = [{"@context": "https://schema.org", **ORG}, *lds]
     ld = "\n".join(jsonld(x) for x in lds)
     doc = f"""<!DOCTYPE html>
 <html lang="en" data-base="{BASE}">
@@ -542,7 +584,7 @@ def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview
     </nav>
     <p>Place data: hand-checked research by {BRAND} (checked {CHECKED}); Overture Maps Foundation places (CDLA Permissive 2.0, and Apache 2.0 for Foursquare data, with the <a href="/terms.html#sources">Foursquare NOTICE</a>); Connecticut Department of Consumer Protection licenses (data.ct.gov, public domain); City of Hartford open data; Farmington Valley Health District food service ratings; U.S. Census Bureau town outlines. In the app, maps and each place's live card come from Apple Maps. Data as of {nice_date(DATA_DATE)}.</p>
     <p>{BRAND} is independent: not affiliated with or endorsed by the State of Connecticut, the City of Hartford, the Farmington Valley Health District, the Mashantucket Pequot or Mohegan tribes or their casinos, the University of Connecticut, the James Beard Foundation, Apple, or any restaurant or chain. James Beard Foundation and James Beard Award are trademarks of the James Beard Foundation. Places open and close, so check before you go.</p>
-    <p>© 2026 {BRAND}.</p>
+    <p>© 2026 {BRAND}. Part of <a href="{HUB}">Eats Ranked</a>, restaurant apps state by state.</p>
   </footer>
 </div>
 </body>
@@ -654,8 +696,8 @@ def article_ld(url, headline, desc):
     path = url[len(DOMAIN) + 1:]
     return {"@context": "https://schema.org", "@type": "Article", "headline": headline, "description": desc,
             "datePublished": FIRST_PUBLISHED[path], "dateModified": TODAY, "inLanguage": "en", "mainEntityOfPage": url,
-            "image": f"{DOMAIN}/og.png", "author": {"@type": "Organization", "name": BRAND, "url": DOMAIN + "/"},
-            "publisher": {"@type": "Organization", "name": BRAND, "url": DOMAIN + "/", "logo": {"@type": "ImageObject", "url": f"{DOMAIN}/icon-512.png"}}}
+            "image": f"{DOMAIN}/og.png", "author": {"@type": "Organization", "@id": ORG_ID, "name": BRAND, "url": DOMAIN + "/"},
+            "publisher": {"@type": "Organization", "@id": ORG_ID, "name": BRAND, "url": DOMAIN + "/", "logo": {"@type": "ImageObject", "url": f"{DOMAIN}/icon-512.png"}}}
 
 
 def fit(options, lo, hi):
@@ -709,8 +751,9 @@ def town_url(t):
     return f"/towns/{slug(t)}.html"
 
 
-def town_links():
-    return '<ul class="towns">' + "".join(f'<li><a href="{town_url(t)}">{e(t)}</a></li>' for t in TOWN_PAGES) + "</ul>"
+def town_links(skip=None):
+    """The town pages, minus the one they're on."""
+    return '<ul class="towns">' + "".join(f'<li><a href="{town_url(t)}">{e(t)}</a></li>' for t in TOWN_PAGES if t != skip) + "</ul>"
 
 
 def town_line():
@@ -723,10 +766,11 @@ def regions_line():
 
 
 def how_checked(order="the order is by region and town"):
-    return (f"Every place was checked in business in {CHECKED} against a 2025 or 2026 source: its own website or menu, a dated post, "
-            "local news, or a tourism listing, with the address checked too. Seasonal places list their season, so check it before you "
-            f"drive. Places with no current source were left out. Nothing here comes from review sites, and {order}, never by anyone's "
-            "rating. Hours and menus change, so check before you go.")
+    return (f"We looked each place up by hand in {CHECKED} and kept it only with a 2025 or 2026 source: its own site or menu, a "
+            "dated post, local news, or a tourism listing, plus a check of the street address. Shacks and dairy bars that close for "
+            "part of the year are marked seasonal, with their dates where they post them, so look before a long drive. Anything "
+            "without a current source stayed off. No review "
+            f"site fed this list, and {order}, not by anyone's rating. Hours and menus change; call ahead.")
 
 
 HOW_CHECKED = how_checked()
@@ -757,9 +801,9 @@ body = f"""{nav}
     <h2>What makes it apizza</h2>
     <p>Apizza (say "ah-BEETS") is New Haven's pizza: thin, chewy, and charred at the edges, baked in a very hot brick oven and served on a sheet pan, often cut into uneven pieces. A plain tomato pie comes with grated cheese and no mozzarella unless you ask for it ("mootz"), and the white clam pie is the one people drive for.</p>
     <h2>The {n} on this list</h2>
-    <p>{in_nh} are in New Haven itself and {len(branches)} are branches of an older pizzeria, listed with the original they come from. The longest at the same address: {year_line(APIZZA, 4)}. {oldest_link()} {NAMED_APIZZA} other places have "apizza" in their name; they're in the app's full directory, but not on this list until we check them.</p>
-    <p>How the list was built: {HOW_CHECKED}</p>
-    <p>In the {BRAND} app, the same list sorts by distance from you, and each place opens Apple Maps' own card for live hours, photos, and directions. For the shore, see the <a href="/connecticut-lobster-rolls.html">lobster roll and clam shack guide</a>.</p>
+    <p>{in_nh} are in New Haven itself and {len(branches)} are branches of an older pizzeria, listed with the original they come from. The longest at the same address: {year_line(APIZZA, 4)}. {oldest_link()} {NAMED_APIZZA} more places put "apizza" in their name; you'll find them in the app's directory, not here, until they've been checked by hand.</p>
+    <p>How we checked: {HOW_CHECKED}</p>
+    <p>On a phone, the {BRAND} app puts the nearest of these pizzerias first and hands each one to Apple Maps for hours, photos, and directions. Headed for the shore after? See the <a href="/connecticut-lobster-rolls.html">lobster roll and clam shack guide</a>.</p>
     <h2>Jump to a region</h2>
     <p class="sub">The list is {regions_line()}.</p>
     {toc}
@@ -777,9 +821,10 @@ n_roll = sum(1 for p in LOBSTER if p.kinds & KIND["lobster roll"])
 n_shack = sum(1 for p in LOBSTER if p.kinds & KIND["clam shack"])
 seas = [p for p in LOBSTER if p.seasonal]
 seas_known = [p for p in seas if p.season]
-title = fit([f"Connecticut Lobster Rolls & Clam Shacks: {n} Checked Places", f"Connecticut Lobster Rolls & Clam Shacks: {n} Places",
+title = fit([f"Hot Buttered Lobster Rolls & Clam Shacks in Connecticut", f"Connecticut Lobster Rolls & Clam Shacks: {n} Checked Places", f"Connecticut Lobster Rolls & Clam Shacks: {n} Places",
              f"CT Lobster Rolls & Clam Shacks: {n} Places | {BRAND}"], 50, 60)
-desc = fit([f"{n} Connecticut lobster roll and clam shack stops, each {checked_open(LOBSTER)}, by region and town, with the season for the shacks.",
+desc = fit([f"Where to get a warm buttered lobster roll or fried clams in Connecticut: {n} shoreline and inland stops, {checked_open(LOBSTER)}, by town.",
+            f"{n} Connecticut lobster roll and clam shack stops, each {checked_open(LOBSTER)}, by region and town, with the season for the shacks.",
             f"{n} Connecticut lobster roll and clam shack stops, {checked_open(LOBSTER)}, by region and town, with each shack's season. Free.",
             f"{n} places for a hot buttered lobster roll or fried clams in Connecticut, {checked_open(LOBSTER)}, by region and town. Free."], 140, 160)
 toc, secs = region_sections(LOBSTER, "place")
@@ -790,7 +835,7 @@ body = f"""{nav}
   <section class="hero">
     <p class="kicker">{BRAND} guide · checked {CHECKED}</p>
     <h1>{h1}</h1>
-    <p class="lede">{n} places along the shore and inland for a hot buttered lobster roll, fried clams, or both, each {checked_open(LOBSTER)}. {len(seas)} of them are seasonal, so check the season listed with each before you drive.</p>
+    <p class="lede">{n} places along the shore and inland for a hot buttered lobster roll, fried clams, or both, each {checked_open(LOBSTER)}. {len(seas)} of them are seasonal ({len(seas_known)} post their dates, listed with each), so check before you drive.</p>
     <div class="cta-row">{store_button()}<a class="btn btn-ghost" href="/explore/#g=lobster&amp;view=map">See them on a map</a></div>
     <p class="pill">{store_note()}</p>
   </section>
@@ -799,8 +844,8 @@ body = f"""{nav}
     <p>A Connecticut lobster roll is served warm: the meat is tossed in melted butter and piled into a toasted roll. The cold kind, dressed with mayonnaise, is the Maine style, and many places here serve both. Clam shacks add fried clams, clam strips, and chowder, and many of them close for the winter.</p>
     <h2>The {n} on this list</h2>
     <p>{n_roll} serve a lobster roll and {n_shack} are clam shacks, many both. {len(seas)} are seasonal; {len(seas_known)} post their season, which is listed with each place. The longest at the same address: {year_line(LOBSTER, 4)}. {oldest_link()}</p>
-    <p>How the list was built: {HOW_CHECKED}</p>
-    <p>In the {BRAND} app, the list sorts by distance from you, and each place opens Apple Maps' own card with live hours. Inland? See the <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger icons</a> and the <a href="/connecticut-diners-dairy-bars.html">dairy bars</a>.</p>
+    <p>How we checked: {HOW_CHECKED}</p>
+    <p>The {BRAND} app sorts these stops by how close each one is to you and opens Apple Maps' card for today's hours, handy for shacks that only open in season. Heading inland instead? See the <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger icons</a> and the <a href="/connecticut-diners-dairy-bars.html">dairy bars</a>.</p>
     <h2>Jump to a region</h2>
     <p class="sub">The list is {regions_line()}.</p>
     {toc}
@@ -818,8 +863,9 @@ n_steam = sum(1 for p in BURGERS if p.kinds & KIND["steamed cheeseburger"])
 n_dog = sum(1 for p in BURGERS if p.kinds & KIND["hot dog icon"])
 n_burg = sum(1 for p in BURGERS if p.kinds & (KIND["burger icon"] | KIND["steamed cheeseburger"]))
 steam_towns = sorted({p.city for p in BURGERS if p.kinds & KIND["steamed cheeseburger"]})
-title = fit([f"Connecticut Hot Dog & Burger Icons: {n} Checked Places", f"Connecticut Hot Dogs & Burgers: {n} Icons | {BRAND}"], 50, 60)
-desc = fit([f"{n} Connecticut hot dog stands and burger icons, steamed cheeseburgers included, each {checked_open(BURGERS)}, by region and town. Free.",
+title = fit([f"Steamed Cheeseburgers & Hot Dog Stands in Connecticut", f"Connecticut Hot Dog & Burger Icons: {n} Checked Places", f"Connecticut Hot Dogs & Burgers: {n} Icons | {BRAND}"], 50, 60)
+desc = fit([f"Steamed cheeseburgers in {and_list(steam_towns)}, roadside hot dog stands, and old burger counters: {n} Connecticut places, {checked_open(BURGERS)}.",
+            f"{n} Connecticut hot dog stands and burger icons, steamed cheeseburgers included, each {checked_open(BURGERS)}, by region and town. Free.",
             f"{n} Connecticut hot dog and burger icons, from steamed cheeseburgers to roadside stands, {checked_open(BURGERS)}, by region and town.",
             f"{n} Connecticut hot dog and burger icons, steamed cheeseburgers included, {checked_open(BURGERS)}, by region and town. Free."], 140, 160)
 toc, secs = region_sections(BURGERS, "place")
@@ -839,8 +885,8 @@ body = f"""{nav}
     <p>The steamed cheeseburger belongs to central Connecticut: the burger and a block of cheddar are steamed in small metal trays, and the melted cheese is poured over the top. Hot dog stands and drive-ins with a long history fill out the rest of this list.</p>
     <h2>The {n} on this list</h2>
     <p>{n_dog} are hot dog places and {n_burg} are burger places, {n_steam} of them serving steamed cheeseburgers (in {e(and_list(steam_towns))}). The longest at the same address: {year_line(BURGERS, 4)}. {oldest_link()}</p>
-    <p>How the list was built: {HOW_CHECKED}</p>
-    <p>In the {BRAND} app, the list sorts by distance from you. For dessert after, see the <a href="/connecticut-diners-dairy-bars.html">dairy bars and diners</a>.</p>
+    <p>How we checked: {HOW_CHECKED}</p>
+    <p>In the {BRAND} app, the closest counter comes first. Dessert next? The <a href="/connecticut-diners-dairy-bars.html">dairy bars and diners</a> are one page over.</p>
     <h2>Jump to a region</h2>
     <p class="sub">The list is {regions_line()}.</p>
     {toc}
@@ -855,8 +901,9 @@ written.append(page("connecticut-hot-dogs-burgers.html", title, desc, body,
 url = f"{DOMAIN}/connecticut-diners-dairy-bars.html"
 n = len(DINERS_DAIRY)
 dairy_seas = sum(1 for p in DAIRY if p.seasonal)
-title = fit([f"Connecticut Diners & Dairy Bars: {n} Checked Places | {SHORT}", f"Connecticut Diners & Dairy Bars: {n} Checked Places"], 50, 60)
-desc = fit([f"{len(DINERS)} Connecticut diners and {len(DAIRY)} dairy bars and farm creameries, each {checked_open(DINERS_DAIRY)}, listed by region and town. Free, no ratings.",
+title = fit([f"Connecticut Diners and Dairy Bars: Breakfast, Then a Cone", f"Connecticut Diners & Dairy Bars: {n} Checked Places | {SHORT}", f"Connecticut Diners & Dairy Bars: {n} Checked Places"], 50, 60)
+desc = fit([f"{len(DINERS)} Connecticut diners for breakfast and {len(DAIRY)} dairy bars and farm creameries for after, each {checked_open(DINERS_DAIRY)}, by region and town.",
+            f"{len(DINERS)} Connecticut diners and {len(DAIRY)} dairy bars and farm creameries, each {checked_open(DINERS_DAIRY)}, listed by region and town. Free, no ratings.",
             f"{len(DINERS)} Connecticut diners and {len(DAIRY)} dairy bars and farm creameries, each {checked_open(DINERS_DAIRY)}, by region and town. Free, no ratings.",
             f"{len(DINERS)} diners and {len(DAIRY)} dairy bars and creameries in Connecticut, {checked_open(DINERS_DAIRY)}, by region and town. Free."], 140, 160)
 toc, secs = region_sections(DINERS_DAIRY, "place")
@@ -873,10 +920,10 @@ body = f"""{nav}
   </section>
   <section id="about-diners">
     <h2>Breakfast, then a cone</h2>
-    <p>Diners on this list are the counter-and-booth kind, open for breakfast and lunch and often longer. Dairy bars range from farm stands that make ice cream from their own cows' milk to roadside walk-up windows. {dairy_seas} of the {len(DAIRY)} dairy bars are seasonal, so check the season listed with each.</p>
-    <p>{NAMED_DINER} other places have "Diner" in their name. They're in the app's full directory, but they're not on this list until we check them. The longest at the same address here: {year_line(DINERS_DAIRY, 4)}. {oldest_link()}</p>
-    <p>How the list was built: {HOW_CHECKED}</p>
-    <p>In the {BRAND} app, diners and dairy bars are separate lists that sort by distance from you. Hungry first? See the <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger icons</a>.</p>
+    <p>Diners on this list are the counter-and-booth kind, open for breakfast and lunch and often longer. Dairy bars range from farm stands that make ice cream from their own cows' milk to roadside walk-up windows. {dairy_seas} of the {len(DAIRY)} dairy bars are seasonal, so check the season (listed wherever a stand posts its dates) before you go.</p>
+    <p>Another {NAMED_DINER} listings carry "Diner" in the name. They're searchable in the app's directory but stay off this list until they've been checked by hand. Longest at one address on this page: {year_line(DINERS_DAIRY, 4)}. {oldest_link()}</p>
+    <p>How we checked: {HOW_CHECKED}</p>
+    <p>The {BRAND} app keeps diners and dairy bars as two lists, each sorted by distance from you. Lunch before the cone? Try the <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger icons</a>.</p>
     <h2>Jump to a region</h2>
     <p class="sub">The list is {regions_line()}.</p>
     {toc}
@@ -890,14 +937,20 @@ written.append(page("connecticut-diners-dairy-bars.html", title, desc, body,
 # ---------------------------------------------------------------- Connecticut's oldest restaurants (years at the same address)
 url = f"{DOMAIN}/{OLDEST_PAGE[0]}"
 n = len(OLDEST)
-first = OLDEST[0]
+first, second = OLDEST[0], OLDEST[1]
+# the page's examples come from the research (data/research/app/*.json founded_note); fail loudly if the data moves under them
+PEPE = next(p for p in OLDEST if p.name == "Frank Pepe Pizzeria Napoletana" and p.city == "New Haven")
+LOUIS = next(p for p in OLDEST if p.name == "Louis' Lunch" and p.city == "New Haven")
+assert (PEPE.founded, PEPE.addr, LOUIS.founded) == (1936, "157 Wooster St", 1975), (PEPE.founded, PEPE.addr, LOUIS.founded)
+assert (first.name, second.name) == ("1754 House", "The Griswold Inn"), "the lede says two inns open the list"
 ERAS = [("before-1900", "Before 1900", 0, 1900), ("1900-1949", "1900 to 1949", 1900, 1950), ("1950-1979", "1950 to 1979", 1950, 1980),
         ("since-1980", "1980 and later", 1980, 10000)]
 eras = [(i, label, [p for p in OLDEST if lo <= p.founded < hi]) for i, label, lo, hi in ERAS]
 eras = [x for x in eras if x[2]]
-title = fit([f"Connecticut's Oldest Restaurants: {n} at the Same Address", f"Connecticut's Oldest Restaurants: {n} Places | {SHORT}",
+title = fit([f"Connecticut's Oldest Restaurants, Dated by Their Address", f"Connecticut's Oldest Restaurants: {n} at the Same Address", f"Connecticut's Oldest Restaurants: {n} Places | {SHORT}",
              f"Oldest Restaurants in Connecticut: {n} Places | {BRAND}"], 50, 60)
-desc = fit([f"{n} Connecticut restaurants with a checked year at the same address, oldest first, with the year and town for each. Since {first.founded}. Free, no ratings.",
+desc = fit([f"Connecticut restaurants that stayed put: {n} places with a checked year at their current address, oldest first, from {first.name} in {first.place_name} ({first.founded}) on.",
+            f"{n} Connecticut restaurants with a checked year at the same address, oldest first, with the year and town for each. Since {first.founded}. Free, no ratings.",
             f"{n} Connecticut restaurants with a checked year at the same address, oldest first, with the year and town for each. Free, no ads, no ratings.",
             f"{n} Connecticut restaurants with a checked year at the same address, listed oldest first with the year and town for each. Free, no ratings."], 140, 160)
 nav, bc = crumbs([("Home", "/"), ("Oldest restaurants", "/" + OLDEST_PAGE[0])])
@@ -908,17 +961,17 @@ secs = "\n".join(f'<section id="{i}" aria-labelledby="h-{i}"><h2 id="h-{i}">{e(l
 body = f"""{nav}
   <main id="main">
   <section class="hero">
-    <p class="kicker">{BRAND} · years at the same address, checked {CHECKED}</p>
+    <p class="kicker">{BRAND} · dated by address, researched {CHECKED}</p>
     <h1>{e(h1)}</h1>
-    <p class="lede">The {n} places on our hand-checked lists with a known year at their current address, oldest first. {e(first.name)} in {e(first.place_name)} has been at its address since {first.founded}.</p>
+    <p class="lede">{n} places from our hand-checked lists with a known year at the address where they stand now, oldest first. Two inns open the list: {e(first.name)} in {e(first.place_name)}, there since {first.founded}, and {e(second.name)} in {e(second.place_name)}, since {second.founded}.</p>
     <div class="cta-row">{store_button()}<a class="btn btn-ghost" href="/explore/#g=oldest&amp;view=map">See them on a map</a></div>
     <p class="pill">{store_note()}</p>
   </section>
   <section id="about-oldest">
     <h2>How the years were checked</h2>
-    <p>Each year is when the place opened at the address where it is now, checked against the restaurant's own history page or local news. A business that moved counts from its move, so an older name can sit lower on this list. A year is a fact about the address, not a rating, and the list only covers places we checked by hand; the rest of the app's {N_REST:,} restaurants have no checked year.</p>
-    <p>How the list was built: {how_checked("the order is by years at the same address")}</p>
-    <p>In the {BRAND} app and the <a href="/explore/#g=oldest">web search</a>, the Oldest Places guide has the same list. For more on what these places serve, see the <a href="/new-haven-apizza.html">apizza</a>, <a href="/connecticut-lobster-rolls.html">lobster roll</a>, <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger</a>, and <a href="/connecticut-diners-dairy-bars.html">diner and dairy bar</a> guides.</p>
+    <p>A year here belongs to the address, not the business. Frank Pepe opened next door at 163 Wooster Street in 1925 but has baked at 157 since {PEPE.founded}, so {PEPE.founded} is the year listed; Louis' Lunch started as a lunch wagon in 1895, and its building was moved to Crown Street in {LOUIS.founded}. Each year comes from the restaurant's own history page or local news. A year is a fact, not a rating, and only places we checked by hand have one; the app's other {N_REST - n:,} restaurants don't.</p>
+    <p>How we checked: {how_checked("the order is by years at the same address")}</p>
+    <p>The same list is the Oldest Places guide in the {BRAND} app and the <a href="/explore/#g=oldest">web search</a>. What these places serve is in the <a href="/new-haven-apizza.html">apizza</a>, <a href="/connecticut-lobster-rolls.html">lobster roll</a>, <a href="/connecticut-hot-dogs-burgers.html">hot dog and burger</a>, and <a href="/connecticut-diners-dairy-bars.html">diner and dairy bar</a> guides.</p>
     <h2>Jump to an era</h2>
     {toc}
     {town_line()}
@@ -1021,9 +1074,9 @@ for t in TOWN_PAGES:
                  plural(counts["burgers"], "hot dog and burger icon"), plural(counts["diners"], "diner and dairy bar", "diners and dairy bars")]
     lead_bits = [b for b, k in zip(lead_bits, ("apizza", "lobster", "burgers", "diners")) if close[k]]
     far_labels = [FAR_LABEL[k] for k, *_ in SECTIONS if counts[k] and nearest_only[k]]
-    lede = (f"{e(and_list(lead_bits))} in and around {e(t)}, each {cw}." if lead_bits else "")
-    lede += f" For hand-checked {e(and_list(far_labels))}, the nearest are a drive away; they're below too." if far_labels else ""
-    lede += f" The {BRAND} app's directory has {n_town:,} restaurants, cafés, bars, and bakeries in {e(t)} and sorts them by distance from you."
+    lede = (f"In and around {e(t)}, our lists hold {e(and_list(lead_bits))}, each {cw}." if lead_bits else "")
+    lede += f" For hand-checked {e(and_list(far_labels))}, the nearest are a drive away, and they're listed below." if far_labels else ""
+    lede += f" Beyond the lists, the {BRAND} app's directory covers {n_town:,} restaurants, cafés, bars, and bakeries in {e(t)}, nearest first."
     parts = [f"""{nav}
   <main id="main">
   <section class="hero">
@@ -1044,21 +1097,23 @@ for t in TOWN_PAGES:
     facts = []
     top = cuis[:3]
     vbits = [f"{c:,} in {e(v)}" for v, c in vill.most_common(3) if c >= 3]
-    facts.append(f"The app's directory has {n_town:,} places to eat and drink in {e(t)}" + (f", including {and_list(vbits)}" if vbits else "")
-                 + (f". The most common kinds are {and_list(f'{e(k)} ({c:,})' for k, c in top)}." if top else "."))
+    # the town's own count, not "search <town> and N come up": a search also finds places named for the town elsewhere
+    # ("Hartford Road Pizza" in Manchester, "New Milford Pizza Station"), so it can return more
+    facts.append(f"In the app's directory, {e(t)} has {n_town:,} places to eat and drink" + (f", {and_list(vbits)}" if vbits else "")
+                 + (f". {and_list(f'{e(k)} ({c:,})' for k, c in top)} lead the mix." if top else "."))
     n_lic = sum(1 for p in here_all if p.r.get("t") == 2)
     if n_lic:
-        facts.append(f"{n_lic:,} {'is' if n_lic == 1 else 'are'} matched to {'a state liquor permit or a Hartford food license' if t == 'Hartford' else 'a state liquor permit'}.")
+        facts.append(f"We matched {n_lic:,} of them to {'an active state liquor permit or a Hartford food license' if t == 'Hartford' else 'an active state liquor permit'}.")
     n_chain = sum(1 for p in here_all if p.chain)
     if n_chain:
-        facts.append(f"{plural(n_chain, 'is a location', 'are locations')} of a chain with five or more in Connecticut.")
+        facts.append(f"{n_chain:,} {'belongs' if n_chain == 1 else 'belong'} to chains with five or more Connecticut locations.")
     if icons:
         n_jb = sum(1 for p in icons if p.h)
         old = f'<a href="#p-{oldest[0].id}">{e(oldest[0].name)}</a>, there since {oldest[0].founded}' if oldest else ""
-        facts.append(("One is" if len(icons) == 1 else f"{len(icons)} are") + " on our hand-checked lists"
-                     + (f", {n_jb} of them with James Beard honors" if n_jb else "") + (f"; the longest at the same address is {old}." if old else "."))
+        facts.append(("One made" if len(icons) == 1 else f"{len(icons)} made") + " our hand-checked lists"
+                     + (f", {n_jb} of them with James Beard honors" if n_jb else "") + (f"; longest at one address: {old}." if old else "."))
     else:
-        facts.append(f"None of our {len(HC)} hand-checked places is in {e(t)} yet, so the classics below are the nearest ones.")
+        facts.append(f"None of the {len(HC)} places on our hand-checked lists is in {e(t)} yet, so the classics below come from nearby towns.")
     if casino:
         hosts = sorted({p.host for p in casino})
         facts.append(f"{len(casino)} of them are inside {e(and_list(hosts))}, on tribal land; the app labels each one.")
@@ -1076,7 +1131,7 @@ for t in TOWN_PAGES:
         out = []
         for d, p in lst:
             if p.id in rendered:   # already on this page: point at it instead of repeating it
-                out.append(f'<li class="again"><h3><a href="#p-{p.id}">{e(p.name)}</a></h3><p class="where">{place_where(p, t)} · {mi(d, rad)} mi from {e(t)}; listed above</p></li>')
+                out.append(f'<li class="again"><h3><a href="#p-{p.id}">{e(p.name)}</a></h3><p class="where">{place_where(p, t)} · {mi(d, rad)} mi from {e(t)}; see above</p></li>')
                 continue
             rendered.add(p.id)
             out.append(place_item(p, extra=f"{mi(d, rad)} mi from {t}", show_fv=fvt, here_town=t))
@@ -1085,41 +1140,42 @@ for t in TOWN_PAGES:
     if icons:
         rendered.update(p.id for p in icons)
         old_txt = f" Longest at the same address: {year_line(oldest, 3)}. {oldest_link()}" if oldest else ""
-        parts.append(f'<section id="icons"><h2>On our lists in {e(t)}</h2><p class="sub">Every place in {e(t)} on our hand-checked lists, including James Beard honorees and long-running local institutions, most honored first. Points come from honors and years at the address; not a rating. Honors are facts from the James Beard Foundation\'s own award records and other named sources.{old_txt}</p><ol class="places">'
+        parts.append(f'<section id="icons"><h2>On our lists in {e(t)}</h2><p class="sub">Every place in {e(t)} that made our hand-checked lists, most honored first. The order comes from honors and years at the address; it isn\'t a rating. Honors are reported as facts from the James Beard Foundation\'s own records and other named sources.{old_txt}</p><ol class="places">'
                      + "".join(place_item(p, show_fv=fvt, here_town=t) for p in icons) + "</ol></section>")
     for k, label, noun, _, rad in SECTIONS:
         named = []
         for tag, how, q in NAMED.get(k, []):
             c = NAMED_IN_TOWN[tag][t]
             if c:
-                named.append(f'The app\'s directory also has {plural(c, "place")} in {e(t)} with {how} in the name that we haven\'t checked yet: '
-                             f'<a href="{e(explore_url(g="all", town=t, q=q))}">see {"it" if c == 1 else "them"} in the web search</a>.')
+                named.append(f'{plural(c, "more place")} in {e(t)} {"has" if c == 1 else "have"} {how} in the name but {"hasn" if c == 1 else "haven"}\'t been checked by hand: '
+                             f'<a href="{e(explore_url(g="all", town=t, q=q))}">find {"it" if c == 1 else "them"} in the web search</a>.')
         if k == "burgers":
             c = sum(1 for p in here_all if p.cuisine == "Hot Dogs" and not p.hc)
             if c:
-                named.append(f'The app\'s directory also files {plural(c, "place")} in {e(t)} as {"a hot dog place" if c == 1 else "hot dog places"} that we haven\'t checked yet: '
-                             f'<a href="{e(explore_url(g="all", town=t, kind="Hot Dogs"))}">see {"it" if c == 1 else "them"} in the web search</a>.')
+                named.append(f'The directory files {plural(c, "other place")} in {e(t)} under hot dogs, not yet checked by hand: '
+                             f'<a href="{e(explore_url(g="all", town=t, kind="Hot Dogs"))}">find {"it" if c == 1 else "them"} in the web search</a>.')
         named = " ".join(named)
-        guide_link = f'<a href="{GUIDE_URL[k]}">All {GUIDE_N[k]} in Connecticut</a>.'
+        guide_link = f'The <a href="{GUIDE_URL[k]}">statewide guide</a> lists {GUIDE_N[k]}.'
         if nearest_only[k]:
             if not shown[k]:
                 if named:
                     parts.append(f'<section id="{k}"><h2>{label} in {e(t)}</h2><p class="sub">None of our {GUIDE_N[k]} hand-checked {noun} is in {e(t)} or within 30 miles. {guide_link} {named}</p></section>')
                 continue
             lo, hi = mi(shown[k][0][0], rad), math.ceil(shown[k][-1][0])
+            span = f"{lo} to {hi}" if lo != str(hi) else f"about {hi}"   # never "12 to 12 miles"
             parts.append(f'<section id="{k}"><h2>The nearest {label.lower()} to {e(t)}</h2><p class="sub">None of our {GUIDE_N[k]} hand-checked {noun} is in {e(t)} or within {rad} miles. '
-                         f'The closest are {lo} to {hi} miles away. {guide_link} {named}</p><ol class="places">{items(shown[k], rad)}</ol></section>')
+                         f'The closest are {span} miles away. {guide_link} {named}</p><ol class="places">{items(shown[k], rad)}</ol></section>')
             continue
         bits = []
         if ins[k]:
             links = and_list(f'<a href="#p-{p.id}">{e(p.name)}</a>' for p in ins[k])
-            bits.append(f"In {e(t)}: {links}, listed above.")
+            bits.append(f"In {e(t)} itself: {links} (above).")
         if not within[k]:
-            bits.append(f"None of our other {noun} is within {rad} miles.")
+            bits.append(f"Nothing else from this list is within {rad} miles.")
         elif len(within[k]) > NEAR_N:
-            bits.append(f"The {NEAR_N} nearest of the {len(within[k])} others within {rad} miles, closest first.")
+            bits.append(f"{len(within[k])} more are within {rad} miles; here are the {NEAR_N} closest.")
         else:
-            bits.append(f"{'The others' if ins[k] else 'Those'} within {rad} miles, closest first.")
+            bits.append(f"Elsewhere within {rad} miles, nearest first." if ins[k] else f"Nearest first, out to {rad} miles.")
         parts.append(f'<section id="{k}"><h2>{label} in and near {e(t)}</h2><p class="sub">{" ".join(bits)} {guide_link} {named}</p>'
                      + (f'<ol class="places">{items(shown[k], rad)}</ol>' if shown[k] else "") + "</section>")
     if rated:
@@ -1131,8 +1187,8 @@ for t in TOWN_PAGES:
     if cuis:
         pills = "".join(f'<li><a href="{e(explore_url(g="all", town=t, kind=k))}">{e(k)} ({c:,})</a></li>' for k, c in cuis)
         src = and_list(["open map data", "the state's liquor-permit list"] + (["Hartford's food licenses"] if t == "Hartford" else []))
-        parts.append(f'<section id="cuisines"><h2>What {e(t)} eats</h2><p class="sub">The most common kinds of place among the {n_town:,} in {e(t)}, from {src}. Each opens the web search, filtered to {e(t)}.</p><ul class="towns">{pills}</ul></section>')
-    parts.append(f'<section id="more"><h2>More Connecticut towns</h2>{town_links()}</section>\n  </main>')
+        parts.append(f'<section id="cuisines"><h2>What {e(t)} eats</h2><p class="sub">The {len(cuis)} most common kinds among the {n_town:,} listings in {e(t)}, from {src}. Tap one to search {e(t)} for it.</p><ul class="towns">{pills}</ul></section>')
+    parts.append(f'<section id="more"><h2>Other Connecticut town pages</h2>{town_links(t)}</section>\n  </main>')
     uniq = icons + [p for k in shown for _, p in shown[k] if p.id not in {x.id for x in icons}]
     uniq = list({p.id: p for p in uniq}.values())
     written.append(page(path, title, desc, "\n".join(parts),
@@ -1248,6 +1304,8 @@ EXPLORE_CSS = """
     #ex-sub { min-height: 3.1em; }   /* most guides' descriptions take two lines here; hold them so the count below doesn't jump */
     /* 44 px touch targets */
     .ex-guides button, .ex-view button, .ex-small, .ex-row2 select { min-height: 44px; }
+    /* iOS Safari zooms the page into any field under 16 px when it gets focus */
+    .ex-row2 select { font-size: 16px; }
     .ex-row2 label { min-height: 44px; }
     .ex-row2 input[type=checkbox] { width: 20px; height: 20px; margin: 0; }
   }
@@ -1270,9 +1328,9 @@ sort_opts = "".join(f"<option>{s}</option>" for s in ("Featured first", "Nearest
 body = f"""{nav}
   <main id="main">
   <section class="ex-hero">
-    <p class="kicker">{BRAND} · on the web</p>
+    <p class="kicker">{BRAND} · web search and map</p>
     <h1>Search Connecticut restaurants</h1>
-    <p class="sub"><span class="ex-long">{N_REST:,} restaurants, cafés, bars, and bakeries in {N_TOWNS} towns, with {len(APIZZA)} hand-checked apizza places, {len(LOBSTER)} lobster roll and clam shack stops, {len(BURGERS)} hot dog and burger icons, {len(DINERS)} diners, and {len(DAIRY)} dairy bars. The same data as the free iPhone and iPad app. Nothing about you is stored anywhere but this browser.</span><span class="ex-short">{N_REST:,} places in {N_TOWNS} towns, with the app's hand-checked guides.</span></p>
+    <p class="sub"><span class="ex-long">Look up {N_REST:,} restaurants, cafés, bars, and bakeries across {N_TOWNS} Connecticut towns by name, town, village, street, or dish. The hand-checked guides come first: {len(APIZZA)} apizza places, {len(LOBSTER)} lobster roll and clam shack stops, {len(BURGERS)} hot dog and burger icons, {len(DINERS)} diners, and {len(DAIRY)} dairy bars, from the same data file as the iPhone and iPad app. What you save stays in this browser.</span><span class="ex-short">{N_REST:,} places in {N_TOWNS} towns; the hand-checked guides come first.</span></p>
   </section>
   <noscript><p>The search needs JavaScript. The guides work without it: {", ".join(f'<a href="/{u}">{e(n.lower())}</a>' for u, n in GUIDE_PAGES + [OLDEST_PAGE])}.</p></noscript>
   <div id="ex-app" aria-busy="true">
@@ -1303,7 +1361,7 @@ body = f"""{nav}
       <div id="ex-chooser" class="ex-chooser" role="dialog" aria-labelledby="ex-chooser-h" hidden></div>
       <p id="ex-maphint"></p>
     </div>
-    <p class="fine">Confirmed = on Connecticut's liquor-permit list or Hartford's food-license list, a high-confidence map listing, or hand-checked by us. Gas-station and grocery counters and other non-restaurants are left out. Health ratings appear only where an official one exists: the {N_FV} Farmington Valley Health District towns. Town outlines: U.S. Census Bureau. See also <a href="/{OLDEST_PAGE[0]}">Connecticut's oldest restaurants</a>.</p>
+    <p class="fine">"Confirmed only" keeps places on Connecticut's liquor-permit list or Hartford's food-license list, high-confidence map listings, and places we checked by hand. Gas-station and grocery counters and other non-restaurants are left out. An official health grade shows only where one is published: the {N_FV} towns of the Farmington Valley Health District. Town outlines: U.S. Census Bureau. Also see <a href="/{OLDEST_PAGE[0]}">Connecticut's oldest restaurants</a>.</p>
   </div>
   <div id="ex-panel" class="ex-panel" role="complementary" aria-labelledby="ex-pname" hidden></div>
   </main>
@@ -1314,7 +1372,7 @@ window.APP_STORE_URL = {json.dumps(APP_STORE_URL)};
 </script>"""
 webapp_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": f"{BRAND} web app", "url": url,
              "applicationCategory": "TravelApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript",
-             "description": desc, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@id": f"{DOMAIN}/#org"}}
+             "description": desc, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@id": ORG_ID}}
 # fetch the data while the page parses; without JavaScript the (disabled) controls are hidden and the noscript note shows
 explore_head = ('<link rel="preload" href="/data/core.json" as="fetch" crossorigin>\n'
                 '<noscript><style>#ex-app { display: none; }</style></noscript>\n')
@@ -1353,15 +1411,21 @@ screens_section = f"""
 """ if shot_html else ""
 
 fv_list = and_list(FV_TOWNS)
+N_NH_APIZZA = sum(1 for p in APIZZA if p.city == "New Haven")
+N_LOBSTER_SEASONAL = sum(1 for p in LOBSTER if p.seasonal)
+LOBSTER_TOWNS = {p.city for p in LOBSTER}
+assert {"Greenwich", "Stonington"} <= LOBSTER_TOWNS, "the home page says the lobster list runs from Greenwich to Stonington"
+STEAM_TOWNS = sorted({p.city for p in BURGERS if p.kinds & KIND["steamed cheeseburger"]})
+# Connecticut's own questions first (apizza, the warm lobster roll, inspections, the casinos), then how the app works
 faq = [
-    ("Is Connecticut Eats free?", "Yes. The app is free, with no ads, no in-app purchases, and no account."),
-    ("Where do the apizza and lobster roll lists come from?", f"We checked each place by hand in {CHECKED}: every place on the apizza, lobster roll and clam shack, hot dog and burger, diner, dairy bar, and Little Poland lists has a 2025 or 2026 source such as its own website or menu, local news, or a tourism listing. The rest of the {N_REST:,} restaurants come from Overture Maps' open place data, the Connecticut Department of Consumer Protection's liquor-permit list, and the City of Hartford's food licenses."),
-    ("Does the app show ratings or reviews?", "Not ours. The app stores no ratings or reviews, and no list is ordered by them. A place's \"Ratings, hours & photos\" button opens Apple Maps' own live card, which shows Apple's ratings, hours, and photos; that card is Apple's."),
-    ("Are there health inspection grades?", f"Connecticut has no statewide restaurant inspection results or grades, and we don't make up our own. The Farmington Valley Health District rates restaurants in its {N_FV} towns ({fv_list}) A, B, C, or U and requires them to post it. For those places, the app and the web search show that official rating with its date."),
-    ("What about Foxwoods and Mohegan Sun?", f"Their {len(CASINO)} restaurants are in the app, each labeled as inside the casino, on Mashantucket Pequot or Mohegan tribal land."),
-    ("Does it need my location?", "Only if you want lists sorted by distance. Your location stays on your iPhone or iPad, or in your browser on this site, and is never sent to us. Everything else works without it."),
-    ("A place closed or is missing. How do I tell you?", f"Email {EMAIL} with the name and town. Corrections go into the next update."),
-    ("Is there an Android version?", f"Not yet. Connecticut Eats is for iPhone and iPad, and the web search works on any phone. If enough people ask at {EMAIL}, Android moves up the list."),
+    ("What is apizza, and how do you say it?", f"It's New Haven's pizza, said \"ah-BEETS\": a thin, chewy crust charred in a very hot brick oven and served on a sheet pan. A plain tomato pie comes with grated cheese and no mozzarella unless you ask for \"mootz\". Our apizza list has {len(APIZZA)} pizzerias, {N_NH_APIZZA} of them in New Haven itself."),
+    ("Is a Connecticut lobster roll hot or cold?", f"Hot. The Connecticut roll is lobster meat warmed in melted butter on a toasted roll; the cold one dressed with mayonnaise is the Maine style. Plenty of the {len(LOBSTER)} stops on our lobster roll and clam shack list serve both, and {N_LOBSTER_SEASONAL} of them are seasonal."),
+    ("Who checked the apizza and lobster roll lists?", f"We did, by hand, in {CHECKED}. Every place on the apizza, lobster roll and clam shack, hot dog and burger, diner, dairy bar, and Little Poland lists needed a 2025 or 2026 source, such as its own site or menu, local news, or a tourism listing. The rest of the {N_REST:,} places in the directory come from Overture Maps' open place data, the Connecticut Department of Consumer Protection's liquor-permit list, and the City of Hartford's food licenses."),
+    ("Does Connecticut publish restaurant inspection grades?", f"Not statewide. Connecticut posts no statewide restaurant inspection results or grades, and we don't invent any. The exception is the Farmington Valley Health District, which grades restaurants in its {N_FV} towns ({fv_list}) A, B, C, or U and requires each to post its grade. For the {len(FV):,} places we matched to its list, the app and the web search show that official grade with its date."),
+    ("Are the Foxwoods and Mohegan Sun restaurants in it?", f"Yes. {len(CASINO)} restaurants inside the two casinos are listed, each marked as inside Foxwoods, on Mashantucket Pequot tribal land, or inside Mohegan Sun, on Mohegan tribal land."),
+    ("Does Connecticut Eats cost anything, or rank places by ratings?", "No to both. It's free, with no ads, nothing to buy, and no account, and it keeps no ratings or reviews, so no list is sorted by them. A place's \"Ratings, hours & photos\" button opens Apple Maps' live card; the ratings, hours, and photos there are Apple's."),
+    ("Why would it ask for my location?", "To sort places by how far they are from you, and only if you say yes. Your location stays on your iPhone or iPad, or in your browser on the web search, and never reaches us. Say no and everything else still works."),
+    ("A shack closed or a pizzeria is missing. Where do I tell you?", f"Write to {EMAIL} with the place and the town it's in. We fix it in the next update of the app and this site."),
 ]
 faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in faq)
 faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "@id": f"{DOMAIN}/#faq",
@@ -1371,29 +1435,28 @@ app_entity = {"@type": "MobileApplication", "@id": f"{DOMAIN}/#app", "name": BRA
               "description": f"A free guide to {N_REST:,} Connecticut restaurants, with hand-checked lists of {len(APIZZA)} New Haven apizza places, {len(LOBSTER)} lobster roll and clam shack stops, {len(BURGERS)} hot dog and burger icons, {len(DINERS)} diners, and {len(DAIRY)} dairy bars. Sort by distance, open Apple Maps' live place card for hours and photos, and save places for later.",
               "url": f"{DOMAIN}/", "image": f"{DOMAIN}/og.png",
               "operatingSystem": "iOS, iPadOS", "applicationCategory": "TravelApplication", "applicationSubCategory": "Food & Drink",
-              "inLanguage": "en", "publisher": {"@id": f"{DOMAIN}/#org"},
+              "inLanguage": "en", "publisher": {"@id": ORG_ID},
               "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD", "category": "free"}}
 if os.path.exists(f"{DOCS}/img/screen-home.png"):
     app_entity["screenshot"] = f"{DOMAIN}/img/screen-home.png"
 app_ld = {"@context": "https://schema.org", "@graph": [
     app_entity,
-    {"@type": "Organization", "@id": f"{DOMAIN}/#org", "name": BRAND, "url": f"{DOMAIN}/",
-     "logo": {"@type": "ImageObject", "url": f"{DOMAIN}/icon-512.png", "width": 512, "height": 512}, "email": EMAIL,
-     "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": EMAIL, "availableLanguage": "en"}},
+    ORG,
     {"@type": "WebSite", "@id": f"{DOMAIN}/#website", "name": BRAND, "alternateName": [SHORT, f"{BRAND} app"], "url": f"{DOMAIN}/",
-     "inLanguage": "en", "publisher": {"@id": f"{DOMAIN}/#org"}}]}
-title = fit([f"{BRAND}: Apizza, Lobster Roll & Restaurant App"], 50, 60)
-desc = fit([f"Free iPhone and iPad guide to {N_REST:,} Connecticut restaurants, with {len(APIZZA)} hand-checked apizza places, {len(LOBSTER)} lobster roll stops, and {len(DINERS_DAIRY)} diners and dairy bars.",
-            f"Free iPhone and iPad guide to {N_REST:,} Connecticut restaurants, with hand-checked New Haven apizza, {len(LOBSTER)} lobster roll stops, diners, and dairy bars.",
-            f"A free iPhone and iPad guide to Connecticut restaurants, with {len(APIZZA)} hand-checked apizza places, {len(LOBSTER)} lobster roll stops, diners, and dairy bars."], 140, 160)
+     "inLanguage": "en", "publisher": {"@id": ORG_ID}}]}
+title = fit([f"Connecticut Restaurants, Apizza & Lobster Rolls | {SHORT}", f"{BRAND}: Restaurants, Apizza & Lobster Rolls"], 50, 60)
+# "New Haven-style": only some of the apizza places are in New Haven; "and clam shack": a few of the lobster stops are shacks
+# without a lobster roll
+desc = fit([f"Free app for Connecticut restaurants: {N_REST:,} places in {N_TOWNS} towns, plus {len(APIZZA)} New Haven-style apizza spots and {len(LOBSTER)} lobster roll and clam shack stops checked by hand.",
+            f"Free app for Connecticut restaurants: {N_REST:,} places in {N_TOWNS} towns, plus New Haven apizza and lobster roll stops we checked by hand. iPhone and iPad."], 140, 160)
 town_cards = "".join(f'<li><a href="{town_url(t)}">{e(t)}</a></li>' for t in TOWN_PAGES)
 fv_links = " and ".join(f'<a href="{e(explore_url(g="all", town=t))}">{e(t)}</a>' for t in ("Farmington", "Simsbury"))
 body = f"""  <main id="main">
   <section class="hero">
-    <p class="kicker">{BRAND}: the {TAGLINE.lower()} for iPhone and iPad</p>
-    <h1>{N_REST:,} Connecticut restaurants, and the apizza worth the drive</h1>
-    <p class="lede">{BRAND} is a free Connecticut restaurant guide. Find a New Haven apizza, a hot buttered lobster roll on the shore, a steamed cheeseburger, or a dairy bar for after, from lists we checked by hand, plus {N_REST:,} restaurants, cafés, bars, and bakeries in {N_TOWNS} towns.</p>
-    <div class="cta-row">{store_button()}<a class="btn btn-ghost" href="/explore/">Search on the web</a><span class="pill">{store_note("Free. No ads, no account.")}</span></div>
+    <p class="kicker">{BRAND} for iPhone and iPad · {e(TAGLINE)}</p>
+    <h1>Connecticut restaurants, from Wooster Street to the shoreline</h1>
+    <p class="lede">Look up any of {N_REST:,} restaurants, cafés, bars, and bakeries across {N_TOWNS} Connecticut towns, or start with the lists we checked by hand: coal- and brick-oven apizza in New Haven, warm buttered lobster rolls from Greenwich to Stonington, steamed cheeseburgers in {e(and_list(STEAM_TOWNS))}, and a dairy bar for the drive home.</p>
+    <div class="cta-row">{store_button()}<a class="btn btn-ghost" href="/explore/">Search on the web</a><span class="pill">{store_note("No ads, no account, no charge.")}</span></div>
     <ul class="stats" aria-label="What's in the app">
       <li><b>{len(APIZZA)}</b><span>apizza places</span></li>
       <li><b>{len(LOBSTER)}</b><span>lobster roll &amp; clam shack stops</span></li>
@@ -1403,52 +1466,52 @@ body = f"""  <main id="main">
   </section>
 
   <section id="what">
-    <h2>A Connecticut restaurant guide that knows apizza from pizza</h2>
-    <p class="sub">General restaurant apps rank by star ratings and can't tell you which shacks are open for the season. {BRAND} starts from what people here actually look for: a coal-fired pie on Wooster Street, a lobster roll with butter, not mayo, a steamed cheeseburger in Meriden, and the diners and dairy bars that have been there for decades. Every place on those lists was {checked_open(HC)}, and seasonal places list their season. For hours and photos, each place opens Apple Maps' own live card.</p>
+    <h2>Apizza isn't pizza, and the lobster roll comes warm</h2>
+    <p class="sub">Ask for pizza on Wooster Street and you'll get apizza, charred and cut on a sheet pan. Order a lobster roll on the shoreline and it usually comes hot with butter, though plenty of shacks make the cold one too. {BRAND} is organized around those habits rather than star ratings: {len(APIZZA)} pizzerias that bake New Haven-style pies, {len(LOBSTER)} lobster roll and clam shack stops, the steamed cheeseburger counters, and diners and dairy bars that have held their corners for decades. Every place on those lists was {checked_open(HC)}, and the seasonal ones are marked. For today's hours and photos, each place opens Apple Maps' own card.</p>
   </section>
 
   <section id="how">
-    <h2>How it works</h2>
+    <h2>Three steps to lunch</h2>
     <ol class="steps">
-      <li class="step"><div class="n" aria-hidden="true">1</div><div><h3>Pick a guide.</h3><p>New Haven Apizza, Lobster Rolls &amp; Clam Shacks, Burger &amp; Hot Dog Icons, Diners, Dairy Bars, Little Poland, Connecticut Icons, or <a href="/{OLDEST_PAGE[0]}">Oldest Places</a>, or search {N_REST:,} restaurants by name, town, village, or street.</p></div></li>
-      <li class="step"><div class="n" aria-hidden="true">2</div><div><h3>See what's near you.</h3><p>Sort by distance, filter by town or kind of food, or browse the map. Seasonal shacks say so.</p></div></li>
-      <li class="step"><div class="n" aria-hidden="true">3</div><div><h3>Go.</h3><p>Open Apple Maps' place card for live hours and photos, call, get directions, or save it for the weekend.</p></div></li>
+      <li class="step"><div class="n" aria-hidden="true">1</div><div><h3>Start with a list.</h3><p>New Haven Apizza, Lobster Rolls &amp; Clam Shacks, Burger &amp; Hot Dog Icons, Diners, Dairy Bars, Little Poland, Connecticut Icons, or <a href="/{OLDEST_PAGE[0]}">Oldest Places</a>. Or type a name, a town, a village like Mystic or Noank, or a street like Wooster St.</p></div></li>
+      <li class="step"><div class="n" aria-hidden="true">2</div><div><h3>Narrow it down.</h3><p>Sort by how far each place is from you, pick one of {N_TOWNS} towns or a kind of food, or pan around the state map. Shacks that close for the winter are marked seasonal.</p></div></li>
+      <li class="step"><div class="n" aria-hidden="true">3</div><div><h3>Head out.</h3><p>Tap through to Apple Maps for today's hours and photos, call before you drive, get directions, or save the place for a shoreline weekend.</p></div></li>
     </ol>
   </section>
 {screens_section}
   <section id="guides">
     <h2>Connecticut food guides</h2>
-    <p class="sub">The app's hand-checked lists, readable on the web.</p>
+    <p class="sub">The same hand-checked lists as the app, as pages you can read and share.</p>
     <div class="grid2">
-      <a class="card" href="/new-haven-apizza.html"><h3>New Haven apizza guide</h3><p>{len(APIZZA)} pizzerias by region and town, from Wooster Street out.</p></a>
-      <a class="card" href="/connecticut-lobster-rolls.html"><h3>Lobster rolls &amp; clam shacks</h3><p>{len(LOBSTER)} places, with the season for the shacks.</p></a>
-      <a class="card" href="/connecticut-hot-dogs-burgers.html"><h3>Hot dog &amp; burger icons</h3><p>{len(BURGERS)} stands and counters, steamed cheeseburgers included.</p></a>
+      <a class="card" href="/new-haven-apizza.html"><h3>New Haven apizza guide</h3><p>{len(APIZZA)} pizzerias by region and town, the Wooster Street originals and their branches included.</p></a>
+      <a class="card" href="/connecticut-lobster-rolls.html"><h3>Lobster rolls &amp; clam shacks</h3><p>{len(LOBSTER)} stops from Greenwich to Stonington and inland, with the season wherever a shack posts one.</p></a>
+      <a class="card" href="/connecticut-hot-dogs-burgers.html"><h3>Hot dog &amp; burger icons</h3><p>{len(BURGERS)} stands and counters, including the steamed cheeseburgers of {e(and_list(STEAM_TOWNS))}.</p></a>
       <a class="card" href="/connecticut-diners-dairy-bars.html"><h3>Diners &amp; dairy bars</h3><p>{len(DINERS)} diners and {len(DAIRY)} dairy bars and farm creameries.</p></a>
-      <a class="card" href="/{OLDEST_PAGE[0]}"><h3>Connecticut's oldest restaurants</h3><p>{len(OLDEST)} places by years at the same address, from {OLDEST[0].founded} on.</p></a>
+      <a class="card" href="/{OLDEST_PAGE[0]}"><h3>Connecticut's oldest restaurants</h3><p>{len(OLDEST)} places that have stayed at one address, the earliest since {OLDEST[0].founded}.</p></a>
       <a class="card" href="/explore/#g=polish"><h3>Little Poland</h3><p>{len(POLISH)} Polish restaurants and bakeries, from New Britain out. In the web search.</p></a>
-      <a class="card" href="/explore/#g=all"><h3>The whole state</h3><p>{N_REST:,} places in {N_TOWNS} towns, from open map data, the state's liquor permits, and Hartford's food licenses.</p></a>
+      <a class="card" href="/explore/#g=all"><h3>The whole directory</h3><p>{N_REST:,} places in {N_TOWNS} towns, built from open map data, the state's liquor permits, and Hartford's food licenses.</p></a>
     </div>
   </section>
 
   <section id="towns">
     <h2>Apizza and lobster rolls by town</h2>
-    <p class="sub">The classics in and near Connecticut's biggest towns, plus each town's icons and oldest restaurants.</p>
+    <p class="sub">{len(TOWN_PAGES)} town pages, from New Haven and Hartford to Groton and Simsbury: what's on our lists in each town, the nearest classics, and how many places the app lists there.</p>
     <ul class="towns">{town_cards}</ul>
   </section>
 
   <section id="inspections">
-    <h2>Health ratings: official ones only</h2>
-    <p class="sub">Connecticut has no statewide restaurant inspection results or grades, and we don't invent our own. The Farmington Valley Health District rates restaurants in its {N_FV} towns A, B, C, or U and requires each to post it; for the {len(FV):,} places we matched to its published ratings, the app and the <a href="/explore/">web search</a> show that official rating with its date. See {fv_links} in the web search, where each rated place shows its rating.</p>
+    <h2>Health grades, where Connecticut has them</h2>
+    <p class="sub">Connecticut publishes no statewide restaurant inspection results or grades, and we don't make our own. One district does grade: the Farmington Valley Health District rates restaurants in its {N_FV} towns A, B, C, or U and requires each to post its grade. For the {len(FV):,} places we matched to its published list, the app and the <a href="/explore/">web search</a> show that official grade and the date it was given. Try {fv_links} in the web search.</p>
   </section>
 
   <section id="pricing">
-    <h2>Free, and staying that way</h2>
-    <p class="sub">No ads, no subscription, no in-app purchases, no account. The whole guide is built into the app, so lists open instantly, even with one bar of signal at the beach.</p>
+    <h2>No price, no ads, no sign-in</h2>
+    <p class="sub">{BRAND} costs nothing and shows no ads. There's nothing to buy inside it and no account to make. The directory ships inside the app, so the lists still open on a Noank dock or a Litchfield Hills back road with no signal.</p>
   </section>
 
   <section id="privacy">
-    <h2>Your lunch plans are your business</h2>
-    <p class="sub">{BRAND} collects nothing. If you allow location, it only sorts lists by distance on your device. Saved places stay on your device. This website sets no cookies and runs no trackers. <a href="/privacy.html">Read the privacy policy</a>.</p>
+    <h2>What the app knows about you: nothing</h2>
+    <p class="sub">The app sends us nothing. If you allow location, your phone uses it to sort places by distance, and saved places stay on the phone too. This website sets no cookies and loads no trackers. <a href="/privacy.html">Read the privacy policy</a>.</p>
   </section>
 
   <section id="faq">
@@ -1458,13 +1521,20 @@ body = f"""  <main id="main">
 
   <section id="download" class="final">
     <h2>Find the next pie</h2>
-    <p class="sub">{f"{BRAND} is free on the App Store for iPhone and iPad." if APP_STORE_URL else f"{BRAND} is coming to the App Store for iPhone and iPad. Free."}</p>
+    <p class="sub">{f"{BRAND} is free on the App Store for iPhone and iPad." if APP_STORE_URL else f"{BRAND} for iPhone and iPad is headed for the App Store, and it will be free."}</p>
     <div class="cta-row">{store_button()}</div>
   </section>
   </main>"""
 written.append(page("index.html", title, desc, body, [app_ld, faq_ld]))
 
 # ---------------------------------------------------------------- privacy and terms
+# every localStorage key the web app writes (explore.js prefixes each with "ce-"), named on the privacy page; the assert keeps
+# this list and explore.js in step
+STORAGE_KEYS = {"saved": "your saved places", "guide": "the last guide you opened"}
+JS_KEYS = set(re.findall(r'store\.set\("([a-z]+)"', open(f"{ROOT}/scripts/explore.js").read()))
+assert JS_KEYS == set(STORAGE_KEYS), (JS_KEYS, set(STORAGE_KEYS))
+assert 'localStorage.setItem("ce-" + k' in open(f"{ROOT}/scripts/explore.js").read(), "explore.js's storage prefix changed"
+STORAGE_TEXT = and_list(f"{v} (under the key <code>ce-{k}</code>)" for k, v in STORAGE_KEYS.items())
 nav, bc = crumbs([("Home", "/"), ("Privacy policy", "/privacy.html")])
 body = f"""{nav}
   <main id="main" class="legal">
@@ -1485,7 +1555,7 @@ body = f"""{nav}
     <p>On the App Store, the app's privacy label {'is' if APP_STORE_URL else 'will be'} "Data Not Collected".</p>
     <h2>This website</h2>
     <p>The site is static pages hosted on GitHub Pages. It sets no cookies and loads no analytics, fonts, maps, or scripts from anyone else. GitHub may keep standard server logs, such as IP addresses, for security; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub's privacy statement</a>.</p>
-    <p>The <a href="/explore/">web search</a> keeps your saved places and the last guide you opened in your browser's local storage, on your device only; clearing your browser's site data deletes them. If you tap "Use my location", open the "Near me" guide, or sort by "Nearest", your browser asks first, and your location is used in the page to sort by distance. It is never sent to us or anyone else.</p>
+    <p>The <a href="/explore/">web search</a> keeps {STORAGE_TEXT} in your browser's local storage, on your device only; clearing your browser's site data deletes them. If you tap "Use my location", open the "Near me" guide, or sort by "Nearest", your browser asks first, and your location is used in the page to sort by distance. It is never sent to us or anyone else.</p>
     <h2>Email</h2>
     <p>If you email us, we use your message and address only to reply and to fix the listing you told us about. We don't add you to a mailing list or share your address.</p>
     <h2>Children</h2>
@@ -1555,11 +1625,11 @@ written.append(page("terms.html", "Terms of Use: Connecticut Eats Apizza & Resta
 
 body = f"""  <main id="main">
   <section class="hero">
-    <h1>Page not found</h1>
-    <p class="lede">That page isn't here. Try the <a href="/">{BRAND} home page</a>, the <a href="/new-haven-apizza.html">apizza guide</a>, the <a href="/connecticut-lobster-rolls.html">lobster roll guide</a>, or the <a href="/explore/">restaurant search</a>.</p>
+    <h1>No page at this address</h1>
+    <p class="lede">Like a clam shack in January, there's nothing here right now. Head back to the <a href="/">{BRAND} home page</a>, or go straight to the <a href="/new-haven-apizza.html">New Haven apizza guide</a>, the <a href="/connecticut-lobster-rolls.html">lobster rolls and clam shacks</a>, or a <a href="/explore/">search of {N_REST:,} Connecticut restaurants</a>.</p>
   </section>
   </main>"""
-page("404.html", f"Page not found | {BRAND}", "This page doesn't exist.", body, robots="noindex,follow")
+page("404.html", f"Page not found | {BRAND}", "There's no Connecticut Eats page at this address.", body, robots="noindex,follow")
 
 # ---------------------------------------------------------------- plumbing
 urls = ["" if w == "index.html" else w.replace("index.html", "") for w in written]
@@ -1598,3 +1668,5 @@ print("wrote", len(written) + 1, "pages:", ", ".join(written + ["404.html"]))
 print(f"restaurants {N_REST:,} in {N_TOWNS} towns | apizza {len(APIZZA)} | lobster {len(LOBSTER)} | burgers {len(BURGERS)} | diners {len(DINERS)} "
       f"| dairy {len(DAIRY)} | polish {len(POLISH)} | hand-checked {len(HC)} | FVHD rated {len(FV)}")
 print("core.json", os.path.getsize(f"{DOCS}/data/core.json") // 1024, "KB | detail.json", os.path.getsize(f"{DOCS}/data/detail.json") // 1024, "KB")
+print("website links left out (pipeline/website_blocklist.json):", ", ".join(f"{k} ×{n}" for k, n in sorted(BLOCKED_DROPPED.items())) or "none",
+      "| entries matching nothing:", ", ".join(b.get("url") or b["domain"] for b in BLOCKLIST if (b.get("url") or b["domain"]) not in BLOCKED_DROPPED) or "none")

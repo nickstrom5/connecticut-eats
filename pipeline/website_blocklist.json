@@ -1,0 +1,17 @@
+[
+ {"domain": "richfarmicecream.com", "match": "domain", "place": "Rich Farm Ice Cream (Oxford, Middlefield, Bristol)",
+  "reason": "hacked: www hides an off-screen block (top: -65455px) of 1xBet betting copy linking 1xbetapk-nepal.com; the bare domain meta-refreshes to oak-melody.pages.dev",
+  "severity": "P0", "evidence": "$SP/work/link-scan/evidence/ct/richfarmicecream_com.html; $SP/work/link-scan/evidence/ct/richfarmicecream_com-bare-domain-meta-refresh.html", "found": "2026-10-12"},
+ {"domain": "gofericecream.com", "match": "domain", "place": "Gofer Ice Cream (Stamford High Ridge, Greenwich, Darien, Wilton)",
+  "reason": "hacked: hidden off-screen pharmacy link (left: -12414px, monterreyfarmacia.com) in the site's nav on every page",
+  "severity": "P0", "evidence": "$SP/work/link-scan/evidence/ct/gofericecream_com.html; $SP/work/link-scan/evidence/ct/gofericecream_com-project-551-east-putnam.html", "found": "2026-10-12"},
+ {"domain": "holycowct.squarespace.com", "url": "https://holycowct.squarespace.com/", "match": "url", "place": "Holy Cow Ice Cream (Newtown)",
+  "reason": "expired: HTTP 404 'Squarespace - Website Expired' (twice); squarespace.com is a shared host, so only this site is blocked",
+  "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/parked-holycowct_squarespace_com.html", "found": "2026-10-12"},
+ {"domain": "vialeristorante.com", "match": "domain", "place": "Viale Ristorante (Bridgeport)",
+  "reason": "another business: redirects to viale.ca, Viale Event Space in Vaughan, Ontario",
+  "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/wrong-vialeristorante_com.html", "found": "2026-10-12"},
+ {"domain": "alecraft.beer", "match": "domain", "place": "AleCraft Brewery (New London)",
+  "reason": "another business: redirects to alecraftbeer.com, AleCraft Brewery & Restaurant in Railroad, PA",
+  "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/wrong-alecraft_beer.html", "found": "2026-10-12"}
+]
