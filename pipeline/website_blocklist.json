@@ -13,5 +13,8 @@
   "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/wrong-vialeristorante_com.html", "found": "2026-10-12"},
  {"domain": "alecraft.beer", "match": "domain", "place": "AleCraft Brewery (New London)",
   "reason": "another business: redirects to alecraftbeer.com, AleCraft Brewery & Restaurant in Railroad, PA",
-  "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/wrong-alecraft_beer.html", "found": "2026-10-12"}
+  "severity": "P2", "evidence": "$SP/work/link-scan/evidence/ct/wrong-alecraft_beer.html", "found": "2026-10-12"},
+ {"domain": "veraromagrilleandbar.com", "match": "domain", "place": "Vera Roma Grille and Bar (Torrington)",
+  "reason": "malware script: menu <img onload=eval(atob(...))> loads https://siltamaja.lv/js/jquery.inner.js (injected script loader)",
+  "severity": "P0", "evidence": "$SP/work/link-scan/evidence/ct/veraromagrilleandbar.com.html", "found": "2026-10-12"}
 ]

@@ -237,16 +237,35 @@
     saveHash();
   }
 
+  // A search inside a guide only looks in that guide, and the web app opens on one, so a well-known place from outside it
+  // ("max downtown" in Apizza) would find nothing. When the guide has none or only a few, offer All restaurants with the
+  // same words and filters; the count is what that list will show.
+  const FEW = 3;
+  function elsewhere() {
+    const q = parse(st.q);
+    if (st.g === "all" || st.g === "near" || q.unsearchable || qEmpty(q)) return 0;
+    ensureIndex();
+    return P.filter((p) => !p.v && allows(p) && matches(p, q)).length;
+  }
+  const allButton = (n) => `<button type="button" class="ex-small" id="ex-all">Search all restaurants (${n.toLocaleString("en-US")} ${n === 1 ? "match" : "matches"})</button>`;
+  function wireAll() {
+    const b = $("#ex-all");
+    if (b) b.onclick = () => { st.g = "all"; st.sort = ""; shown = 100; render(); $("#ex-list .ex-row")?.focus(); };
+  }
+
   function renderList(o) {
     const ol = $("#ex-list");
     const g = GUIDES[st.g];
     if (!current.length) {
-      const msg = st.g === "saved" ? "Nothing saved yet. Open a place and tap Save to keep it here, in this browser."
+      const more = elsewhere();
+      const msg = more ? `Nothing ${st.g === "saved" ? "you saved" : `in ${esc(g.title)}`} matches that. ${allButton(more)}`
+        : st.g === "saved" && !st.q.trim() ? "Nothing saved yet. Open a place and tap Save to keep it here, in this browser."
         : g.needsHere && !here ? (locDenied
           ? "Location is blocked for this site, so Near me has nothing to sort. Allow location for this site in your browser's settings, then tap “Use my location”."
           : "Tap “Use my location” to see the places around you. Your location stays in this browser.")
           : "No places match. Try fewer words or clear the filters.";
       ol.innerHTML = `<li class="ex-empty">${msg}</li>`;
+      wireAll();
       $("#ex-more").hidden = true;
       return;
     }
@@ -256,6 +275,12 @@
       const rank = ranked ? `<span class="ex-rank${i < 3 ? " top" : ""}"><span class="sr">Rank </span>${i + 1}</span>` : "";
       return `<li><button class="ex-row" data-i="${p.i}">${rank}<span class="ex-main"><b class="ex-name">${esc(p.n)}</b><span class="ex-town">${esc([placeName(p), p.cu].filter(Boolean).join(" · "))}</span><span class="ex-chips">${chips(p, 4)}</span></span>${m ? `<span class="ex-metric"><b>${esc(m[0])}</b><small>${m[1]}</small></span>` : ""}</button></li>`;
     }).join("");
+    // only a few here, and more in the whole list: offer it below them
+    const more = current.length <= FEW ? elsewhere() : 0;
+    if (more > current.length) {
+      ol.insertAdjacentHTML("beforeend", `<li class="ex-empty ex-widen">${current.length === 1 ? "Only this one" : `Only these ${current.length}`} in ${st.g === "saved" ? "your saved places" : esc(GUIDES[st.g].title)}. ${allButton(more)}</li>`);
+      wireAll();
+    }
     const left = current.length - shown;
     $("#ex-more").hidden = left <= 0;
     $("#ex-more").textContent = `Show more (${left.toLocaleString("en-US")} left)`;

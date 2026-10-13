@@ -30,6 +30,11 @@ Haven apizza and lobster roll numbers); every localStorage key the web app reads
 search box and selects are at least 16 px; with no location fix the count line never says "Nearest". No website on
 pipeline/website_blocklist.json (hacked, expired or another business's) appears anywhere in docs/ (check_blocklist).
 
+Also (2026-10-12 round 3): check_blocklist scans every text file in docs/ and fails on a missing, empty or malformed blocklist;
+a search inside a guide that finds nothing there (Max Downtown in Apizza) offers "Search all restaurants (N matches)" and one
+click finds it, a guide with only a few matches offers the same below them; on a phone (375 and 320 px) the search box's
+placeholder isn't cut off (scrollWidth vs clientWidth with the placeholder as the value).
+
 Usage: .venv/bin/python scripts/qa-site.py      (serves docs/ itself on a free localhost port; exits 1 on any problem)
   QA_DOCS=<dir>   check another copy of docs/ (used to confirm that each check can fail)
   QA_PORT=<port>  serve on this port instead of a free one (the machine is shared: each session keeps to its own ports)
@@ -379,15 +384,33 @@ def blocked_patterns():
     return out
 
 
+BINARY = (".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico", ".avif", ".woff", ".woff2", ".pdf")
+
+
 def check_blocklist(problems):
-    """No blocklisted website (pipeline/website_blocklist.json) anywhere in docs/: pages, JSON-LD, the web app's data files."""
+    """No blocklisted website (pipeline/website_blocklist.json) anywhere in docs/: pages, JSON-LD, the web app's data files,
+    and any other text file there. A missing, empty or malformed list fails too, so the check can't pass by checking nothing."""
     if not os.path.exists(BLOCKLIST):
         problems.append("pipeline/website_blocklist.json is missing")
+        return
+    try:
+        entries = json.load(open(BLOCKLIST, encoding="utf-8"))
+    except ValueError as ex:
+        problems.append(f"pipeline/website_blocklist.json doesn't parse ({ex})")
+        return
+    if not isinstance(entries, list) or not entries:
+        problems.append("pipeline/website_blocklist.json is empty (or not a list): the blocklist check would pass vacuously")
+        return
+    bad = [b for b in entries if not isinstance(b, dict) or not b.get("domain") or b.get("match", "domain") not in ("domain", "url")
+           or (b.get("match") == "url" and not urllib.parse.urlsplit(b.get("url") or "").hostname)]
+    if bad:
+        problems.append(f"pipeline/website_blocklist.json: {len(bad)} malformed entries (need a domain, match 'domain' or 'url', "
+                        f"and a url for 'url'): {bad[:2]}")
         return
     pats = blocked_patterns()
     for d, _, files in os.walk(DOCS):
         for x in sorted(files):
-            if not x.endswith((".html", ".json", ".txt", ".xml", ".webmanifest", ".js", ".css")):
+            if x.lower().endswith(BINARY):
                 continue
             text = open(os.path.join(d, x), encoding="utf-8", errors="replace").read()
             for b, pat in pats:
@@ -837,6 +860,71 @@ def check_explore(page, base, width, data, problems, errors):
         label = page.locator("#ex-count").text_content() or ""
         if "Nearest" in label:
             problems.append(f"{where}: #{hash_} with no location says {label!r}, but the list isn't in distance order")
+
+    # 20. (Round 3, ME-V08) the web app opens on a guide and a search looks only inside it, so a well-known place outside the
+    # guide must not be a dead end: Max Downtown (Hartford, in no guide) finds nothing in Apizza, a "Search all restaurants
+    # (N matches)" button appears, and one click lists it in All restaurants with the search kept and focus on the list. A
+    # guide with only a few matches offers the same below them; a search nothing answers offers nothing.
+    famous = [i for i in range(len(C["id"])) if C["n"][i] == "Max Downtown" and core["cities"][C["c"][i]] == "Hartford" and C["v"][i] != 1]
+    if not famous or famous[0] in apizza:
+        problems.append(f"{where}: the search-all check needs Max Downtown (Hartford) outside the apizza guide in the data")
+    else:
+        fresh("g=apizza")
+        search(page, "max downtown")
+        btn = page.locator("#ex-all")
+        if rows(page):
+            problems.append(f"{where}: 'max downtown' lists {len(rows(page))} places in the apizza guide; expected none")
+        elif not btn.count() or not btn.is_visible():
+            problems.append(f"{where}: 'max downtown' in the apizza guide finds nothing and offers no 'Search all restaurants' button "
+                            f"({page.locator('#ex-list').inner_text()[:100]!r})")
+        else:
+            label = btn.inner_text().strip()
+            m = re.fullmatch(r"Search all restaurants \(([\d,]+) match(?:es)?\)", label)
+            btn.click()
+            page.wait_for_timeout(400)
+            got = rows(page)
+            if not m or int(m.group(1).replace(",", "")) != len(got):
+                problems.append(f"{where}: the button said {label!r}, but All restaurants lists {len(got)}")
+            if not any(r["i"] == famous[0] for r in got):
+                problems.append(f"{where}: one click on 'Search all restaurants' didn't find Max Downtown ({[r['name'] for r in got][:4]})")
+            if page.get_attribute('.ex-guides button[data-g="all"]', "aria-pressed") != "true" or page.locator("#ex-q").input_value() != "max downtown" \
+                    or "g=all" not in page.evaluate("location.hash") or "q=max" not in page.evaluate("location.hash"):
+                problems.append(f"{where}: after 'Search all restaurants' the All restaurants guide isn't on with the same search ({page.evaluate('location.hash')})")
+            if not page.evaluate("document.activeElement?.classList.contains('ex-row')"):
+                problems.append(f"{where}: after 'Search all restaurants' focus isn't on the list")
+        # a few in the guide and more in the whole list: offered below them, with the whole list's count
+        fresh("g=all&q=sallys")
+        while page.locator("#ex-more").is_visible():
+            page.locator("#ex-more").click()
+            page.wait_for_timeout(100)
+        n_all = len(rows(page))
+        fresh("g=apizza&q=sallys")
+        n_guide, btn = len(rows(page)), page.locator("#ex-all")
+        if not (0 < n_guide <= 3 and n_all > n_guide):
+            problems.append(f"{where}: the few-matches check needs 'sallys' to show 1-3 places in Apizza and more in All restaurants "
+                            f"({n_guide}, {n_all}); pick another search")
+        elif not btn.count() or btn.inner_text().strip() != f"Search all restaurants ({n_all} matches)":
+            problems.append(f"{where}: 'sallys' shows {n_guide} in Apizza and {n_all} in All restaurants, but offers "
+                            f"{btn.inner_text().strip() if btn.count() else 'no button'!r}")
+        fresh("g=apizza&q=zzqxjv")
+        if page.locator("#ex-all").count():
+            problems.append(f"{where}: a search nothing answers offers 'Search all restaurants'")
+
+    # 21. (Round 3) on a phone the search box's placeholder isn't cut off (California's read "…zip or d"): with the placeholder
+    # as its value the box doesn't scroll (scrollWidth <= clientWidth), and the text fits inside the padding, at 375 and 320 px
+    if width <= 600:
+        for w in (375, 320):
+            page.set_viewport_size({"width": w, "height": 900})
+            fresh("g=apizza")
+            fit_ = page.evaluate("""() => { const el = document.querySelector('#ex-q'), cs = getComputedStyle(el), v = el.value;
+                el.value = el.placeholder; const sw = el.scrollWidth, cw = el.clientWidth; el.value = v;
+                const c = document.createElement('canvas').getContext('2d'); c.font = cs.font;
+                return { ph: el.placeholder, sw, cw, text: Math.ceil(c.measureText(el.placeholder).width),
+                         room: Math.floor(cw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)), px: parseFloat(cs.fontSize) }; }""")
+            if not fit_["ph"] or fit_["sw"] > fit_["cw"] or fit_["text"] > fit_["room"] or fit_["px"] < 16:
+                problems.append(f"{where}: at {w} px the search placeholder {fit_['ph']!r} is cut off or small (scrollWidth {fit_['sw']} > "
+                                f"clientWidth {fit_['cw']}, or text {fit_['text']} px > room {fit_['room']} px, or {fit_['px']} px font)")
+        page.set_viewport_size({"width": width, "height": 900})
     problems.extend(f"{where}: console error: {x}" for x in errors)
     problems.extend(f"{where}: CSP violation: {x}" for x in page.evaluate("window.__csp || []"))
 

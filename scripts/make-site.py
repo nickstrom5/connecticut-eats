@@ -1260,6 +1260,8 @@ EXPLORE_CSS = """
   .ex-rank { flex: 0 0 34px; height: 34px; display: grid; place-items: center; font: 800 20px var(--display); color: var(--navy); border-radius: 8px; }
   .ex-rank.top { background: var(--tomato); color: #fff; }
   .ex-empty { padding: 24px 4px; color: var(--muted); }
+  .ex-empty.ex-widen { padding: 14px 4px; }
+  #ex-all { display: flex; align-items: center; width: fit-content; max-width: 100%; margin: 10px 0 0; border-color: var(--navy); white-space: normal; text-align: left; }   /* its own line, under the message */
   #ex-more { display: block; margin: 8px auto 24px; }
   #ex-mapwrap { position: relative; height: min(68vh, 640px, calc(75vw + 60px)); margin: 10px 0 20px; border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; background: #e6ecf3; }
   #ex-map { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
