@@ -44,7 +44,7 @@ EMAIL = "nick@eatsranked.com"
 HUB = "https://eatsranked.com/"
 PARENT_ORG = {"@type": "Organization", "@id": "https://eatsranked.com/#organization", "name": "Eats Ranked", "url": HUB}
 # Once the App Store listing exists, paste its URL here (looks like https://apps.apple.com/app/id123456789) and re-run: every
-# "Get early access" button becomes an App Store link (Apple's official badge if docs/img/app-store-badge.svg is there; get it
+# "Ask for early access" button becomes an App Store link (Apple's official badge if docs/img/app-store-badge.svg is there; get it
 # from Apple's marketing tools, never draw the Apple logo), the notes stop saying "coming", the privacy page says the label "is",
 # and the web app's place panel links the App Store (it reads window.APP_STORE_URL). Also fill in the apple-itunes-app meta tag
 # in page() below.
@@ -479,7 +479,7 @@ def crumbs(trail):
     return f'<nav class="crumbs" aria-label="Breadcrumb"><ol>{items}</ol></nav>', ld
 
 
-def store_button(label="Get early access"):
+def store_button(label="Ask for early access"):
     if APP_STORE_URL:
         # Apple's own badge artwork only (never a drawn Apple logo); plain text until the badge file is in docs/img
         if os.path.exists(f"{DOCS}/img/app-store-badge.svg"):
