@@ -152,5 +152,285 @@
     "severity": "P2",
     "evidence": "$SP/work/link-scan/evidence/ct/oldtowncafe.com.html",
     "found": "2026-10-12"
+  },
+  {
+    "domain": "moranrestaurantct.com",
+    "match": "domain",
+    "place": "Moran Restaurant (Colchester)",
+    "reason": "injected link: \"slot\" backlink (pauliespubandgrille.com) inserted into the restaurant description",
+    "severity": "P0",
+    "evidence": "$SP/work/link-scan/evidence/ct/moranrestaurantct.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "woodcreekbarandgrill.com",
+    "match": "domain",
+    "place": "Wood Creek Bar & Grill (Norfolk)",
+    "reason": "domain taken over: domain is now an Indonesian review blog with togel/slot links",
+    "severity": "P0",
+    "evidence": "$SP/work/link-scan/evidence/ct/woodcreekbarandgrill.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "ponemahvet.com",
+    "match": "domain",
+    "place": "Ponemah Cafe (Norwich)",
+    "reason": "another business: Ponemah Veterinary Hospital, Amherst, NH (for Ponemah Cafe, Norwich, CT)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/ponemahvet.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "pekingdining.com",
+    "match": "domain",
+    "place": "Peking Restaurant (Bridgeport)",
+    "reason": "another business: Peking Restaurant, Virginia (not Bridgeport, CT)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/pekingdining.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "italianvillaonline.com",
+    "match": "domain",
+    "place": "Italian Villa (Somers)",
+    "reason": "another business: Italian Villa, Hornell, NY (not Somers, CT)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/italianvillaonline.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "littletokyopittsburgh.com",
+    "match": "domain",
+    "place": "Little Tokyo Restaurant (Milford)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in PA and it names neither the city nor the state of Little Tokyo Restaurant (Milford)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/littletokyopittsburgh.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "lindt.com",
+    "match": "domain",
+    "place": "Lindt Chocolate Shop (Clinton)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in NH and it names neither the city nor the state of Lindt Chocolate Shop (Clinton)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/lindt.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "breadbasket.com",
+    "match": "domain",
+    "place": "Bread Basket (Hamden)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in TN and it names neither the city nor the state of Bread Basket (Hamden)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/breadbasket.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "legion.org",
+    "match": "domain",
+    "place": "American Legion (Hartford); American Legion Post 20 (Plymouth)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in IN and it names neither the city nor the state of American Legion (Hartford); American Legion Post 20 (Plymouth)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/legion.org.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "angelinas.com",
+    "match": "domain",
+    "place": "Angelina's Restaurant (Enfield)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in CA and it names neither the city nor the state of Angelina's Restaurant (Enfield)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/angelinas.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "url": "http://www.elks.org/lodges/home.cfm?lodgenumber=1721",
+    "match": "url",
+    "place": "Middletown Elks Lodge (Middletown)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in MO and it names neither the city nor the state of Middletown Elks Lodge (Middletown)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/elks.org_lodges_home.cfm.html",
+    "found": "2026-10-12",
+    "domain": "http://www.elks.org/lodges/home.cfm?lodgenumber=1721"
+  },
+  {
+    "domain": "goldenleaf.org",
+    "match": "domain",
+    "place": "Golden Leaf (Brookfield)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in NC and it names neither the city nor the state of Golden Leaf (Brookfield)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/goldenleaf.org.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "ingapircarestaurant.com",
+    "match": "domain",
+    "place": "Ingapirca Restaurant (Waterbury)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in CA and it names neither the city nor the state of Ingapirca Restaurant (Waterbury)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/ingapircarestaurant.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "marcells.net",
+    "match": "domain",
+    "place": "Marcell's (Danbury)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in WI and it names neither the city nor the state of Marcell's (Danbury)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/marcells.net.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "terrazzagreenfield.com",
+    "match": "domain",
+    "place": "Terrazza Restaurant (Portland)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in MA and it names neither the city nor the state of Terrazza Restaurant (Portland)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/terrazzagreenfield.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "twoguysgrille.com",
+    "match": "domain",
+    "place": "2 Guys One Grill (Wallingford)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in NC and it names neither the city nor the state of 2 Guys One Grill (Wallingford)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/twoguysgrille.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "villagebagels.com",
+    "match": "domain",
+    "place": "Village Bagels; Village Bagels Norwalk (Stamford)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in NJ and it names neither the city nor the state of Village Bagels; Village Bagels Norwalk (Stamford)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/villagebagels.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "highspirits.com",
+    "match": "domain",
+    "place": "High Spirits Willimantic (Windham)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in AZ and it names neither the city nor the state of High Spirits Willimantic (Windham)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/highspirits.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "imperialwok.com",
+    "match": "domain",
+    "place": "Imperial Wok (New Britain)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in OH and it names neither the city nor the state of Imperial Wok (New Britain)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/imperialwok.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "ambrosiabakery.com",
+    "match": "domain",
+    "place": "Ambrosia Bakery (Milford)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in LA and it names neither the city nor the state of Ambrosia Bakery (Milford)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/ambrosiabakery.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "whitneygardens.com",
+    "match": "domain",
+    "place": "Whitney Garden (Hamden)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in WA and it names neither the city nor the state of Whitney Garden (Hamden)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/whitneygardens.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "labageldelight.com",
+    "match": "domain",
+    "place": "Bagel Delight (Newtown)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in NY and it names neither the city nor the state of Bagel Delight (Newtown)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/labageldelight.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "joesdineraz.com",
+    "match": "domain",
+    "place": "Joe's Diner (Stratford)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in AZ and it names neither the city nor the state of Joe's Diner (Stratford)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/joesdineraz.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "goldendragon.info",
+    "match": "domain",
+    "place": "Golden Dragon (West Haven)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in CA and it names neither the city nor the state of Golden Dragon (West Haven)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/goldendragon.info.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "reginapizzeria.com",
+    "match": "domain",
+    "place": "Regina Pizzeria (Ledyard)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in MA and it names neither the city nor the state of Regina Pizzeria (Ledyard)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/reginapizzeria.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "adtpizza.com",
+    "match": "domain",
+    "place": "ADT Pizza (Westport)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in LA and it names neither the city nor the state of ADT Pizza (Westport)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/adtpizza.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "blackstone-ic.com",
+    "match": "domain",
+    "place": "Blackstone Village (Meriden)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in IA and it names neither the city nor the state of Blackstone Village (Meriden)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/blackstone-ic.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "machupicchuboston.com",
+    "match": "domain",
+    "place": "Machu Picchu (New Haven)",
+    "reason": "another business (auto, not hand-checked): the site's addresses are in MA and it names neither the city nor the state of Machu Picchu (New Haven)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/machupicchuboston.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "cafesplanet.com",
+    "match": "domain",
+    "place": "Coddington's On Meadow (Naugatuck); Oriental Bar & Grill (Montville)",
+    "reason": "listing farm or directory, not the place's own site: auto-generated restaurant listing pages ('<name> - <city> - Full Menu, Reviews, Photos'), not the place's own site",
+    "severity": "P3",
+    "evidence": null,
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "gastro-america.com",
+    "match": "domain",
+    "place": "Lucky (North Branford); Olde School Deli (North Canaan); Unionville Family Restaurant (Farmington)",
+    "reason": "listing farm or directory, not the place's own site: auto-generated restaurant listing pages ('<name> - <city> - Full Menu, Reviews, Photos'), not the place's own site",
+    "severity": "P3",
+    "evidence": null,
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "beermenus.com",
+    "match": "domain",
+    "place": "Old Well Tavern (Simsbury)",
+    "reason": "listing farm or directory, not the place's own site: beer-menu directory page, not the place's own site",
+    "severity": "P3",
+    "evidence": null,
+    "found": "2026-10-12"
   }
 ]
