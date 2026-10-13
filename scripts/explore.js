@@ -229,7 +229,7 @@
     const sortSel = $("#ex-sort");
     sortSel.innerHTML = g.sorts.map((s) => `<option value="${s}"${s === o ? " selected" : ""}>${SORT_LABEL[s]}</option>`).join("");
     sortSel.disabled = g.sorts.length < 2;
-    const filters = [st.town && `in ${st.town}`, st.cuisine && st.cuisine, st.chains && "no chains", st.conf && "confirmed only"].filter(Boolean);
+    const filters = [st.town && `in ${st.town}`, st.cuisine && st.cuisine, st.chains && "no chains", st.conf && "high-confidence only"].filter(Boolean);
     const ol = orderLabel(g, o);
     $("#ex-count").textContent = `${current.length.toLocaleString("en-US")} ${current.length === 1 ? "place" : "places"}` + (ol ? ` · ${ol}` : "") + (filters.length ? ` · ${filters.join(", ")}` : "");
     $("#ex-clear").hidden = !filters.length;
@@ -288,7 +288,7 @@
 
   // ---------------------------------------------------------------- place panel (PlaceDetailView.swift)
   const JUR_LIST = { 1: "Connecticut Department of Consumer Protection's list of liquor permits", 2: "City of Hartford's list of food-establishment licenses" };
-  const TIER = { 2: "Licensed", 1: "Confirmed listing", 0: "Listing only" };
+  const TIER = { 2: "Licensed", 1: "High-confidence listing", 0: "Listing only" };   // "High-confidence", not "confirmed" (Nick, 2026-10-13)
   const RATING = { A: "Excellent", B: "Good", C: "Fair", U: "Unsatisfactory" };
   const HOST_TEXT = {
     Foxwoods: "Inside Foxwoods Resort Casino, on Mashantucket Pequot tribal land, where Mashantucket Pequot Tribal Health Services inspects restaurants.",

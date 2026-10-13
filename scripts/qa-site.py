@@ -14,7 +14,7 @@ the rating and its date; the map draws the state and the dots; an emoji search l
 sorts by distance from the browser's location. Also: no layout shift while the list loads, Back closes an open place, the
 phone panel is a modal dialog and the desktop panel covers no control, the search rules shared with the app ("apizza in new
 haven", "near mystic", "new preston", "route 32", "pizza near me"), #g=constructor, the skip link, rank numbers only on
-ranking sorts and no iconic points, "Confirmed only" keeps hand-checked places, "Hide chains" keeps hand-checked originals,
+ranking sorts and no iconic points, "High-confidence only" keeps hand-checked places, "Hide chains" keeps hand-checked originals,
 Featured order from outside Connecticut, a slow drag on the map opens nothing, stacked dots open a chooser, and a malformed
 saved-places value in localStorage doesn't break the web app.
 
@@ -34,6 +34,9 @@ Also (2026-10-12 round 3): check_blocklist scans every text file in docs/ and fa
 a search inside a guide that finds nothing there (Max Downtown in Apizza) offers "Search all restaurants (N matches)" and one
 click finds it, a guide with only a few matches offers the same below them; on a phone (375 and 320 px) the search box's
 placeholder isn't cut off (scrollWidth vs clientWidth with the placeholder as the value).
+
+Also (2026-10-13, Nick's copy decisions): no file in docs/ says "Confirmed listing" or "Confirmed only" (the label is "High-confidence
+listing", the filter "High-confidence only"), and none promises an invite or a TestFlight link ("we'll send you the TestFlight link", "you'll get an invite"): early access is an ask.
 
 Usage: .venv/bin/python scripts/qa-site.py      (serves docs/ itself on a free localhost port; exits 1 on any problem)
   QA_DOCS=<dir>   check another copy of docs/ (used to confirm that each check can fail)
@@ -85,6 +88,14 @@ PRIVATE_DIGESTS = {
     "928009cbd52e0a32a3542c0f41efa0ac8feef2e05974b8126f26c7d4f9b593e3",
 }
 OLD_EMAIL, CONTACT = "work-with-nick@gmail.com", "nick@eatsranked.com"
+# Nick, 2026-10-13: the tier label is "High-confidence listing" (the family's wording), never "Confirmed listing", and the web app's
+# filter is "High-confidence only", never "Confirmed only"; and since only his internal TestFlight group exists, no page promises an
+# invite or a link: the early-access copy ends at an ask
+OLD_LABEL = re.compile(r"confirmed\s+(?:listing|only)", re.I)
+PROMISE = re.compile(r"\b(?:we'll|we will|we'd|you'll|you will|you'd)\b[^.!?]{0,60}?\b(?:invit\w*|testflight|beta|early access)\b"
+                     r"|\b(?:send|email|e-mail|text)\s+you\s+(?:a|an|the|your)\s+(?:testflight|invit\w*|beta|link)\b"
+                     # "Early access by email" states an offer; "ask for early access by email" is an ask, and passes
+                     r"|(?<!ask for )(?<!asking for )\bearly access\s+(?:is\s+)?(?:by\s+(?:email|invit\w*)|available)\b", re.I)
 # other Eats Ranked state apps, repos and project sites: none may be named in this site's public files (XS-05). A few real
 # Connecticut phrases name a state ("Maine-style" lobster rolls, Washington St, the town of Washington, "California-inspired"),
 # so those are blanked out before the search.
@@ -284,6 +295,16 @@ def check_static_pages(problems):
                 rel = os.path.relpath(os.path.join(d, x), DOCS)
                 if OLD_EMAIL in text.lower():
                     problems.append(f"{rel}: still shows the old contact address (the site's address is {CONTACT})")
+                # visible text, attributes, meta, JSON-LD and the web app's strings: tags out (so a sentence reads whole), entities
+                # and curly apostrophes normalized
+                raw = H.unescape(text).replace("’", "'")
+                plain = H.unescape(re.sub(r"<[^>]+>", " ", text)).replace("’", "'") if x.endswith(".html") else raw
+                m = OLD_LABEL.search(raw) or OLD_LABEL.search(plain)
+                if m:
+                    problems.append(f"{rel}: says {m.group(0)!r} (the label is \"High-confidence listing\", the filter \"High-confidence only\")")
+                m = PROMISE.search(plain) or PROMISE.search(raw)
+                if m:
+                    problems.append(f"{rel}: promises an invite or a TestFlight link: {m.group(0)!r} (the copy should end at an ask)")
                 if not x.endswith(".json"):   # place names and notes in the data may name other states ("Maine-style")
                     for m in OTHER_STATES.finditer(ALLOWED_STATE_WORDS.sub(" ", text)):
                         problems.append(f"{rel}: names another state's app, repo or site: {text[max(0, m.start() - 40):m.end() + 40]!r}")
@@ -747,10 +768,10 @@ def check_explore(page, base, width, data, problems, errors):
     if page.locator(".ex-rank").count():
         problems.append(f"{where}: rank numbers on an A to Z list")
 
-    # 14. "Confirmed only" keeps hand-checked places, and a hand-checked place is never called "Listing only"
+    # 14. "High-confidence only" keeps hand-checked places, and a hand-checked place is never called "Listing only"
     fresh("g=apizza&conf=1")
     if len(rows(page)) != len(apizza):
-        problems.append(f"{where}: Confirmed only drops hand-checked apizza places ({len(rows(page))} of {len(apizza)})")
+        problems.append(f"{where}: High-confidence only drops hand-checked apizza places ({len(rows(page))} of {len(apizza)})")
     lone = [i for i in range(len(C["id"])) if C["hc"][i] == 1 and C["t"][i] == 0 and C["v"][i] != 1]
     if lone:
         fresh(f"g=all&p={C['id'][lone[0]]}")

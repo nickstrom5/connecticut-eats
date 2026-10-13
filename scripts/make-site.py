@@ -486,13 +486,14 @@ def store_button(label="Get early access"):
             return (f'<a class="store-badge" href="{e(APP_STORE_URL)}" rel="noopener"><img src="/img/app-store-badge.svg" '
                     'alt="Download on the App Store" width="150" height="50"></a>')
         return f'<a class="btn store-btn" href="{e(APP_STORE_URL)}" rel="noopener">Download on the App Store</a>'
-    # pre-launch: no App Store link exists yet, so the button asks for a TestFlight invite by email (Wisconsin's approach)
+    # pre-launch: no App Store link exists yet, so the button asks for a TestFlight invite by email (Wisconsin's approach). Only
+    # Nick's internal TestFlight group exists (2026-10-13), so the page itself never promises an invite or a link: it asks.
     return (f'<a class="btn store-btn" href="mailto:{EMAIL}?subject=Connecticut%20Eats%20early%20access&amp;body=Send%20me%20the%20TestFlight%20link.">'
             f'{label}</a>')
 
 
 def store_note(text="Free for iPhone and iPad."):
-    return f'{text} Early access by email until the App Store release.' if not APP_STORE_URL else text
+    return f'{text} Until the App Store release, ask for early access by email.' if not APP_STORE_URL else text
 
 
 GUIDE_PAGES = [("new-haven-apizza.html", "New Haven apizza"), ("connecticut-lobster-rolls.html", "Lobster rolls & clam shacks"),
@@ -1348,7 +1349,7 @@ body = f"""{nav}
         <select id="ex-town" aria-label="Town" disabled>{town_opts}</select>
         <select id="ex-cuisine" aria-label="Kind of place" disabled>{cuis_opts}</select>
         <label><input type="checkbox" id="ex-chains" disabled> Hide chains</label>
-        <label><input type="checkbox" id="ex-conf" disabled> Confirmed only</label>
+        <label><input type="checkbox" id="ex-conf" disabled> High-confidence only</label>
         <button type="button" id="ex-clear" class="ex-small" hidden>Clear filters</button>
         <div class="ex-view" role="group" aria-label="View"><button type="button" data-v="list" aria-pressed="true" disabled>List</button><button type="button" data-v="map" aria-pressed="false" disabled>Map</button></div>
       </div>
@@ -1363,7 +1364,7 @@ body = f"""{nav}
       <div id="ex-chooser" class="ex-chooser" role="dialog" aria-labelledby="ex-chooser-h" hidden></div>
       <p id="ex-maphint"></p>
     </div>
-    <p class="fine">"Confirmed only" keeps places on Connecticut's liquor-permit list or Hartford's food-license list, high-confidence map listings, and places we checked by hand. Gas-station and grocery counters and other non-restaurants are left out. An official health grade shows only where one is published: the {N_FV} towns of the Farmington Valley Health District. Town outlines: U.S. Census Bureau. Also see <a href="/{OLDEST_PAGE[0]}">Connecticut's oldest restaurants</a>.</p>
+    <p class="fine">"High-confidence only" keeps places on Connecticut's liquor-permit list or Hartford's food-license list, high-confidence map listings, and places we checked by hand. Gas-station and grocery counters and other non-restaurants are left out. An official health grade shows only where one is published: the {N_FV} towns of the Farmington Valley Health District. Town outlines: U.S. Census Bureau. Also see <a href="/{OLDEST_PAGE[0]}">Connecticut's oldest restaurants</a>.</p>
   </div>
   <div id="ex-panel" class="ex-panel" role="complementary" aria-labelledby="ex-pname" hidden></div>
   </main>
