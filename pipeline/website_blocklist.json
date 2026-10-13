@@ -116,5 +116,41 @@
     "severity": "P2",
     "evidence": "$SP/work/link-scan/evidence/ct/georgesinc.com.html",
     "found": "2026-10-12"
+  },
+  {
+    "domain": "lazizah.net",
+    "match": "domain",
+    "place": "Lazizah Bakery (Norwich)",
+    "reason": "cloaked redirect: redirects to song-nectar4328.pages.dev/help/?32161731835980&... (same campaign as Rich Farm and Bangkok West)",
+    "severity": "P0",
+    "evidence": "$SP/work/link-scan/evidence/ct/lazizah.net.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "suprfoodkitchen.com",
+    "match": "domain",
+    "place": "Supr Food Kitchen (Greenwich)",
+    "reason": "injected hidden links: off-screen 1px block: Polish casino \"kasyno z bonusem na start bez depozytu\" (4lo.slupsk.pl), kleszcze.edu.pl",
+    "severity": "P0",
+    "evidence": "$SP/work/link-scan/evidence/ct/suprfoodkitchen.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "ponzaitaliankitchen.com",
+    "match": "domain",
+    "place": "Ponza Italian Kitchen & Pizza (Norwalk)",
+    "reason": "no site: Netlify \"Site not found\"",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/ponzaitaliankitchen.com.html",
+    "found": "2026-10-12"
+  },
+  {
+    "domain": "oldtowncafe.com",
+    "match": "domain",
+    "place": "Old Town Cafe (Wethersfield)",
+    "reason": "another business: Donna's Old Town Cafe, Madisonville, TN (not Wethersfield, CT)",
+    "severity": "P2",
+    "evidence": "$SP/work/link-scan/evidence/ct/oldtowncafe.com.html",
+    "found": "2026-10-12"
   }
 ]
