@@ -585,6 +585,7 @@ def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview
     <p>Place data: hand-checked research by {BRAND} (checked {CHECKED}); Overture Maps Foundation places (CDLA Permissive 2.0, and Apache 2.0 for Foursquare data, with the <a href="/terms.html#sources">Foursquare NOTICE</a>); Connecticut Department of Consumer Protection licenses (data.ct.gov, public domain); City of Hartford open data; Farmington Valley Health District food service ratings; U.S. Census Bureau town outlines. In the app, maps and each place's live card come from Apple Maps. Data as of {nice_date(DATA_DATE)}.</p>
     <p>{BRAND} is independent: not affiliated with or endorsed by the State of Connecticut, the City of Hartford, the Farmington Valley Health District, the Mashantucket Pequot or Mohegan tribes or their casinos, the University of Connecticut, the James Beard Foundation, Apple, or any restaurant or chain. James Beard Foundation and James Beard Award are trademarks of the James Beard Foundation. Places open and close, so check before you go.</p>
     <p>© 2026 {BRAND}. Part of <a href="{HUB}">Eats Ranked</a>, restaurant apps state by state.</p>
+    <p>Created by <a href="https://work-with-nick.com/" rel="author">Nick Soderstrom</a></p>
   </footer>
 </div>
 </body>
