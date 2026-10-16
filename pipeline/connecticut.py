@@ -125,6 +125,20 @@ def curated_matcher(frame):
     return match
 
 
+SOURCE_HOSTS = json.load(open(f"{DATA}/research/source_hosts.json")) if os.path.exists(f"{DATA}/research/source_hosts.json") else {}
+
+
+def source_blocked(u):
+    """A source on a host that blocks Claude (robots.txt or a bot check; pipeline/check_sources.py) is never cited or shipped."""
+    from check_sources import why_not, host, API_HOSTS
+    h = host(u)
+    if h in API_HOSTS:
+        return False
+    if h not in SOURCE_HOSTS:
+        print("!! source host never checked (run check_sources.py):", h); return False
+    return why_not(SOURCE_HOSTS, u) is not None
+
+
 def load_research():
     """data/research/app/*.json (the hand-checked guides) and data/research/honors.json (James Beard), facts only, each with sources.
     A place in several files is one entry with everything the files know."""
@@ -136,6 +150,8 @@ def load_research():
         except json.JSONDecodeError as e:
             print("!! research file doesn't parse, skipped:", f, e); continue
         for e in entries:
+            # a record whose every source is on a blocked host isn't hand-checked until it's re-sourced
+            e["sources"] = [u for u in e.get("sources") or [] if not source_blocked(u)]
             if e.get("open") is False or not e.get("name") or not e.get("sources"):
                 continue
             town = e.get("town") or e.get("city")

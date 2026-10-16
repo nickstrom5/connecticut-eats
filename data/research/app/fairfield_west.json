@@ -703,9 +703,9 @@
     "note": "24-hour Danbury diner with a very large menu and baking done on site.",
     "website": null,
     "open": true,
-    "evidence_date": "2025-05",
+    "evidence_date": "2026-07",
     "sources": [
-      "https://www.greenwichtime.com/food/restaurants/article/ct-diners-open-late-24-hours-blue-colony-elmers-20300279.php"
+      "https://connecticutrestaurantweek.com/restaurant-weeks-ct/danbury-restaurant-week/"
     ]
   },
   {
@@ -727,11 +727,12 @@
     "founded_note": null,
     "branch_of": null,
     "note": "24-hour Fairfield diner with Greek and Italian dinners and pies and cakes baked daily.",
-    "website": null,
+    "website": "https://androsdinerfairfield.com/",
     "open": true,
     "evidence_date": "2025-05",
     "sources": [
-      "https://www.greenwichtime.com/food/restaurants/article/ct-diners-open-late-24-hours-blue-colony-elmers-20300279.php"
+      "https://androsdinerfairfield.com/about",
+      "https://www.fairfieldflavor.com/places/andros-diner/"
     ]
   },
   {
@@ -760,7 +761,7 @@
   },
   {
     "name": "Orem's Diner",
-    "address": "67 Danbury Road",
+    "address": "167 Danbury Road",
     "town": "Wilton",
     "village": null,
     "zip": "06897",
@@ -776,9 +777,9 @@
     "note": "Diner on Danbury Road (Route 7) in Wilton.",
     "website": "https://oremsdiner.com/",
     "open": true,
-    "evidence_date": "2026-02",
+    "evidence_date": "2026-07",
     "sources": [
-      "https://www.ctpost.com/food/article/connecticut-magazine-top-diners-restaurants-21333597.php"
+      "https://oremsdiner.com/"
     ]
   },
   {

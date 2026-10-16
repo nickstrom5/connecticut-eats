@@ -86,6 +86,14 @@ ALIASES = {"burgerking.com": "bk.com"}
 BLOCKED = re.compile(r"^(?:http 40[39]|http 429|error: (?:ConnectionError|ConnectTimeout|ReadTimeout))$")
 
 
+def save(obj, path, **kw):
+    """Write to a temp file, then rename: a run stopped mid-save once left a truncated website_check.json (California lost 24,000 checks)."""
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(obj, f, **kw)
+    os.replace(tmp, path)
+
+
 def norm(s):
     s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode().lower()
     return re.sub(r"[^a-z0-9]+", " ", s.replace("'", "")).strip()
@@ -262,7 +270,7 @@ def main():
             done += 1
             if done % 500 == 0:
                 print(f"  {done}/{len(todo)}", flush=True)
-                json.dump(results, open(OUT, "w"))
+                save(results, OUT)
 
     with ThreadPoolExecutor(max_workers=24) as ex:
         list(ex.map(run, todo))
@@ -276,7 +284,7 @@ def main():
             elif not results[u]["ok"] and results[u]["why"] == "page doesn't mention the place" and \
                     regdom(urllib.parse.urlparse(results[u]["final"]).netloc) == dom:
                 results[u] = {**results[u], "ok": True, "why": "brand's own site (store page drawn by scripts)"}
-    json.dump(results, open(OUT, "w"), indent=0)
+    save(results, OUT, indent=0)
     c = collections.Counter(v["why"] if not v["ok"] else "ok" for v in results.values())
     print("results:", c.most_common())
 

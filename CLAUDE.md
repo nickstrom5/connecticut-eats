@@ -26,6 +26,11 @@ Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `
 - The classics guides (apizza, lobster rolls & clam shacks, burger & hot dog icons, diners, dairy bars, Little Poland) list only
   **hand-checked** places (`hc`, matched to `data/research/app/*.json` or `honors.json`, each with a 2025–26 source). A listing merely
   named "… Diner" stays in the directory only. Closures with a source go in `data/research/closed*.json`.
+- Every research source must be on a host that lets Claude fetch it (robots.txt for ClaudeBot, Claude-User and anthropic-ai, and no
+  bot check): `pipeline/check_sources.py` checks every cited host (cache `data/research/source_hosts.json`, committed) and, with URLs as
+  arguments, any new source before it's used. The export drops blocked-host sources itself; a record left with none isn't hand-checked.
+  On 2026-10-16 CT Post, Greenwich Time, Stamford Advocate, NewsTimes, CT Insider, WFSB, WTNH, The Day, CT News Junkie, NBC Connecticut,
+  Yahoo and Yelp were among the blocked hosts.
 - Research matching never merges two locations: a name-only match must be in the same town or village and at a compatible street
   number (The Spot at 163 Wooster St is not Pepe's at 157).
 - Connecticut has no statewide inspection data. Say so; no inspection boards.
@@ -63,6 +68,7 @@ cd pipeline
 ../.venv/bin/python calibrate.py                 # match rates -> data/ct/calibration.json
 ../.venv/bin/python reviews.py                   # streams UCSD reviews (never stored) -> data/ct/review_signals.parquet (web only)
 ../.venv/bin/python connecticut.py               # web leaderboard -> site/
+../.venv/bin/python check_sources.py             # robots-check every research source host (exit 1 lists blocked URLs)
 CT_APP=1 ../.venv/bin/python connecticut.py      # app data -> data/app/places.json
 ../.venv/bin/python check_websites.py            # then rerun the CT_APP=1 export
 ```
