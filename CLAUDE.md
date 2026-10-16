@@ -40,6 +40,8 @@ Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `
   by registered domain, never as substrings; every chain store page is checked. Verdicts are dated and re-fetched after 14 days or when
   `RULES` changes; run `check_websites.py --fresh` before each submission, then rebuild. Never bypass bot protection (403s, 503s, bot
   checks, logins): a domain that refuses twice isn't asked again in that run.
+- `pipeline/website_blocklist.json` (hacked, expired or another business's sites found by hand-checked link sweeps) applies to both the
+  app export and the website; a new entry needs no code change. On 2026-10-16 it removed 59 links the app data still carried.
 - Place ids come from the source record (Overture GERS id, permit number, or researched name + town), never from names or rounded
   coordinates. `data/id_history.json` (committed) remembers every id ever exported; an id that disappears gets an alias to the same-named
   place within 300 m (`aliases` in places.json), and the app remaps saved places through it. `data_version` (a content hash) drives

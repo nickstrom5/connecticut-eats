@@ -1150,6 +1150,26 @@ REGIONS = sorted(set(REGION.values()))
 KBIT = {k: 1 << i for i, k in enumerate(KINDS)}
 
 
+# Websites never linked (pipeline/website_blocklist.json: hacked, expired, or another business's, found by hand-checked link sweeps).
+# A "domain" entry covers the domain and its subdomains; a "url" entry only that URL. The website applies the same list (make-site.py).
+WEB_BLOCKLIST = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "website_blocklist.json"), encoding="utf-8"))
+
+
+def blocked_site(w):
+    u = urllib.parse.urlsplit(w.strip())
+    host = (u.hostname or "").lower().removeprefix("www.")
+    for b in WEB_BLOCKLIST:
+        if b.get("match", "domain") == "url":
+            v = urllib.parse.urlsplit(b["url"])
+            if host == (v.hostname or "").lower().removeprefix("www.") and u.path.rstrip("/") == v.path.rstrip("/"):
+                return b
+        else:
+            d = b["domain"].lower().removeprefix("www.")
+            if host == d or host.endswith("." + d):
+                return b
+    return None
+
+
 def phone_e164(v):
     """+1 and ten digits, or nothing: listings carry "+2032592299" (a Connecticut number missing its 1, which would dial Egypt)."""
     d = re.sub(r"\D", "", v if isinstance(v, str) else "")
@@ -1225,7 +1245,9 @@ if APP:
             # a link the checker saw end on https at the same host ships as https (the first hop isn't left in the clear)
             if u_.lower().startswith("http://") and fin.scheme == "https" and fin.netloc.lower().removeprefix("www.") == urllib.parse.urlparse(u_).netloc.lower().removeprefix("www."):
                 u_ = "https://" + u_[7:]
-            if v_.get("ok") and urllib.parse.urlparse(u_).scheme in ("http", "https") and urllib.parse.urlparse(u_).netloc:
+            if blocked_site(u_):
+                link_drops["on the website blocklist (hacked, expired or another business's)"] += 1
+            elif v_.get("ok") and urllib.parse.urlparse(u_).scheme in ("http", "https") and urllib.parse.urlparse(u_).netloc:
                 p["w"] = u_
             else:
                 link_drops[v_.get("why", "not checked yet")] += 1

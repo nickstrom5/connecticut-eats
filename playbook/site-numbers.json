@@ -1,9 +1,9 @@
 {
  "generated": "2026-10-16",
- "data_generated": "2026-10-07",
+ "data_generated": "2026-10-16",
  "domain": "https://connecticut.eatsranked.com",
- "og_line": "Apizza & lobster roll guide \u00b7 9,357 restaurants in 166 towns",
- "restaurants": 9357,
+ "og_line": "Apizza & lobster roll guide \u00b7 9,358 restaurants in 166 towns",
+ "restaurants": 9358,
  "towns": 166,
  "apizza": 27,
  "lobster_rolls_and_clam_shacks": 58,
@@ -46,7 +46,7 @@
    "fvhd_rated": 0
   },
   "Hartford": {
-   "restaurants": 418,
+   "restaurants": 416,
    "apizza_near": 2,
    "lobster_near": 2,
    "burgers_near": 3,
@@ -73,7 +73,7 @@
    "fvhd_rated": 0
   },
   "Norwalk": {
-   "restaurants": 335,
+   "restaurants": 337,
    "apizza_near": 3,
    "lobster_near": 13,
    "burgers_near": 1,
@@ -127,7 +127,7 @@
    "fvhd_rated": 0
   },
   "Middletown": {
-   "restaurants": 138,
+   "restaurants": 137,
    "apizza_near": 1,
    "lobster_near": 1,
    "burgers_near": 3,
@@ -154,7 +154,7 @@
    "fvhd_rated": 0
   },
   "Milford": {
-   "restaurants": 172,
+   "restaurants": 173,
    "apizza_near": 12,
    "lobster_near": 14,
    "burgers_near": 2,
