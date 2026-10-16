@@ -47,7 +47,7 @@ Thank you. Here is the information requested. A screen recording from an iPhone 
 - Core Spotlight: on-device indexing so places appear in iPhone search.
 - No backend, accounts, analytics, advertising, payments or AI services. The restaurant data is bundled in the app.
 - Bundled data: Overture Maps Foundation open place data (CDLA Permissive 2.0 / Apache 2.0 / CC0; license texts in the app); Connecticut DCP's public liquor-permit list (trade names and addresses only); City of Hartford food-license open data; Farmington Valley Health District's published ratings; U.S. Census town boundaries; James Beard award records (facts only); and our research of restaurants' own websites, menus and local news.
-- The website with the privacy policy and support page is static and hosted on GitHub Pages: https://nickstrom5.github.io/connecticut-eats/
+- The website with the privacy policy and support page is static and hosted on GitHub Pages: https://connecticut.eatsranked.com/
 
 5. Regional differences: none. The content covers Connecticut; the app is offered in the United States and works the same everywhere.
 

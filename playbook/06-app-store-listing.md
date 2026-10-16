@@ -79,8 +79,8 @@ Primary Food & Drink, secondary Travel. Availability: United States. Price: Free
 
 ## App Store Connect fields
 - Version: `1.0.0` (must equal the build's CFBundleShortVersionString; App Store Connect defaults to "1.0").
-- Support URL and Marketing URL: https://nickstrom5.github.io/connecticut-eats/ (there is no support.html; the home page has the
-  support email). Privacy Policy URL (on the App Privacy page): https://nickstrom5.github.io/connecticut-eats/privacy.html.
+- Support URL and Marketing URL: https://connecticut.eatsranked.com/ (there is no support.html; the home page has the
+  support email). Privacy Policy URL (on the App Privacy page): https://connecticut.eatsranked.com/privacy.html.
   Switch all three to connecticut.eatsranked.com once that CNAME resolves.
 - Copyright: `© 2026 Nicholas Soderstrom`.
 - Sign-in required: untick. Contact: Nick's name, email and phone (private to App Review).

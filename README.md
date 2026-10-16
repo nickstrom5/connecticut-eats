@@ -3,7 +3,7 @@
 Connecticut's version of the state restaurant products (models: `../wi-eats/`, `../chi-eats/`):
 
 1. **Connecticut Eats**, a free iPhone and iPad app (App Store name "Connecticut Eats: Restaurants", subtitle "Apizza & Lobster Roll
-   Guide", home screen "CT Eats"), and its generated website in `docs/` (GitHub Pages; planned connecticut.eatsranked.com).
+   Guide", home screen "CT Eats"), and its generated website in `docs/` (GitHub Pages at https://connecticut.eatsranked.com/).
 2. **A private web leaderboard**, built locally from `site/` (not committed; its data carries Google 2021-derived ratings and never
    ships in the app or the website).
 

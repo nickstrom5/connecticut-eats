@@ -27,11 +27,10 @@ from collections import Counter, defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DOCS = f"{ROOT}/docs"
-# Where the site lives. Today: GitHub Pages at the project address, because connecticut.eatsranked.com has no DNS record yet.
-# Once Nick adds the Cloudflare record (CNAME connecticut -> nickstrom5.github.io, DNS only) and `dig` shows it, set
-# CUSTOM_DOMAIN = "connecticut.eatsranked.com", re-run, push, and switch ConnecticutEats/App/Links.swift with it.
-# GitHub then forwards the old github.io links (the ones inside shipped app builds) to it.
-CUSTOM_DOMAIN = None
+# Where the site lives: connecticut.eatsranked.com (Cloudflare CNAME connecticut -> nickstrom5.github.io, DNS only, added by Nick
+# 2026-10-16), served by GitHub Pages from docs/ with docs/CNAME. GitHub forwards the old github.io/connecticut-eats links to it.
+# ConnecticutEats/App/Links.swift uses the same address.
+CUSTOM_DOMAIN = "connecticut.eatsranked.com"
 DOMAIN = f"https://{CUSTOM_DOMAIN}" if CUSTOM_DOMAIN else "https://nickstrom5.github.io/connecticut-eats"
 BASE = "" if CUSTOM_DOMAIN else "/connecticut-eats"     # path prefix for root-relative links
 BRAND = "Connecticut Eats"
