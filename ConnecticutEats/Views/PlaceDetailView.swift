@@ -161,7 +161,7 @@ struct PlaceDetailView: View {
                 if let s = place.season { fact("Season", s) } else if place.isSeasonal { fact("Season", "Seasonal; check before you go.") }
                 if let f = place.founded { fact("At this address since", "\(f)") }
                 if let b = place.branchOf { fact("A branch of", b) }
-                Text("Checked open in \(model.researchChecked) against a \(model.sourceYears) source: the place's own site or menu, local news, or a tourism listing. Hours and menus change, so check before you go.")
+                Text("\(place.isSeasonal ? "Checked in business" : "Checked open") in \(model.researchChecked) against a \(model.sourceYears) source: the place's own site or menu, local news, or a tourism listing.\(place.isSeasonal ? " It's seasonal, so check its season." : "") Hours and menus change, so check before you go.")
                     .font(.caption).foregroundStyle(Theme.ink2)
             }
         }
@@ -237,7 +237,7 @@ struct PlaceDetailView: View {
                 ? "From the \(place.jurisdiction.listName). The open map data didn't have it, so it's placed at its street address."
                 : "Matched to an active entry in the \(place.jurisdiction.listName)."
         case .confirmed where checked, .listing where checked:
-            return "On our hand-checked list: checked open in \(model.researchChecked) against a \(model.sourceYears) source (its own site or menu, local news, or a tourism listing). It's in Overture's open map data too."
+            return "On our hand-checked list: checked \(place.isSeasonal ? "in business" : "open") in \(model.researchChecked) against a \(model.sourceYears) source (its own site or menu, local news, or a tourism listing). It's in Overture's open map data too."
         case .confirmed, .listing:
             let rate = model.matchRate(for: place)
             let base = place.tier == .confirmed

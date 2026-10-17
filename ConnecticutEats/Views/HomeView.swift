@@ -2,7 +2,10 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.scenePhase) private var scenePhase
     @State private var lastRandom: String?
+    /// The day the season card goes by, read again at midnight and when the app comes back, so the card doesn't stay into November.
+    @State private var today = Date.now
     private let columns = [GridItem(.adaptive(minimum: 158), spacing: 12)]
 
     /// Guides with too few hand-checked places to be worth a card stay in the iPad sidebar only.
@@ -44,6 +47,8 @@ struct HomeView: View {
         .background(Theme.surface)
         .navigationTitle("")
         .toolbar(.hidden, for: .navigationBar)
+        .onChange(of: scenePhase) { _, phase in if phase == .active { today = .now } }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in today = .now }
     }
 
     private var header: some View {
@@ -63,8 +68,8 @@ struct HomeView: View {
         .padding(.top, 8)
     }
 
-    /// May through October, when the shoreline shacks are open.
-    private var isShackSeason: Bool { (5...10).contains(Calendar.current.component(.month, from: .now)) }
+    /// May through October, when the shoreline shacks are open (Gregorian months, whatever calendar the phone shows).
+    private var isShackSeason: Bool { (5...10).contains(Calendar(identifier: .gregorian).component(.month, from: today)) }
 
     private var seasonCard: some View {
         Button { model.openGuide(.lobster) } label: {
