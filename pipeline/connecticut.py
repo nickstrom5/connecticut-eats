@@ -20,6 +20,7 @@ from rapidfuzz import fuzz
 from common import (norm_name, nice, name_sim, cuisine, FOOD_COST, MARGIN, MARGIN_CUISINE, SPEND, GENERIC, _stems, DATA, CT, ROOT, RAW,
                     canon_city, CUISINE_RULES)
 from brands import brand_of
+import link_blocklist
 import official
 from official import street_key, street_nums, street_dir, dir_ok, ON_PREMISE
 from listings_util import official_match, _close_words
@@ -1262,6 +1263,9 @@ if APP:
         seen_ids.add(p["id"])
         places.append(p)
     print("website links dropped:", sum(link_drops.values()), link_drops.most_common(8))
+    # the same list on every other link field too (a researched source "src" was still shipping one): link_blocklist.py
+    bl_drops = link_blocklist.scrub(places)
+    print("blocklisted links dropped from the app data (beyond the website check above):", sum(bl_drops.values()), dict(bl_drops))
     json.dump(link_cands, open(f"{CT}/website_candidates.json", "w"), indent=0, ensure_ascii=False)
     # saved places survive an id change: every id ever exported is remembered (data/id_history.json, kept in the repo), and one that's
     # gone points at the same-named place within 300 m (the app remaps saved ids through "aliases")
