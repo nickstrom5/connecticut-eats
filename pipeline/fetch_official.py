@@ -17,7 +17,7 @@ import requests
 OUT = os.path.join(os.path.dirname(__file__), "..", "data", "raw", "official")
 os.makedirs(OUT, exist_ok=True)
 S = requests.Session()
-S.headers["User-Agent"] = "ct-eats data pipeline (work-with-nick@gmail.com)"
+S.headers["User-Agent"] = "ct-eats data pipeline (nick@eatsranked.com)"
 # on-premise eating/drinking permits plus bakeries; package stores, grocery beer, wholesalers and temporary permits are left out
 TYPES = ["LIR", "LRW", "LCA", "LIH", "LCR", "LCW", "LRC", "LIC", "LPC", "LCT", "LCN", "LMB", "LMW", "FWBC", "LFW", "LIT", "LRB", "LBP",
          "LMP", "LBA", "LBB", "LAT", "LAB", "LGC", "LCM", "BAK"]

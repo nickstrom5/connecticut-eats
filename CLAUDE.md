@@ -34,6 +34,14 @@ Read `../STATE_EATS_PLAYBOOK.md` (the shared playbook next to this folder) and `
 - Research matching never merges two locations: a name-only match must be in the same town or village and at a compatible street
   number (The Spot at 163 Wooster St is not Pepe's at 157).
 - Connecticut has no statewide inspection data. Say so; no inspection boards.
+- Hijacked pages (QA 2026-10-19, P1 #4; ported 2026-10-21): `check_websites.py` runs `pipeline/injection.py`, Wisconsin's detector, on every
+  page (planted casino, betting, adult, pharma and link-farm links, visible, hidden or off-screen; other-language gambling text; parked
+  and default pages). Keep it identical to `../wi-eats/pipeline/injection.py`; `test_injection.py` must pass. `--recheck-ok` fetches every
+  passing page again before each submission (resumable: pages re-checked in the last 2 days are skipped), `--retry-transient` re-fetches
+  429s and connection errors afterwards, and `CHECK_WORKERS=4` slows a run (Squarespace rate-limits across all our concurrent checkers).
+- Tracking tags: the app export strips `ref=google`, `referrer=google_food_ordering`, `cn_channel`, `utm_*`, `fbclid`, Yext `cid=RF:YXT…`
+  and similar from every outbound link (`pipeline/tracking_params.py`, the same in every state; store ids and locations stay). The site
+  reads the app export, and a unit test fails if a tracked link is bundled (QA 2026-10-19, P1 #13).
 - Website links: `pipeline/check_websites.py` checks every candidate link politely and the export keeps only verified ones (fail closed:
   without `data/ct/website_check.json` no links ship; only http/https; an http link the checker saw end on https at the same host ships as
   https). The name test reads page text only, never the URL; meta-refresh and script redirects are followed one hop; blocked hosts match

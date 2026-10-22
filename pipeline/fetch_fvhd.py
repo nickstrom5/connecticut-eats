@@ -16,7 +16,7 @@ TOWNS = {t: "environmental-health/food/food-ratings/" + slug + "/" for t, slug i
          ("Colebrook", "colebrook"), ("East Granby", "east-granby"), ("Farmington", "farmington"), ("Granby", "granby"), ("Hartland", "hartland"),
          ("New Hartford", "new-hartford"), ("Simsbury", "simsbury")]}
 S = requests.Session()
-S.headers["User-Agent"] = "ct-eats data pipeline (work-with-nick@gmail.com)"
+S.headers["User-Agent"] = "ct-eats data pipeline (nick@eatsranked.com)"
 
 
 def parse(page, town):

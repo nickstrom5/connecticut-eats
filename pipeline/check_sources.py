@@ -11,7 +11,7 @@ import requests
 R = os.path.join(os.path.dirname(__file__), "..", "data", "research")
 CACHE = os.path.join(R, "source_hosts.json")
 AGENTS = ("ClaudeBot", "Claude-User", "anthropic-ai")
-UA = "ConnecticutEatsSourceCheck/1.0 (+work-with-nick@gmail.com)"
+UA = "ConnecticutEatsSourceCheck/1.0 (+nick@eatsranked.com)"
 # official data portals we read through their APIs: their robots.txt governs crawling the HTML site, not the documented API
 API_HOSTS = {"data.ct.gov", "data.hartford.gov", "services1.arcgis.com", "hub.arcgis.com"}
 

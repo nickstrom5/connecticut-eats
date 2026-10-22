@@ -21,6 +21,7 @@ from common import (norm_name, nice, name_sim, cuisine, FOOD_COST, MARGIN, MARGI
                     canon_city, CUISINE_RULES)
 from brands import brand_of
 import link_blocklist
+import tracking_params
 import official
 from official import street_key, street_nums, street_dir, dir_ok, ON_PREMISE
 from listings_util import official_match, _close_words
@@ -1266,6 +1267,9 @@ if APP:
     # the same list on every other link field too (a researched source "src" was still shipping one): link_blocklist.py
     bl_drops = link_blocklist.scrub(places)
     print("blocklisted links dropped from the app data (beyond the website check above):", sum(bl_drops.values()), dict(bl_drops))
+    # tracking tags (ref=google, utm_*, cn_channel …) off every outbound link; the store's own parameters stay (tracking_params.py)
+    tp_changes = tracking_params.scrub(places)
+    print("tracking parameters stripped from links:", sum(tp_changes.values()), dict(tp_changes))
     json.dump(link_cands, open(f"{CT}/website_candidates.json", "w"), indent=0, ensure_ascii=False)
     # saved places survive an id change: every id ever exported is remembered (data/id_history.json, kept in the repo), and one that's
     # gone points at the same-named place within 300 m (the app remaps saved ids through "aliases")

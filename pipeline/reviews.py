@@ -25,7 +25,7 @@ PRE = re.compile(r"apizza|clam|lobster|steamed|hot ?dog|foot ?long|weenie|frankf
 t = time.time()
 cnt = collections.defaultdict(collections.Counter)
 n = hit = 0
-req = urllib.request.Request(URL, headers={"User-Agent": "ct-eats data pipeline (work-with-nick@gmail.com)"})
+req = urllib.request.Request(URL, headers={"User-Agent": "ct-eats data pipeline (nick@eatsranked.com)"})
 with urllib.request.urlopen(req, timeout=120) as resp, gzip.open(resp, "rt") as f:
     for line in f:
         n += 1
