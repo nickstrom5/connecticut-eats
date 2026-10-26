@@ -950,6 +950,17 @@ def check_explore(page, base, width, data, problems, errors):
     problems.extend(f"{where}: CSP violation: {x}" for x in page.evaluate("window.__csp || []"))
 
 
+def app_data_checks(problems):
+    """docs/data/app/, the app's data updates (scripts/publish_app_data.py, OTA-DATA.md): every manifest entry's hash, size and
+    row count match its file, the head file's date matches, and no old copy lingers."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from publish_app_data import check_app_data, app_data_dir
+    found, notes = check_app_data(DOCS, app_data_dir())
+    problems.extend("app data: " + x for x in found)
+    for x in notes:
+        print("  note: app data:", x)
+
+
 def main():
     base = serve()
     pages = [base + urllib.parse.urlparse(u).path for u in SITEMAP]
@@ -960,6 +971,7 @@ def main():
     check_town_claims(data, problems)
     check_copy_claims(data, problems)
     check_blocklist(problems)
+    app_data_checks(problems)
     if SHOTS:
         os.makedirs(SHOTS, exist_ok=True)
     with sync_playwright() as pw:
