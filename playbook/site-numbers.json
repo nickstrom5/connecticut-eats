@@ -1,9 +1,9 @@
 {
- "generated": "2026-10-26",
+ "generated": "2026-11-03",
  "data_generated": "2026-10-16",
  "domain": "https://connecticut.eatsranked.com",
- "og_line": "Apizza & lobster roll guide \u00b7 9,358 restaurants in 166 towns",
- "restaurants": 9358,
+ "og_line": "Apizza & lobster roll guide \u00b7 9,351 restaurants in 166 towns",
+ "restaurants": 9351,
  "towns": 166,
  "apizza": 27,
  "lobster_rolls_and_clam_shacks": 58,
@@ -127,7 +127,7 @@
    "fvhd_rated": 0
   },
   "Middletown": {
-   "restaurants": 137,
+   "restaurants": 135,
    "apizza_near": 1,
    "lobster_near": 1,
    "burgers_near": 3,
@@ -190,7 +190,7 @@
    "fvhd_rated": 0
   },
   "New London": {
-   "restaurants": 101,
+   "restaurants": 98,
    "apizza_near": 1,
    "lobster_near": 18,
    "burgers_near": 1,
