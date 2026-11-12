@@ -106,7 +106,7 @@ OTHER_STATES = re.compile(r"\b(?:wi|chi|fl|ca|wa|co|me|id|ny|tx|mi)-eats\b|\b(?:
 ALLOWED_STATE_WORDS = re.compile(r"\bMaine(?:-| )(?:style|lobster|chilled)|\bcold Maine\b|\bthe Maine style\b|\bCalifornia-inspired\b|"
                                  r"\bWashington (?:St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Pl|Place|Ter|Terrace|Sq|Square)\b|"
                                  r"<option>Washington</option>|New York(?:-| )style|Washington Depot")
-CSP_REST = ("style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; "
+CSP_REST = ("style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'none'; "
             "form-action 'none'; upgrade-insecure-requests")
 
 

@@ -331,7 +331,7 @@ CSS = """
     --ink: #0b1426; --ink2: #2b3a55; --muted: #4c5870;
     --navy: #000e2f; --navy2: #2a4170; --tomato: #b3261e; --tomatosoft: #f8deda; --ontomato: #6b1510;
     --radius: 16px;
-    --display: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Arial Narrow", system-ui, sans-serif;
+    --display: "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Arial Narrow", system-ui, sans-serif; --head-font: "Libre Baskerville", "Avenir Next Condensed", "HelveticaNeue-CondensedBold", "Arial Narrow", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -346,17 +346,17 @@ CSS = """
   header.site { background: var(--navy); color: #fff; }
   header.site .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; }
   .shore { display: block; width: 100%; height: 14px; }
-  .logo { display: flex; align-items: center; gap: 10px; min-height: 44px; font: 800 22px/1 var(--display); text-transform: uppercase; letter-spacing: .01em; color: #fff; text-decoration: none; }
+  .logo { display: flex; align-items: center; gap: 10px; min-height: 44px; font: 700 20px/1 var(--head-font); letter-spacing: .01em; color: #fff; text-decoration: none; }
   .logo svg { flex: 0 0 auto; border-radius: 8px; box-shadow: 0 0 0 1px rgba(255,255,255,.25); }
   header.site nav { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: flex-end; }
   header.site nav a { color: #e3e8f0; text-decoration: none; font-size: 15px; }
   header.site nav a:hover { color: #fff; text-decoration: underline; }
   header.site a:focus-visible { outline-color: #fff; }
-  h1, h2 { font-family: var(--display); font-weight: 800; color: var(--navy); letter-spacing: -.005em; }
-  h1 { font-size: clamp(36px, 7.5vw, 56px); line-height: 1.02; margin: 0 0 16px; text-transform: uppercase; }
+  h1, h2 { font-family: var(--head-font); font-weight: 700; color: var(--navy); letter-spacing: -.005em; }
+  h1 { font-size: clamp(37px, 11.56vw, 55px); line-height: 1.08; margin: 0 0 16px; text-wrap: balance; }
   .kicker { font: 700 15px/1.4 -apple-system, system-ui, sans-serif; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
   .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-  h2 { font-size: 32px; line-height: 1.1; margin: 0 0 10px; }
+  h2 { font-size: 30px; line-height: 1.1; margin: 0 0 10px; }
   h3 { font-size: 18px; margin: 0; line-height: 1.3; }
   .lede { font-size: 19px; color: var(--ink2); margin: 0 0 26px; }
   .hero { padding: 40px 0 28px; }
@@ -447,6 +447,15 @@ CSS = """
     .places .link { margin: 0; }
   }
 """
+
+# The headline face: Libre Baskerville (SIL Open Font License, in docs/fonts/OFL-Libre-Baskerville.txt). It is the site's one web font and it is served from this
+# site, so pages still load nothing from anyone else. The big headline, the section headings, card titles and the site name use it
+# (--head-font); numbers and badges keep the condensed system faces (--display).
+CSS = "".join(f'  @font-face {{ font-family: "Libre Baskerville"; src: url("{BASE}/fonts/{_f}") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: {_r}; }}\n'
+              for _f, _r in (
+                  ("libre-baskerville-latin-ext.woff2", "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF"),
+                  ("libre-baskerville-latin.woff2", "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"),
+              )) + CSS
 
 
 def find_keys(obj, keys):
@@ -552,6 +561,7 @@ def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview
 <link rel="icon" type="image/svg+xml" href="{FAVICON}">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/libre-baskerville-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="/site.webmanifest">
 {head_extra}<style>{CSS}{extra_css}</style>
 {ld}
@@ -599,7 +609,7 @@ def page(path, title, desc, body, lds=(), robots="index,follow,max-image-preview
     # with every edit to a script, so they're computed here, after the last change to the page.
     scripts = re.findall(r"<script>(.*?)</script>", doc, re.S)
     hashes = " ".join(f"'sha256-{base64.b64encode(hashlib.sha256(x.encode()).digest()).decode()}'" for x in scripts) or "'none'"
-    csp = (f"default-src 'none'; script-src {hashes}; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; "
+    csp = (f"default-src 'none'; script-src {hashes}; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; "
            "manifest-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests")
     doc = doc.replace("<head>\n", f'<head>\n<meta http-equiv="Content-Security-Policy" content="{csp}">\n', 1)
     # data honesty, checked on every page: no Google-derived wording, no MICHELIN claims, the official FVHD rating only
@@ -1229,7 +1239,7 @@ assert not private_words(open(f"{DOCS}/data/core.json").read() + open(f"{DOCS}/d
 EXPLORE_CSS = """
   [hidden] { display: none !important; }
   .ex-hero { padding: 28px 0 8px; }
-  .ex-hero h1 { font-size: clamp(30px, 6vw, 44px); }
+  .ex-hero h1 { font-size: clamp(30px, 9.38vw, 41px); }
   .ex-controls { background: var(--bg); padding: 10px 0 8px; border-bottom: 1px solid var(--rule); }
   .ex-guides { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
   /* more guides off to the right: the row fades out at its edge until it's scrolled to the end */
@@ -1281,7 +1291,7 @@ EXPLORE_CSS = """
   @media (min-width: 601px) { body.ex-open .wrap { margin-left: auto; margin-right: calc(clamp(320px, 40vw, 440px) + 12px); } }
   .ex-close { position: sticky; top: 0; float: right; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--rule2); background: var(--surface); font-size: 24px; line-height: 1; cursor: pointer; color: var(--ink); }
   .ex-kicker { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--navy2); }
-  .ex-panel h2 { font-size: 34px; margin: 4px 0 6px; text-transform: uppercase; }
+  .ex-panel h2 { font-size: 32px; margin: 4px 0 6px; }
   .ex-addr, .ex-dist { margin: 0 0 4px; color: var(--ink2); font-size: 15px; }
   .ex-actions { margin: 14px 0 8px; display: grid; gap: 8px; }
   .ex-apple { justify-content: center; background: var(--navy); }
